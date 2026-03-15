@@ -1,0 +1,255 @@
+import { Prisma } from '../src/generated/prisma';
+import { prisma } from '../src/shared/lib/prisma';
+
+const employees = [
+  {
+    employeeNumber: 'EMP-1001',
+    firstName: 'Sarah',
+    lastName: 'Chen',
+    email: 'sarah.chen@elevatehr.dev',
+    phone: '306-555-0101',
+    dateOfBirth: new Date('1988-03-15'),
+    hireDate: new Date('2021-06-01'),
+    jobTitle: 'Director of Engineering',
+    department: 'Engineering',
+    salary: new Prisma.Decimal(145000),
+    status: 'Active',
+    addressLine1: '123 Innovation Drive',
+    city: 'Regina',
+    province: 'Saskatchewan',
+    postalCode: 'S4P 3Y2',
+    country: 'Canada',
+    emergencyName: 'James Chen',
+    emergencyPhone: '306-555-0102',
+    emergencyRelation: 'Spouse',
+    createdBy: 'seed-script',
+    updatedBy: 'seed-script',
+  },
+  {
+    employeeNumber: 'EMP-1002',
+    firstName: 'Marcus',
+    lastName: 'Thompson',
+    email: 'marcus.thompson@elevatehr.dev',
+    phone: '306-555-0103',
+    dateOfBirth: new Date('1992-07-22'),
+    hireDate: new Date('2022-01-15'),
+    jobTitle: 'Senior Software Engineer',
+    department: 'Engineering',
+    salary: new Prisma.Decimal(120000),
+    status: 'Active',
+    addressLine1: '456 Tech Avenue',
+    city: 'Saskatoon',
+    province: 'Saskatchewan',
+    postalCode: 'S7K 1A1',
+    country: 'Canada',
+    emergencyName: 'Linda Thompson',
+    emergencyPhone: '306-555-0104',
+    emergencyRelation: 'Mother',
+    createdBy: 'seed-script',
+    updatedBy: 'seed-script',
+  },
+  {
+    employeeNumber: 'EMP-1003',
+    firstName: 'Priya',
+    lastName: 'Patel',
+    email: 'priya.patel@elevatehr.dev',
+    phone: '306-555-0105',
+    dateOfBirth: new Date('1995-11-08'),
+    hireDate: new Date('2023-03-20'),
+    jobTitle: 'UI/UX Designer',
+    department: 'Design',
+    salary: new Prisma.Decimal(88000),
+    status: 'Active',
+    addressLine1: '789 Creative Blvd',
+    city: 'Regina',
+    province: 'Saskatchewan',
+    postalCode: 'S4S 5W6',
+    country: 'Canada',
+    emergencyName: 'Raj Patel',
+    emergencyPhone: '306-555-0106',
+    emergencyRelation: 'Father',
+    createdBy: 'seed-script',
+    updatedBy: 'seed-script',
+  },
+  {
+    employeeNumber: 'EMP-1004',
+    firstName: 'Alex',
+    lastName: 'Moreau',
+    email: 'alex.moreau@elevatehr.dev',
+    phone: '306-555-0107',
+    dateOfBirth: new Date('1990-01-30'),
+    hireDate: new Date('2020-09-14'),
+    jobTitle: 'Product Manager',
+    department: 'Marketing',
+    salary: new Prisma.Decimal(110000),
+    status: 'Active',
+    addressLine1: '321 Market Street',
+    city: 'Regina',
+    province: 'Saskatchewan',
+    postalCode: 'S4P 1Z5',
+    country: 'Canada',
+    emergencyName: 'Claire Moreau',
+    emergencyPhone: '306-555-0108',
+    emergencyRelation: 'Spouse',
+    createdBy: 'seed-script',
+    updatedBy: 'seed-script',
+  },
+  {
+    employeeNumber: 'EMP-1005',
+    firstName: 'Jordan',
+    lastName: 'Williams',
+    email: 'jordan.williams@elevatehr.dev',
+    phone: '306-555-0109',
+    dateOfBirth: new Date('1997-05-12'),
+    hireDate: new Date('2024-11-01'),
+    jobTitle: 'Account Executive',
+    department: 'Sales',
+    salary: new Prisma.Decimal(72000),
+    status: 'Probation',
+    addressLine1: '654 Commerce Road',
+    city: 'Saskatoon',
+    province: 'Saskatchewan',
+    postalCode: 'S7N 0X1',
+    country: 'Canada',
+    emergencyName: 'Morgan Williams',
+    emergencyPhone: '306-555-0110',
+    emergencyRelation: 'Sibling',
+    createdBy: 'seed-script',
+    updatedBy: 'seed-script',
+  },
+  {
+    employeeNumber: 'EMP-1006',
+    firstName: 'Elena',
+    lastName: 'Kowalski',
+    email: 'elena.kowalski@elevatehr.dev',
+    phone: '306-555-0111',
+    dateOfBirth: new Date('1985-09-25'),
+    hireDate: new Date('2019-04-01'),
+    jobTitle: 'HR Business Partner',
+    department: 'Human Resources',
+    salary: new Prisma.Decimal(95000),
+    status: 'On Leave',
+    addressLine1: '987 People Place',
+    city: 'Regina',
+    province: 'Saskatchewan',
+    postalCode: 'S4R 8T2',
+    country: 'Canada',
+    emergencyName: 'Peter Kowalski',
+    emergencyPhone: '306-555-0112',
+    emergencyRelation: 'Spouse',
+    createdBy: 'seed-script',
+    updatedBy: 'seed-script',
+  },
+  {
+    employeeNumber: 'EMP-1007',
+    firstName: 'David',
+    lastName: 'Blackwood',
+    email: 'david.blackwood@elevatehr.dev',
+    phone: '306-555-0113',
+    dateOfBirth: new Date('1993-12-03'),
+    hireDate: new Date('2022-07-18'),
+    jobTitle: 'DevOps Engineer',
+    department: 'Engineering',
+    salary: new Prisma.Decimal(115000),
+    status: 'Active',
+    addressLine1: '159 Server Lane',
+    city: 'Saskatoon',
+    province: 'Saskatchewan',
+    postalCode: 'S7H 4K3',
+    country: 'Canada',
+    emergencyName: 'Karen Blackwood',
+    emergencyPhone: '306-555-0114',
+    emergencyRelation: 'Mother',
+    createdBy: 'seed-script',
+    updatedBy: 'seed-script',
+  },
+  {
+    employeeNumber: 'EMP-1008',
+    firstName: 'Fatima',
+    lastName: 'Hassan',
+    email: 'fatima.hassan@elevatehr.dev',
+    phone: '306-555-0115',
+    dateOfBirth: new Date('1991-06-18'),
+    hireDate: new Date('2023-01-09'),
+    jobTitle: 'Financial Analyst',
+    department: 'Finance',
+    salary: new Prisma.Decimal(82000),
+    status: 'Active',
+    addressLine1: '753 Ledger Avenue',
+    city: 'Regina',
+    province: 'Saskatchewan',
+    postalCode: 'S4T 6R1',
+    country: 'Canada',
+    emergencyName: 'Ahmed Hassan',
+    emergencyPhone: '306-555-0116',
+    emergencyRelation: 'Spouse',
+    createdBy: 'seed-script',
+    updatedBy: 'seed-script',
+  },
+];
+
+function parseEmployeeNumber(employeeNumber: string): number {
+  const match = employeeNumber.match(/(\d+)$/);
+  return match ? Number.parseInt(match[1], 10) : 1000;
+}
+
+async function main() {
+  console.log('Seeding employee data...');
+
+  for (const employee of employees) {
+    await prisma.employee.upsert({
+      where: { employeeNumber: employee.employeeNumber },
+      update: employee,
+      create: employee,
+    });
+    console.log(`  - ${employee.employeeNumber} ${employee.firstName} ${employee.lastName}`);
+  }
+
+  const employeeDirectory = await prisma.employee.findMany({
+    select: { id: true, email: true },
+  });
+
+  const employeeByEmail = new Map(employeeDirectory.map((employee) => [employee.email, employee.id]));
+  const managerAssignments = [
+    ['marcus.thompson@elevatehr.dev', 'sarah.chen@elevatehr.dev'],
+    ['priya.patel@elevatehr.dev', 'sarah.chen@elevatehr.dev'],
+    ['david.blackwood@elevatehr.dev', 'sarah.chen@elevatehr.dev'],
+    ['jordan.williams@elevatehr.dev', 'alex.moreau@elevatehr.dev'],
+    ['fatima.hassan@elevatehr.dev', 'elena.kowalski@elevatehr.dev'],
+  ] as const;
+
+  for (const [employeeEmail, managerEmail] of managerAssignments) {
+    const employeeId = employeeByEmail.get(employeeEmail);
+    const managerId = employeeByEmail.get(managerEmail);
+
+    if (!employeeId || !managerId) {
+      continue;
+    }
+
+    await prisma.employee.update({
+      where: { id: employeeId },
+      data: { managerId },
+    });
+  }
+
+  const currentEmployeeNumber = employees.reduce((highest, employee) => {
+    return Math.max(highest, parseEmployeeNumber(employee.employeeNumber));
+  }, 1000);
+
+  await prisma.sequence.upsert({
+    where: { key: 'employee_number' },
+    update: { currentValue: currentEmployeeNumber },
+    create: { key: 'employee_number', currentValue: currentEmployeeNumber },
+  });
+
+  console.log(`Seeded ${employees.length} employees successfully.`);
+}
+
+main()
+  .catch((error) => {
+    console.error('Seed failed:', error);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });

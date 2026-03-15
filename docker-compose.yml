@@ -1,10 +1,10 @@
 services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: hris-sqlserver
+    container_name: elevatehr-sqlserver
     environment:
       ACCEPT_EULA: "Y"
-      SA_PASSWORD: ${SQLSERVER_SA_PASSWORD}
+      SA_PASSWORD: ${SQLSERVER_SA_PASSWORD:?Set SQLSERVER_SA_PASSWORD in the root .env file}
       MSSQL_PID: ${MSSQL_PID:-Developer}
     ports:
       - "1433:1433"
@@ -16,10 +16,12 @@ services:
       timeout: 5s
       retries: 10
       start_period: 30s
-  backend:
+  api:
     build:
-      context: ./backend
-    container_name: hris-backend
+      context: ./apps/api
+      args:
+        DATABASE_URL: "sqlserver://sqlserver:1433;database=${HRIS_DB_NAME:-ElevateHR};user=sa;password=${SQLSERVER_SA_PASSWORD:?Set SQLSERVER_SA_PASSWORD in the root .env file};encrypt=false;trustServerCertificate=true"
+    container_name: elevatehr-api
     depends_on:
       sqlserver:
         condition: service_healthy
@@ -28,7 +30,7 @@ services:
       NODE_ENV: development
       FRONTEND_URL: ${FRONTEND_URL:-http://localhost:5173}
       AUTH_BYPASS: ${AUTH_BYPASS:-true}
-      DATABASE_URL: "sqlserver://sqlserver:1433;database=${HRIS_DB_NAME:-ElevateHR};user=sa;password=${SQLSERVER_SA_PASSWORD};encrypt=false;trustServerCertificate=true"
+      DATABASE_URL: "sqlserver://sqlserver:1433;database=${HRIS_DB_NAME:-ElevateHR};user=sa;password=${SQLSERVER_SA_PASSWORD:?Set SQLSERVER_SA_PASSWORD in the root .env file};encrypt=false;trustServerCertificate=true"
       AZURE_TENANT_ID: ${AZURE_TENANT_ID:-}
       AZURE_CLIENT_ID: ${AZURE_CLIENT_ID:-}
     ports:
