@@ -1,0 +1,64 @@
+generator client {
+  provider   = "prisma-client-js"
+  output     = "../src/generated/prisma"
+  engineType = "client"
+}
+
+datasource db {
+  provider = "sqlserver"
+}
+
+model Sequence {
+  key          String   @id @db.NVarChar(100)
+  currentValue Int
+  updatedAt    DateTime @updatedAt
+}
+
+model Employee {
+  id              String    @id @default(uuid())
+  employeeNumber  String    @unique
+  firstName       String    @db.NVarChar(100)
+  lastName        String    @db.NVarChar(100)
+  email           String    @unique @db.NVarChar(255)
+  phone           String?   @db.NVarChar(20)
+  dateOfBirth     DateTime?
+  hireDate        DateTime
+  terminationDate DateTime?
+
+  // Job Info
+  jobTitle        String    @db.NVarChar(150)
+  department      String    @db.NVarChar(100)
+  managerId       String?
+  manager         Employee?  @relation("ManagerReports", fields: [managerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  reports         Employee[] @relation("ManagerReports")
+
+  // Compensation
+  salary          Decimal   @db.Decimal(12, 2)
+  payFrequency    String    @default("Biweekly") @db.NVarChar(20)
+
+  // Status
+  status          String    @default("Active") @db.NVarChar(20)
+
+  // Address
+  addressLine1    String?   @db.NVarChar(255)
+  addressLine2    String?   @db.NVarChar(255)
+  city            String?   @db.NVarChar(100)
+  province        String?   @db.NVarChar(100)
+  postalCode      String?   @db.NVarChar(20)
+  country         String    @default("Canada") @db.NVarChar(100)
+
+  // Emergency Contact
+  emergencyName      String?  @db.NVarChar(200)
+  emergencyPhone     String?  @db.NVarChar(20)
+  emergencyRelation  String?  @db.NVarChar(100)
+
+  // Audit
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  createdBy       String?   @db.NVarChar(255)
+  updatedBy       String?   @db.NVarChar(255)
+
+  @@index([department, status])
+  @@index([hireDate])
+  @@index([managerId])
+}

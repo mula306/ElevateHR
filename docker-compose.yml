@@ -1,0 +1,38 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: hris-sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: ${SQLSERVER_SA_PASSWORD}
+      MSSQL_PID: ${MSSQL_PID:-Developer}
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$$SA_PASSWORD" -C -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+  backend:
+    build:
+      context: ./backend
+    container_name: hris-backend
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    environment:
+      PORT: "4000"
+      NODE_ENV: development
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:5173}
+      AUTH_BYPASS: ${AUTH_BYPASS:-true}
+      DATABASE_URL: "sqlserver://sqlserver:1433;database=${HRIS_DB_NAME:-ElevateHR};user=sa;password=${SQLSERVER_SA_PASSWORD};encrypt=false;trustServerCertificate=true"
+      AZURE_TENANT_ID: ${AZURE_TENANT_ID:-}
+      AZURE_CLIENT_ID: ${AZURE_CLIENT_ID:-}
+    ports:
+      - "${BACKEND_PORT:-4000}:4000"
+
+volumes:
+  sqlserver-data:
