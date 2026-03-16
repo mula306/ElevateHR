@@ -1,18 +1,38 @@
-version: '3.8'
-
 services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: mssql_backend
+    container_name: elevator-sqlserver
     environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=YourStrong!Passw0rd
-      - MSSQL_PID=Developer
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: ${SQLSERVER_SA_PASSWORD:?Set SQLSERVER_SA_PASSWORD in the root .env file}
+      MSSQL_PID: ${MSSQL_PID:-Developer}
     ports:
       - "1433:1433"
     volumes:
-      - sqlserver_data:/var/opt/mssql
-    restart: unless-stopped
+      - sqlserver-data:/var/opt/mssql
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$$SA_PASSWORD" -C -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  api:
+    build:
+      context: ./apps/api
+      args:
+        DATABASE_URL: "sqlserver://sqlserver:1433;database=${DB_NAME:-AppDB};user=sa;password=${SQLSERVER_SA_PASSWORD:?Set SQLSERVER_SA_PASSWORD in the root .env file};encrypt=false;trustServerCertificate=true"
+    container_name: elevator-api
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    environment:
+      PORT: "4000"
+      NODE_ENV: development
+      DATABASE_URL: "sqlserver://sqlserver:1433;database=${DB_NAME:-AppDB};user=sa;password=${SQLSERVER_SA_PASSWORD:?Set SQLSERVER_SA_PASSWORD in the root .env file};encrypt=false;trustServerCertificate=true"
+      AUTH_BYPASS: "true"
+    ports:
+      - "4000:4000"
 
 volumes:
-  sqlserver_data:
+  sqlserver-data:

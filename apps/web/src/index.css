@@ -5,8 +5,8 @@
   --color-primary: hsl(198, 100%, 43%);
   --color-primary-hover: hsl(198, 100%, 35%);
   --color-primary-light: hsl(198, 85%, 95%);
-  --color-secondary: hsl(150, 53%, 73%);
-  --color-secondary-light: hsl(150, 53%, 94%);
+  --color-secondary: hsl(93, 75%, 37%);
+  --color-secondary-light: hsl(93, 75%, 95%);
 
   --color-success: hsl(152, 69%, 31%);
   --color-success-bg: hsl(145, 63%, 95%);
@@ -73,8 +73,8 @@
   --color-primary: hsl(198, 100%, 50%);
   --color-primary-hover: hsl(198, 100%, 60%);
   --color-primary-light: hsl(198, 60%, 18%);
-  --color-secondary: hsl(150, 53%, 55%);
-  --color-secondary-light: hsl(150, 30%, 18%);
+  --color-secondary: hsl(93, 75%, 55%);
+  --color-secondary-light: hsl(93, 30%, 18%);
 
   --color-success: hsl(152, 69%, 55%);
   --color-success-bg: hsl(150, 40%, 14%);

@@ -12,7 +12,7 @@ export const payrollData: PayrollDatum[] = [
 
 export const departmentData: DepartmentDatum[] = [
   { name: 'Engineering', value: 42, color: '#0098DB' },
-  { name: 'Design', value: 18, color: '#96DEBA' },
+  { name: 'Design', value: 18, color: '#58A618' },
   { name: 'Marketing', value: 15, color: '#f59e0b' },
   { name: 'Sales', value: 25, color: '#8b5cf6' },
 ];

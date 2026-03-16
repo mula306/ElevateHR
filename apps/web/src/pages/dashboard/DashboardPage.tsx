@@ -186,7 +186,7 @@ export function DashboardPage() {
                 <Tooltip content={<CustomTooltip />} cursor={{ fill: 'var(--color-background)', radius: 4 }} />
                 <Legend iconType="circle" wrapperStyle={{ paddingTop: '16px', fontSize: '13px' }} />
                 <Bar dataKey="cost" name="Actual Cost" fill="#0098DB" radius={[6, 6, 0, 0]} maxBarSize={32} />
-                <Bar dataKey="budget" name="Budget" fill="#96DEBA" radius={[6, 6, 0, 0]} maxBarSize={32} />
+                <Bar dataKey="budget" name="Budget" fill="#58A618" radius={[6, 6, 0, 0]} maxBarSize={32} />
               </BarChart>
             </ResponsiveContainer>
           </div>
