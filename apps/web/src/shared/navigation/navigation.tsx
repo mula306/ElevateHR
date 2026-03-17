@@ -1,6 +1,7 @@
 import type { LucideIcon } from 'lucide-react';
 import {
   BarChart3,
+  Building2,
   Briefcase,
   Calendar,
   CreditCard,
@@ -36,6 +37,14 @@ export const featureRoutes: FeatureRoute[] = [
     summary: 'Build the employee directory, org chart, and lifecycle workflows here.',
     description: 'This section is the right home for profile records, manager relationships, onboarding status, and employment history.',
     capabilities: ['Employee directory with search and filters', 'Profile and employment record management', 'Reporting lines and organizational structure'],
+  },
+  {
+    label: 'Organization',
+    to: '/organization',
+    icon: Building2,
+    summary: 'Design org units, approved positions, and compensation architecture here.',
+    description: 'Keep organizational design separate from employee records so reporting lines, vacancies, and level-based salary bands can be managed as durable structure.',
+    capabilities: ['Org units and reporting structure', 'Approved positions with incumbents and vacancies', 'Classification levels with start, midpoint, and top-of-range guidance'],
   },
   {
     label: 'Payroll',
@@ -111,13 +120,14 @@ export const navigationSections: NavigationSection[] = [
       featureRoutes[3],
       featureRoutes[4],
       featureRoutes[5],
+      featureRoutes[6],
     ],
   },
   {
     label: 'Support',
     items: [
-      featureRoutes[6],
       featureRoutes[7],
+      featureRoutes[8],
     ],
   },
 ];

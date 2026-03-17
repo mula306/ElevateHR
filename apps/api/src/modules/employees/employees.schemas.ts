@@ -14,6 +14,7 @@ export const createEmployeeSchema = z.object({
   hireDate: isoDateSchema,
   jobTitle: z.string().min(1, 'Job title is required').max(150),
   department: z.string().min(1, 'Department is required').max(100),
+  positionId: z.string().uuid().optional().nullable(),
   managerId: z.string().uuid().optional().nullable(),
   salary: z.number().positive('Salary must be positive'),
   payFrequency: payFrequencySchema.default('Biweekly'),

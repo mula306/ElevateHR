@@ -1,6 +1,135 @@
 import { Prisma } from '../src/generated/prisma';
 import { prisma } from '../src/shared/lib/prisma';
 
+const orgUnits = [
+  { code: 'CORP', name: 'Elevate HR', type: 'Company', parentCode: null },
+  { code: 'ENG', name: 'Engineering', type: 'Department', parentCode: 'CORP' },
+  { code: 'ENG-PLATFORM', name: 'Platform Engineering', type: 'Team', parentCode: 'ENG' },
+  { code: 'PRODUCT', name: 'Product', type: 'Department', parentCode: 'CORP' },
+  { code: 'DESIGN', name: 'Design', type: 'Team', parentCode: 'PRODUCT' },
+  { code: 'SALES', name: 'Sales', type: 'Department', parentCode: 'CORP' },
+  { code: 'PEOPLE', name: 'People & Culture', type: 'Department', parentCode: 'CORP' },
+  { code: 'FINANCE', name: 'Finance', type: 'Department', parentCode: 'CORP' },
+] as const;
+
+const classifications = [
+  {
+    code: 'ENG-LEAD',
+    title: 'Engineering Leadership',
+    occupationCode: 'MGT',
+    annualHours: 1972,
+    family: 'Engineering',
+    description: 'Leads engineering departments and approved technical headcount.',
+    levels: [
+      { levelCode: '12', min: 81.14, mid: 91.28, max: 103.96 },
+    ],
+  },
+  {
+    code: 'SWE',
+    title: 'Software Engineer',
+    occupationCode: 'SIT',
+    annualHours: 1972,
+    family: 'Engineering',
+    description: 'Core software engineering roles aligned to career levels 8 through 10.',
+    levels: [
+      { levelCode: '8', min: 48.17, mid: 56.8, max: 64.91 },
+      { levelCode: '9', min: 55.78, mid: 64.91, max: 73.53 },
+      { levelCode: '10', min: 64.91, mid: 75.05, max: 86.21 },
+    ],
+  },
+  {
+    code: 'PLATFORM',
+    title: 'Platform Engineer',
+    occupationCode: 'SIT',
+    annualHours: 1972,
+    family: 'Engineering',
+    description: 'Infrastructure and DevOps positions supporting the platform.',
+    levels: [
+      { levelCode: '8', min: 49.7, mid: 58.82, max: 66.94 },
+      { levelCode: '9', min: 57.81, mid: 66.94, max: 76.06 },
+      { levelCode: '10', min: 65.92, mid: 76.06, max: 87.22 },
+    ],
+  },
+  {
+    code: 'PM',
+    title: 'Product Manager',
+    occupationCode: 'PMT',
+    annualHours: 1972,
+    family: 'Product',
+    description: 'Product management roles with standardized product delivery pay ranges.',
+    levels: [
+      { levelCode: '8', min: 45.64, mid: 53.75, max: 61.87 },
+      { levelCode: '9', min: 52.74, mid: 61.36, max: 69.98 },
+      { levelCode: '10', min: 60.85, mid: 69.98, max: 80.12 },
+    ],
+  },
+  {
+    code: 'DESIGN',
+    title: 'Product Designer',
+    occupationCode: 'DSN',
+    annualHours: 1972,
+    family: 'Design',
+    description: 'Experience design positions with level-based salary bands.',
+    levels: [
+      { levelCode: '8', min: 41.58, mid: 47.16, max: 53.75 },
+      { levelCode: '9', min: 47.67, mid: 54.26, max: 61.87 },
+      { levelCode: '10', min: 54.77, mid: 61.87, max: 70.99 },
+    ],
+  },
+  {
+    code: 'AE',
+    title: 'Account Executive',
+    occupationCode: 'SAL',
+    annualHours: 1972,
+    family: 'Sales',
+    description: 'Quota-carrying sales roles with level-based base pay guidance.',
+    levels: [
+      { levelCode: '6', min: 31.44, mid: 35.5, max: 39.55 },
+      { levelCode: '7', min: 35.5, mid: 40.06, max: 45.13 },
+      { levelCode: '8', min: 40.06, mid: 45.13, max: 50.71 },
+    ],
+  },
+  {
+    code: 'HRBP',
+    title: 'HR Business Partner',
+    occupationCode: 'HRS',
+    annualHours: 1972,
+    family: 'People',
+    description: 'People advisory roles supporting managers and workforce planning.',
+    levels: [
+      { levelCode: '7', min: 38.54, mid: 43.61, max: 49.7 },
+      { levelCode: '8', min: 43.61, mid: 49.19, max: 55.78 },
+      { levelCode: '9', min: 49.19, mid: 55.27, max: 62.37 },
+    ],
+  },
+  {
+    code: 'FIN-ANL',
+    title: 'Financial Analyst',
+    occupationCode: 'FIN',
+    annualHours: 1972,
+    family: 'Finance',
+    description: 'Financial planning and analysis positions.',
+    levels: [
+      { levelCode: '7', min: 35.5, mid: 40.06, max: 45.64 },
+      { levelCode: '8', min: 40.57, mid: 46.15, max: 52.74 },
+      { levelCode: '9', min: 46.65, mid: 52.74, max: 59.84 },
+    ],
+  },
+] as const;
+
+const positions = [
+  { positionCode: 'POS-ENG-DIR-001', title: 'Director of Engineering', orgUnitCode: 'ENG', classificationCode: 'ENG-LEAD', levelCode: '12', reportsToPositionCode: null, positionStatus: 'Active' },
+  { positionCode: 'POS-ENG-SWE-010', title: 'Senior Software Engineer', orgUnitCode: 'ENG-PLATFORM', classificationCode: 'SWE', levelCode: '10', reportsToPositionCode: 'POS-ENG-DIR-001', positionStatus: 'Active' },
+  { positionCode: 'POS-ENG-SWE-009', title: 'Software Engineer', orgUnitCode: 'ENG-PLATFORM', classificationCode: 'SWE', levelCode: '9', reportsToPositionCode: 'POS-ENG-DIR-001', positionStatus: 'Vacant' },
+  { positionCode: 'POS-PLT-ENG-010', title: 'DevOps Engineer', orgUnitCode: 'ENG-PLATFORM', classificationCode: 'PLATFORM', levelCode: '10', reportsToPositionCode: 'POS-ENG-DIR-001', positionStatus: 'Active' },
+  { positionCode: 'POS-PROD-PM-009', title: 'Product Manager', orgUnitCode: 'PRODUCT', classificationCode: 'PM', levelCode: '9', reportsToPositionCode: null, positionStatus: 'Active' },
+  { positionCode: 'POS-DESIGN-UX-008', title: 'UI/UX Designer', orgUnitCode: 'DESIGN', classificationCode: 'DESIGN', levelCode: '8', reportsToPositionCode: 'POS-PROD-PM-009', positionStatus: 'Active' },
+  { positionCode: 'POS-SALES-AE-007', title: 'Account Executive', orgUnitCode: 'SALES', classificationCode: 'AE', levelCode: '7', reportsToPositionCode: 'POS-PROD-PM-009', positionStatus: 'Active' },
+  { positionCode: 'POS-PEOPLE-HRBP-009', title: 'HR Business Partner', orgUnitCode: 'PEOPLE', classificationCode: 'HRBP', levelCode: '9', reportsToPositionCode: null, positionStatus: 'Active' },
+  { positionCode: 'POS-FIN-ANL-008', title: 'Financial Analyst', orgUnitCode: 'FINANCE', classificationCode: 'FIN-ANL', levelCode: '8', reportsToPositionCode: 'POS-PEOPLE-HRBP-009', positionStatus: 'Active' },
+  { positionCode: 'POS-FIN-ANL-007', title: 'Financial Analyst', orgUnitCode: 'FINANCE', classificationCode: 'FIN-ANL', levelCode: '7', reportsToPositionCode: 'POS-PEOPLE-HRBP-009', positionStatus: 'Vacant' },
+] as const;
+
 const employees = [
   {
     employeeNumber: 'EMP-1001',
@@ -80,7 +209,7 @@ const employees = [
     dateOfBirth: new Date('1990-01-30'),
     hireDate: new Date('2020-09-14'),
     jobTitle: 'Product Manager',
-    department: 'Marketing',
+    department: 'Product',
     salary: new Prisma.Decimal(110000),
     status: 'Active',
     addressLine1: '321 Market Street',
@@ -126,7 +255,7 @@ const employees = [
     dateOfBirth: new Date('1985-09-25'),
     hireDate: new Date('2019-04-01'),
     jobTitle: 'HR Business Partner',
-    department: 'Human Resources',
+    department: 'People & Culture',
     salary: new Prisma.Decimal(95000),
     status: 'On Leave',
     addressLine1: '987 People Place',
@@ -186,15 +315,226 @@ const employees = [
     createdBy: 'seed-script',
     updatedBy: 'seed-script',
   },
-];
+] as const;
+
+const employeePositionAssignments = [
+  ['sarah.chen@elevatehr.dev', 'POS-ENG-DIR-001'],
+  ['marcus.thompson@elevatehr.dev', 'POS-ENG-SWE-010'],
+  ['priya.patel@elevatehr.dev', 'POS-DESIGN-UX-008'],
+  ['alex.moreau@elevatehr.dev', 'POS-PROD-PM-009'],
+  ['jordan.williams@elevatehr.dev', 'POS-SALES-AE-007'],
+  ['elena.kowalski@elevatehr.dev', 'POS-PEOPLE-HRBP-009'],
+  ['david.blackwood@elevatehr.dev', 'POS-PLT-ENG-010'],
+  ['fatima.hassan@elevatehr.dev', 'POS-FIN-ANL-008'],
+] as const;
+
+const managerAssignments = [
+  ['marcus.thompson@elevatehr.dev', 'sarah.chen@elevatehr.dev'],
+  ['david.blackwood@elevatehr.dev', 'sarah.chen@elevatehr.dev'],
+  ['priya.patel@elevatehr.dev', 'alex.moreau@elevatehr.dev'],
+  ['jordan.williams@elevatehr.dev', 'alex.moreau@elevatehr.dev'],
+  ['fatima.hassan@elevatehr.dev', 'elena.kowalski@elevatehr.dev'],
+] as const;
 
 function parseEmployeeNumber(employeeNumber: string): number {
   const match = employeeNumber.match(/(\d+)$/);
   return match ? Number.parseInt(match[1], 10) : 1000;
 }
 
+async function seedOrgUnits() {
+  const orgUnitByCode = new Map<string, string>();
+
+  for (const unit of orgUnits.filter((candidate) => candidate.parentCode === null)) {
+    const result = await prisma.orgUnit.upsert({
+      where: { code: unit.code },
+      update: {
+        name: unit.name,
+        type: unit.type,
+        parentId: null,
+        recordStatus: 'Active',
+        archivedAt: null,
+        archivedBy: null,
+        archiveReason: null,
+      },
+      create: {
+        code: unit.code,
+        name: unit.name,
+        type: unit.type,
+        parentId: null,
+        recordStatus: 'Active',
+      },
+    });
+    orgUnitByCode.set(unit.code, result.id);
+  }
+
+  for (const unit of orgUnits.filter((candidate) => candidate.parentCode !== null)) {
+    const parentId = orgUnitByCode.get(unit.parentCode!);
+    if (!parentId) {
+      continue;
+    }
+
+    const result = await prisma.orgUnit.upsert({
+      where: { code: unit.code },
+      update: {
+        name: unit.name,
+        type: unit.type,
+        parentId,
+        recordStatus: 'Active',
+        archivedAt: null,
+        archivedBy: null,
+        archiveReason: null,
+      },
+      create: {
+        code: unit.code,
+        name: unit.name,
+        type: unit.type,
+        parentId,
+        recordStatus: 'Active',
+      },
+    });
+    orgUnitByCode.set(unit.code, result.id);
+  }
+
+  return orgUnitByCode;
+}
+
+async function seedClassifications() {
+  const classificationByCode = new Map<string, string>();
+  const levelByKey = new Map<string, string>();
+
+  for (const classification of classifications) {
+    const savedClassification = await prisma.jobClassification.upsert({
+      where: { code: classification.code },
+      update: {
+        title: classification.title,
+        occupationCode: classification.occupationCode,
+        annualHours: classification.annualHours,
+        family: classification.family,
+        description: classification.description,
+        recordStatus: 'Active',
+        archivedAt: null,
+        archivedBy: null,
+        archiveReason: null,
+      },
+      create: {
+        code: classification.code,
+        title: classification.title,
+        occupationCode: classification.occupationCode,
+        annualHours: classification.annualHours,
+        family: classification.family,
+        description: classification.description,
+        recordStatus: 'Active',
+      },
+    });
+
+    classificationByCode.set(classification.code, savedClassification.id);
+
+    for (const level of classification.levels) {
+      const savedLevel = await prisma.positionLevel.upsert({
+        where: {
+          classificationId_levelCode: {
+            classificationId: savedClassification.id,
+            levelCode: level.levelCode,
+          },
+        },
+        update: {
+          currency: 'CAD',
+          rangeMin: new Prisma.Decimal(level.min),
+          rangeMid: new Prisma.Decimal(level.mid),
+          rangeMax: new Prisma.Decimal(level.max),
+          recordStatus: 'Active',
+          archivedAt: null,
+          archivedBy: null,
+          archiveReason: null,
+        },
+        create: {
+          classificationId: savedClassification.id,
+          levelCode: level.levelCode,
+          currency: 'CAD',
+          rangeMin: new Prisma.Decimal(level.min),
+          rangeMid: new Prisma.Decimal(level.mid),
+          rangeMax: new Prisma.Decimal(level.max),
+          recordStatus: 'Active',
+        },
+      });
+
+      levelByKey.set(`${classification.code}:${level.levelCode}`, savedLevel.id);
+    }
+  }
+
+  return { classificationByCode, levelByKey };
+}
+
+async function seedPositions(orgUnitByCode: Map<string, string>, classificationByCode: Map<string, string>, levelByKey: Map<string, string>) {
+  const positionByCode = new Map<string, string>();
+
+  for (const position of positions) {
+    const orgUnitId = orgUnitByCode.get(position.orgUnitCode);
+    const classificationId = classificationByCode.get(position.classificationCode);
+    const levelId = levelByKey.get(`${position.classificationCode}:${position.levelCode}`);
+
+    if (!orgUnitId || !classificationId || !levelId) {
+      continue;
+    }
+
+    const savedPosition = await prisma.position.upsert({
+      where: { positionCode: position.positionCode },
+      update: {
+        title: position.title,
+        orgUnitId,
+        classificationId,
+        levelId,
+        positionStatus: position.positionStatus,
+        headcount: 1,
+        reportsToPositionId: null,
+        recordStatus: 'Active',
+        archivedAt: null,
+        archivedBy: null,
+        archiveReason: null,
+      },
+      create: {
+        positionCode: position.positionCode,
+        title: position.title,
+        orgUnitId,
+        classificationId,
+        levelId,
+        positionStatus: position.positionStatus,
+        headcount: 1,
+        reportsToPositionId: null,
+        recordStatus: 'Active',
+      },
+    });
+
+    positionByCode.set(position.positionCode, savedPosition.id);
+  }
+
+  for (const position of positions) {
+    if (!position.reportsToPositionCode) {
+      continue;
+    }
+
+    const positionId = positionByCode.get(position.positionCode);
+    const reportsToPositionId = positionByCode.get(position.reportsToPositionCode);
+
+    if (!positionId || !reportsToPositionId) {
+      continue;
+    }
+
+    await prisma.position.update({
+      where: { id: positionId },
+      data: { reportsToPositionId },
+    });
+  }
+
+  return positionByCode;
+}
+
 async function main() {
-  console.log('Seeding employee data...');
+  console.log('Seeding organization and employee data...');
+
+  const orgUnitByCode = await seedOrgUnits();
+  const { classificationByCode, levelByKey } = await seedClassifications();
+  const positionByCode = await seedPositions(orgUnitByCode, classificationByCode, levelByKey);
 
   for (const employee of employees) {
     await prisma.employee.upsert({
@@ -210,13 +550,6 @@ async function main() {
   });
 
   const employeeByEmail = new Map(employeeDirectory.map((employee) => [employee.email, employee.id]));
-  const managerAssignments = [
-    ['marcus.thompson@elevatehr.dev', 'sarah.chen@elevatehr.dev'],
-    ['priya.patel@elevatehr.dev', 'sarah.chen@elevatehr.dev'],
-    ['david.blackwood@elevatehr.dev', 'sarah.chen@elevatehr.dev'],
-    ['jordan.williams@elevatehr.dev', 'alex.moreau@elevatehr.dev'],
-    ['fatima.hassan@elevatehr.dev', 'elena.kowalski@elevatehr.dev'],
-  ] as const;
 
   for (const [employeeEmail, managerEmail] of managerAssignments) {
     const employeeId = employeeByEmail.get(employeeEmail);
@@ -232,6 +565,20 @@ async function main() {
     });
   }
 
+  for (const [employeeEmail, positionCode] of employeePositionAssignments) {
+    const employeeId = employeeByEmail.get(employeeEmail);
+    const positionId = positionByCode.get(positionCode);
+
+    if (!employeeId || !positionId) {
+      continue;
+    }
+
+    await prisma.employee.update({
+      where: { id: employeeId },
+      data: { positionId },
+    });
+  }
+
   const currentEmployeeNumber = employees.reduce((highest, employee) => {
     return Math.max(highest, parseEmployeeNumber(employee.employeeNumber));
   }, 1000);
@@ -242,7 +589,7 @@ async function main() {
     create: { key: 'employee_number', currentValue: currentEmployeeNumber },
   });
 
-  console.log(`Seeded ${employees.length} employees successfully.`);
+  console.log(`Seeded ${employees.length} employees, ${positions.length} positions, and ${classifications.length} classifications successfully.`);
 }
 
 main()

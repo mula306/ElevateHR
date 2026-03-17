@@ -28,6 +28,8 @@ model Employee {
   // Job Info
   jobTitle        String    @db.NVarChar(150)
   department      String    @db.NVarChar(100)
+  positionId      String?
+  position        Position? @relation(fields: [positionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   managerId       String?
   manager         Employee?  @relation("ManagerReports", fields: [managerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   reports         Employee[] @relation("ManagerReports")
@@ -61,4 +63,94 @@ model Employee {
   @@index([department, status])
   @@index([hireDate])
   @@index([managerId])
+  @@index([positionId])
+}
+
+model OrgUnit {
+  id           String    @id @default(uuid())
+  code         String    @unique @db.NVarChar(50)
+  name         String    @db.NVarChar(150)
+  type         String    @db.NVarChar(50)
+  parentId     String?
+  parent       OrgUnit?  @relation("OrgUnitHierarchy", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  children     OrgUnit[] @relation("OrgUnitHierarchy")
+  positions    Position[]
+  recordStatus String    @default("Active") @db.NVarChar(20)
+  archivedAt   DateTime?
+  archivedBy   String?   @db.NVarChar(255)
+  archiveReason String?  @db.NVarChar(500)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([parentId])
+  @@index([type, recordStatus])
+}
+
+model JobClassification {
+  id           String          @id @default(uuid())
+  code         String          @unique @db.NVarChar(50)
+  title        String          @db.NVarChar(150)
+  occupationCode String        @default("TBD") @db.NVarChar(20)
+  annualHours  Int             @default(1972)
+  family       String?         @db.NVarChar(100)
+  description  String?         @db.NVarChar(500)
+  levels       PositionLevel[]
+  positions    Position[]
+  recordStatus String          @default("Active") @db.NVarChar(20)
+  archivedAt   DateTime?
+  archivedBy   String?         @db.NVarChar(255)
+  archiveReason String?        @db.NVarChar(500)
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  @@index([occupationCode, recordStatus])
+}
+
+model PositionLevel {
+  id            String            @id @default(uuid())
+  classificationId String
+  classification JobClassification @relation(fields: [classificationId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  levelCode     String            @db.NVarChar(20)
+  currency      String            @default("CAD") @db.NVarChar(10)
+  rangeMin      Decimal           @db.Decimal(12, 2)
+  rangeMid      Decimal           @db.Decimal(12, 2)
+  rangeMax      Decimal           @db.Decimal(12, 2)
+  positions     Position[]
+  recordStatus  String            @default("Active") @db.NVarChar(20)
+  archivedAt    DateTime?
+  archivedBy    String?           @db.NVarChar(255)
+  archiveReason String?           @db.NVarChar(500)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+
+  @@unique([classificationId, levelCode])
+  @@index([classificationId, recordStatus])
+}
+
+model Position {
+  id                  String            @id @default(uuid())
+  positionCode        String            @unique @db.NVarChar(50)
+  title               String            @db.NVarChar(150)
+  orgUnitId           String
+  orgUnit             OrgUnit           @relation(fields: [orgUnitId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  classificationId    String
+  classification      JobClassification @relation(fields: [classificationId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  levelId             String
+  level               PositionLevel     @relation(fields: [levelId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  reportsToPositionId String?
+  reportsToPosition   Position?         @relation("PositionHierarchy", fields: [reportsToPositionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  directReports       Position[]        @relation("PositionHierarchy")
+  positionStatus      String            @default("Active") @db.NVarChar(20)
+  headcount           Int               @default(1)
+  employees           Employee[]
+  recordStatus        String            @default("Active") @db.NVarChar(20)
+  archivedAt          DateTime?
+  archivedBy          String?           @db.NVarChar(255)
+  archiveReason       String?           @db.NVarChar(500)
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+
+  @@index([orgUnitId, positionStatus, recordStatus])
+  @@index([classificationId, levelId, recordStatus])
+  @@index([reportsToPositionId, recordStatus])
 }

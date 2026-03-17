@@ -107,6 +107,7 @@ export async function listEmployees(query: ListEmployeesQuery) {
         hireDate: true,
         jobTitle: true,
         department: true,
+        positionId: true,
         salary: true,
         status: true,
         createdAt: true,
@@ -132,6 +133,9 @@ export async function getEmployeeById(employeeId: string) {
     include: {
       manager: {
         select: { id: true, firstName: true, lastName: true, jobTitle: true },
+      },
+      position: {
+        select: { id: true, positionCode: true, title: true },
       },
       reports: {
         select: { id: true, firstName: true, lastName: true, jobTitle: true },

@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { Suspense, lazy, type ReactNode } from 'react';
 import { Navigate, createBrowserRouter } from 'react-router-dom';
 import { featureRoutes } from '@/shared/navigation/navigation';
@@ -10,6 +11,16 @@ const DashboardLayout = lazy(async () => {
 const DashboardPage = lazy(async () => {
   const module = await import('@/pages/dashboard/DashboardPage');
   return { default: module.DashboardPage };
+});
+
+const EmployeesPage = lazy(async () => {
+  const module = await import('@/pages/employees/EmployeesPage');
+  return { default: module.EmployeesPage };
+});
+
+const OrganizationPage = lazy(async () => {
+  const module = await import('@/pages/organization/OrganizationPage');
+  return { default: module.OrganizationPage };
 });
 
 const FeaturePlaceholderPage = lazy(async () => {
@@ -34,7 +45,15 @@ export const router = createBrowserRouter([
         index: true,
         element: withRouteFallback(<DashboardPage />),
       },
-      ...featureRoutes.map((route) => ({
+      {
+        path: 'employees',
+        element: withRouteFallback(<EmployeesPage />),
+      },
+      {
+        path: 'organization',
+        element: withRouteFallback(<OrganizationPage />),
+      },
+      ...featureRoutes.filter((route) => route.to !== '/employees' && route.to !== '/organization').map((route) => ({
         path: route.to.slice(1),
         element: withRouteFallback(
           <FeaturePlaceholderPage

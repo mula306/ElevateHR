@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
 import dashboardRouter from '../modules/dashboard/dashboard.router';
 import employeesRouter from '../modules/employees/employees.router';
+import organizationRouter from '../modules/organization/organization.router';
 import { env } from '../shared/config/env';
 import { prisma } from '../shared/lib/prisma';
 import { logger } from '../shared/lib/logger';
@@ -56,6 +57,7 @@ export function createApp() {
 
   app.use('/api/dashboard', authenticate, dashboardRouter);
   app.use('/api/employees', authenticate, employeesRouter);
+  app.use('/api/organization', authenticate, organizationRouter);
 
   app.use(errorHandler);
 
