@@ -127,6 +127,8 @@ interface PositionChartNode {
   children: PositionChartNode[];
 }
 
+const orgUnitTypes = ['Division', 'Department', 'Branch', 'Unit'] as const;
+
 const tabs: Array<{ id: OrganizationTab; label: string }> = [
   { id: 'overview', label: 'Overview' },
   { id: 'orgUnits', label: 'Org Units' },
@@ -1442,7 +1444,11 @@ function OrgUnitFormPanel({
       <form className="organization-form" onSubmit={onSubmit}>
         <Field label="Code"><input value={form.code} onChange={(event) => onChange({ ...form, code: event.target.value })} disabled={panel.mode === 'edit'} /></Field>
         <Field label="Name"><input value={form.name} onChange={(event) => onChange({ ...form, name: event.target.value })} /></Field>
-        <Field label="Type"><input value={form.type} onChange={(event) => onChange({ ...form, type: event.target.value })} /></Field>
+        <Field label="Type">
+          <select value={form.type} onChange={(event) => onChange({ ...form, type: event.target.value })}>
+            {orgUnitTypes.map((type) => <option key={type} value={type}>{type}</option>)}
+          </select>
+        </Field>
         <Field label="Parent org unit">
           <select value={form.parentId} onChange={(event) => onChange({ ...form, parentId: event.target.value })}>
             <option value="">No parent</option>

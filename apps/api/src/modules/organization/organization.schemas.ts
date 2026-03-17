@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 const recordStatusSchema = z.enum(['Active', 'Archived']);
 const positionStatusSchema = z.enum(['Active', 'Vacant', 'On Hold']);
+const orgUnitTypeSchema = z.enum(['Division', 'Department', 'Branch', 'Unit']);
 
 const trimmedOptionalStringSchema = z.preprocess((value) => {
   if (typeof value !== 'string') {
@@ -38,7 +39,7 @@ export const listOrgUnitsQuerySchema = organizationListQuerySchema.extend({
 export const createOrgUnitSchema = z.object({
   code: z.string().trim().min(1, 'Code is required').max(50),
   name: z.string().trim().min(1, 'Name is required').max(150),
-  type: z.string().trim().min(1, 'Type is required').max(50),
+  type: orgUnitTypeSchema,
   parentId: nullableUuidSchema,
 });
 
