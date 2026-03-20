@@ -28,6 +28,8 @@ model Employee {
   // Job Info
   jobTitle        String    @db.NVarChar(150)
   department      String    @db.NVarChar(100)
+  laborGroupId    String?
+  laborGroup      LaborGroup? @relation(fields: [laborGroupId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   positionId      String?
   position        Position? @relation(fields: [positionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   managerId       String?
@@ -59,11 +61,89 @@ model Employee {
   updatedAt       DateTime  @updatedAt
   createdBy       String?   @db.NVarChar(255)
   updatedBy       String?   @db.NVarChar(255)
+  leaveRequests            LeaveRequest[]          @relation("LeaveRequestEmployee")
+  leaveApprovals           LeaveRequest[]          @relation("LeaveRequestApprover")
+  workflowSubjectTasks     WorkflowTask[]          @relation("WorkflowSubjectEmployee")
+  workflowOwnedTasks       WorkflowTask[]          @relation("WorkflowOwnerEmployee")
+  approvalActions          ApprovalAction[]        @relation("ApprovalActionActor")
+  appAccounts              AppAccount[]
+  checklists               EmployeeChecklist[]
+  documents                EmployeeDocument[]
+  documentAcknowledgments  DocumentAcknowledgment[]
+  performanceReviews       PerformanceReview[]     @relation("PerformanceReviewEmployee")
+  managedPerformanceReviews PerformanceReview[]    @relation("PerformanceReviewManager")
+  performanceGoals         PerformanceGoal[]       @relation("PerformanceGoalEmployee")
+  managedPerformanceGoals  PerformanceGoal[]       @relation("PerformanceGoalManager")
+  performanceGoalUpdates   PerformanceGoalUpdate[]
+  learningAssignments      LearningAssignment[]    @relation("LearningAssignmentEmployee")
+  learningRuleScopes       LearningAssignmentRule[] @relation("LearningAssignmentRuleManagerScope")
+  learningRecords          LearningRecord[]
+  scheduledShifts          ScheduledShift[]
+  timeCards                TimeCard[]              @relation("TimeCardEmployee")
+  approvedTimeCards        TimeCard[]              @relation("TimeCardApprover")
+  employeeSkills           EmployeeSkill[]         @relation("EmployeeSkillEmployee")
+  validatedEmployeeSkills  EmployeeSkill[]         @relation("EmployeeSkillValidator")
+  submittedJobRequests     JobRequest[]            @relation("JobRequestRequester")
+  requestedApprovalSteps   JobRequestApprovalStep[] @relation("JobRequestApprovalOwnerEmployee")
+  jobRequestHistory        JobRequestStatusHistory[] @relation("JobRequestStatusActor")
+  jobRequestDecisions      JobRequestApprovalDecision[] @relation("JobRequestDecisionActor")
+  hiringRecords            HiringRecord[]          @relation("HiringRecordEmployee")
+  employeeSnapshots        EmployeeSnapshot[]
 
   @@index([department, status])
   @@index([hireDate])
+  @@index([laborGroupId])
   @@index([managerId])
   @@index([positionId])
+}
+
+model AppAccount {
+  id                String                   @id @default(uuid())
+  entraObjectId     String?                  @unique @db.NVarChar(100)
+  email             String                   @unique @db.NVarChar(255)
+  displayName       String                   @db.NVarChar(150)
+  status            String                   @default("Active") @db.NVarChar(20)
+  employeeId        String?
+  employee          Employee?                @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  lastSignedInAt    DateTime?
+  createdAt         DateTime                 @default(now())
+  updatedAt         DateTime                 @updatedAt
+  queueMemberships  AccountQueueMembership[]
+  assignedTasks     WorkflowTask[]           @relation("WorkflowTaskAssigneeAccount")
+  createdLearningAssignments LearningAssignment[] @relation("LearningAssignmentCreator")
+  createdLearningRules LearningAssignmentRule[]   @relation("LearningAssignmentRuleCreator")
+  updatedFeatureToggles FeatureToggle[]
+  createdRuleSets   ApprovalRuleSet[]        @relation("ApprovalRuleSetCreator")
+  updatedRuleSets   ApprovalRuleSet[]        @relation("ApprovalRuleSetUpdater")
+  submittedJobRequests JobRequest[]          @relation("JobRequestRequesterAccount")
+  jobRequestStatusHistory JobRequestStatusHistory[] @relation("JobRequestStatusActorAccount")
+  jobRequestDecisions JobRequestApprovalDecision[] @relation("JobRequestDecisionActorAccount")
+  assignedJobRequestApprovalSteps JobRequestApprovalStep[] @relation("JobRequestApprovalAssigneeAccount")
+
+  @@index([employeeId, status])
+}
+
+model FeatureToggle {
+  key                String     @id @db.NVarChar(100)
+  enabled            Boolean    @default(true)
+  updatedByAccountId String?
+  updatedByAccount   AppAccount? @relation(fields: [updatedByAccountId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+
+  @@index([updatedByAccountId])
+}
+
+model AccountQueueMembership {
+  id         String     @id @default(uuid())
+  accountId  String
+  account    AppAccount @relation(fields: [accountId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  queueKey   String     @db.NVarChar(50)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  @@unique([accountId, queueKey])
+  @@index([queueKey])
 }
 
 model OrgUnit {
@@ -75,6 +155,18 @@ model OrgUnit {
   parent       OrgUnit?  @relation("OrgUnitHierarchy", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   children     OrgUnit[] @relation("OrgUnitHierarchy")
   positions    Position[]
+  holidays     Holiday[]
+  performanceCycles PerformanceCycle[]
+  learningAssignments LearningAssignment[]
+  learningAssignmentRules LearningAssignmentRule[]
+  workSchedules WorkSchedule[]
+  scheduledShifts ScheduledShift[]
+  shiftTemplates ShiftTemplate[]
+  workRuleProfiles WorkRuleProfile[] @relation("WorkRuleProfileOrgUnit")
+  timeCards TimeCard[]
+  jobRequests JobRequest[]
+  approvalRuleSets ApprovalRuleSet[]
+  approvalRules ApprovalRule[]
   recordStatus String    @default("Active") @db.NVarChar(20)
   archivedAt   DateTime?
   archivedBy   String?   @db.NVarChar(255)
@@ -96,6 +188,10 @@ model JobClassification {
   description  String?         @db.NVarChar(500)
   levels       PositionLevel[]
   positions    Position[]
+  learningAssignments LearningAssignment[]
+  learningAssignmentRules LearningAssignmentRule[]
+  workRuleProfiles WorkRuleProfile[] @relation("WorkRuleProfileClassification")
+  jobRequests JobRequest[]
   recordStatus String          @default("Active") @db.NVarChar(20)
   archivedAt   DateTime?
   archivedBy   String?         @db.NVarChar(255)
@@ -116,6 +212,7 @@ model PositionLevel {
   rangeMid      Decimal           @db.Decimal(12, 2)
   rangeMax      Decimal           @db.Decimal(12, 2)
   positions     Position[]
+  jobRequests   JobRequest[]
   recordStatus  String            @default("Active") @db.NVarChar(20)
   archivedAt    DateTime?
   archivedBy    String?           @db.NVarChar(255)
@@ -142,7 +239,23 @@ model Position {
   directReports       Position[]        @relation("PositionHierarchy")
   positionStatus      String            @default("Active") @db.NVarChar(20)
   headcount           Int               @default(1)
+  fte                 Decimal           @default(1) @db.Decimal(6, 2)
+  weeklyHours         Decimal           @default(40) @db.Decimal(6, 2)
+  fundingTypeId       String?
+  fundingType         FundingType?      @relation(fields: [fundingTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  budgetImpacting     Boolean           @default(false)
+  lastApprovedRequestId String?
+  lastApprovedRequest JobRequest?       @relation("PositionLastApprovedRequest", fields: [lastApprovedRequestId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  currentCompetitionNumber String?      @db.NVarChar(100)
   employees           Employee[]
+  learningAssignments LearningAssignment[]
+  learningAssignmentRules LearningAssignmentRule[]
+  workRuleProfiles    WorkRuleProfile[] @relation("WorkRuleProfilePosition")
+  reportsToJobRequests JobRequest[]     @relation("JobRequestReportsToPosition")
+  linkedJobRequests   JobRequest[]      @relation("JobRequestLinkedPosition")
+  approvedJobRequests JobRequest[]      @relation("JobRequestApprovedPosition")
+  hiringRecords       HiringRecord[]
+  employeeSnapshots   EmployeeSnapshot[]
   recordStatus        String            @default("Active") @db.NVarChar(20)
   archivedAt          DateTime?
   archivedBy          String?           @db.NVarChar(255)
@@ -153,4 +266,1055 @@ model Position {
   @@index([orgUnitId, positionStatus, recordStatus])
   @@index([classificationId, levelId, recordStatus])
   @@index([reportsToPositionId, recordStatus])
+  @@index([fundingTypeId, recordStatus])
+}
+
+model JobRequestType {
+  id            String       @id @default(uuid())
+  code          String       @unique @db.NVarChar(50)
+  name          String       @db.NVarChar(150)
+  description   String?      @db.NVarChar(500)
+  fieldSchema   String?      @db.NVarChar(4000)
+  isActive      Boolean      @default(true)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  jobRequests   JobRequest[]
+  approvalRules ApprovalRule[]
+
+  @@index([isActive, name])
+}
+
+model FundingType {
+  id             String       @id @default(uuid())
+  code           String       @unique @db.NVarChar(50)
+  name           String       @db.NVarChar(150)
+  category       String?      @db.NVarChar(100)
+  description    String?      @db.NVarChar(500)
+  durationType   String?      @db.NVarChar(50)
+  isPermanent    Boolean      @default(false)
+  isActive       Boolean      @default(true)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  jobRequests    JobRequest[]
+  positions      Position[]
+  approvalRules  ApprovalRule[]
+
+  @@index([isActive, name])
+}
+
+model ApprovalRuleSet {
+  id                 String         @id @default(uuid())
+  name               String         @db.NVarChar(150)
+  description        String?        @db.NVarChar(500)
+  status             String         @default("Draft") @db.NVarChar(20)
+  version            Int            @default(1)
+  scopeOrgUnitId     String?
+  scopeOrgUnit       OrgUnit?       @relation(fields: [scopeOrgUnitId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  effectiveStartDate DateTime?
+  effectiveEndDate   DateTime?
+  publishedAt        DateTime?
+  createdByAccountId String?
+  createdByAccount   AppAccount?    @relation("ApprovalRuleSetCreator", fields: [createdByAccountId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  updatedByAccountId String?
+  updatedByAccount   AppAccount?    @relation("ApprovalRuleSetUpdater", fields: [updatedByAccountId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+  rules              ApprovalRule[]
+  jobRequests        JobRequest[]
+
+  @@index([status, publishedAt])
+  @@index([scopeOrgUnitId, status])
+}
+
+model ApprovalRule {
+  id               String          @id @default(uuid())
+  ruleSetId        String
+  ruleSet          ApprovalRuleSet @relation(fields: [ruleSetId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  name             String          @db.NVarChar(150)
+  priority         Int             @default(100)
+  isActive         Boolean         @default(true)
+  isFallback       Boolean         @default(false)
+  requestTypeId    String?
+  requestType      JobRequestType? @relation(fields: [requestTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  fundingTypeId    String?
+  fundingType      FundingType?    @relation(fields: [fundingTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  budgetImpacting  Boolean?
+  requestorRole    String?         @db.NVarChar(50)
+  orgUnitId        String?
+  orgUnit          OrgUnit?        @relation(fields: [orgUnitId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  conditions       String?         @db.NVarChar(4000)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  steps            ApprovalRuleStep[]
+  jobRequests      JobRequest[]
+
+  @@index([ruleSetId, isActive, priority])
+  @@index([requestTypeId, fundingTypeId, budgetImpacting])
+  @@index([orgUnitId, requestorRole])
+}
+
+model ApprovalRuleStep {
+  id                String        @id @default(uuid())
+  ruleId            String
+  rule              ApprovalRule  @relation(fields: [ruleId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  stepOrder         Int
+  label             String        @db.NVarChar(150)
+  assigneeSource    String        @db.NVarChar(50)
+  assigneeValue     String?       @db.NVarChar(255)
+  fallbackQueueKey  String?       @db.NVarChar(50)
+  escalationDays    Int?
+  dueDays           Int?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  approvalSteps     JobRequestApprovalStep[]
+
+  @@unique([ruleId, stepOrder])
+  @@index([ruleId, stepOrder])
+}
+
+model JobRequest {
+  id                    String            @id @default(uuid())
+  requestNumber         String            @unique @db.NVarChar(50)
+  requestTypeId         String
+  requestType           JobRequestType    @relation(fields: [requestTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  requestorEmployeeId   String
+  requestorEmployee     Employee          @relation("JobRequestRequester", fields: [requestorEmployeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  requestorAccountId    String?
+  requestorAccount      AppAccount?       @relation("JobRequestRequesterAccount", fields: [requestorAccountId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  budgetImpacting       Boolean           @default(false)
+  fundingTypeId         String
+  fundingType           FundingType       @relation(fields: [fundingTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  orgUnitId             String
+  orgUnit               OrgUnit           @relation(fields: [orgUnitId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  classificationId      String
+  classification        JobClassification @relation(fields: [classificationId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  levelId               String
+  level                 PositionLevel     @relation(fields: [levelId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  reportsToPositionId   String?
+  reportsToPosition     Position?         @relation("JobRequestReportsToPosition", fields: [reportsToPositionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  targetPositionId      String?
+  targetPosition        Position?         @relation("JobRequestLinkedPosition", fields: [targetPositionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  linkedPositionId      String?
+  linkedPosition        Position?         @relation("JobRequestApprovedPosition", fields: [linkedPositionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  approvalRuleSetId     String?
+  approvalRuleSet       ApprovalRuleSet?  @relation(fields: [approvalRuleSetId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  approvalRuleId        String?
+  approvalRule          ApprovalRule?     @relation(fields: [approvalRuleId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  lastApprovedForPositions Position[]     @relation("PositionLastApprovedRequest")
+  title                 String            @db.NVarChar(150)
+  headcount             Int               @default(1)
+  fte                   Decimal           @default(1) @db.Decimal(6, 2)
+  weeklyHours           Decimal           @default(40) @db.Decimal(6, 2)
+  status                String            @default("Draft") @db.NVarChar(30)
+  justification         String?           @db.NVarChar(2000)
+  businessCase          String?           @db.NVarChar(2000)
+  currentStepOrder      Int?
+  submittedAt           DateTime?
+  approvedAt            DateTime?
+  rejectedAt            DateTime?
+  closedAt              DateTime?
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+  fieldValues           JobRequestFieldValue[]
+  statusHistory         JobRequestStatusHistory[]
+  approvalSteps         JobRequestApprovalStep[]
+  hiringRecord          HiringRecord?
+  employeeSnapshots     EmployeeSnapshot[]
+
+  @@index([requestorEmployeeId, status])
+  @@index([orgUnitId, status])
+  @@index([requestTypeId, fundingTypeId, status])
+  @@index([approvalRuleSetId, approvalRuleId])
+  @@index([targetPositionId, status])
+}
+
+model JobRequestFieldValue {
+  id           String      @id @default(uuid())
+  jobRequestId String
+  jobRequest   JobRequest  @relation(fields: [jobRequestId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  fieldKey     String      @db.NVarChar(100)
+  fieldLabel   String      @db.NVarChar(150)
+  valueType    String      @db.NVarChar(30)
+  value        String?     @db.NVarChar(2000)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@unique([jobRequestId, fieldKey])
+  @@index([fieldKey])
+}
+
+model JobRequestStatusHistory {
+  id               String      @id @default(uuid())
+  jobRequestId     String
+  jobRequest       JobRequest  @relation(fields: [jobRequestId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  status           String      @db.NVarChar(30)
+  action           String      @db.NVarChar(50)
+  comments         String?     @db.NVarChar(1000)
+  actorEmployeeId  String?
+  actorEmployee    Employee?   @relation("JobRequestStatusActor", fields: [actorEmployeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  actorAccountId   String?
+  actorAccount     AppAccount? @relation("JobRequestStatusActorAccount", fields: [actorAccountId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  createdAt        DateTime    @default(now())
+
+  @@index([jobRequestId, createdAt])
+}
+
+model JobRequestApprovalStep {
+  id               String           @id @default(uuid())
+  jobRequestId     String
+  jobRequest       JobRequest       @relation(fields: [jobRequestId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  ruleStepId       String?
+  ruleStep         ApprovalRuleStep? @relation(fields: [ruleStepId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  stepOrder        Int
+  label            String           @db.NVarChar(150)
+  assigneeSource   String           @db.NVarChar(50)
+  assigneeValue    String?          @db.NVarChar(255)
+  ownerEmployeeId  String?
+  ownerEmployee    Employee?        @relation("JobRequestApprovalOwnerEmployee", fields: [ownerEmployeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  assigneeAccountId String?
+  assigneeAccount  AppAccount?      @relation("JobRequestApprovalAssigneeAccount", fields: [assigneeAccountId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  assigneeQueueKey String?          @db.NVarChar(50)
+  status           String           @default("Pending") @db.NVarChar(30)
+  dueDate          DateTime?
+  respondedAt      DateTime?
+  workflowTaskId   String?
+  workflowTask     WorkflowTask?    @relation(fields: [workflowTaskId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  decisions        JobRequestApprovalDecision[]
+
+  @@unique([jobRequestId, stepOrder])
+  @@index([status, dueDate])
+  @@index([assigneeAccountId, status])
+  @@index([assigneeQueueKey, status])
+  @@index([workflowTaskId])
+}
+
+model JobRequestApprovalDecision {
+  id               String      @id @default(uuid())
+  approvalStepId   String
+  approvalStep     JobRequestApprovalStep @relation(fields: [approvalStepId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  action           String      @db.NVarChar(50)
+  comments         String?     @db.NVarChar(1000)
+  actorEmployeeId  String?
+  actorEmployee    Employee?   @relation("JobRequestDecisionActor", fields: [actorEmployeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  actorAccountId   String?
+  actorAccount     AppAccount? @relation("JobRequestDecisionActorAccount", fields: [actorAccountId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  createdAt        DateTime    @default(now())
+
+  @@index([approvalStepId, createdAt])
+}
+
+model HiringRecord {
+  id                    String      @id @default(uuid())
+  jobRequestId          String      @unique
+  jobRequest            JobRequest  @relation(fields: [jobRequestId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  positionId            String
+  position              Position    @relation(fields: [positionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  selectedEmployeeId    String?
+  selectedEmployee      Employee?   @relation("HiringRecordEmployee", fields: [selectedEmployeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  candidateName         String      @db.NVarChar(200)
+  competitionNumber     String      @db.NVarChar(100)
+  compensationAmount    Decimal     @db.Decimal(12, 2)
+  payFrequency          String      @default("Biweekly") @db.NVarChar(20)
+  hireDate              DateTime
+  notes                 String?     @db.NVarChar(1000)
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime    @updatedAt
+  employeeSnapshots     EmployeeSnapshot[]
+
+  @@index([positionId, hireDate])
+}
+
+model EmployeeSnapshot {
+  id                    String      @id @default(uuid())
+  employeeId            String?
+  employee              Employee?   @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  jobRequestId          String
+  jobRequest            JobRequest  @relation(fields: [jobRequestId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  hiringRecordId        String?
+  hiringRecord          HiringRecord? @relation(fields: [hiringRecordId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  positionId            String
+  position              Position    @relation(fields: [positionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  employeeNumber        String?     @db.NVarChar(50)
+  firstName             String      @db.NVarChar(100)
+  lastName              String      @db.NVarChar(100)
+  fullName              String      @db.NVarChar(200)
+  email                 String?     @db.NVarChar(255)
+  jobTitle              String      @db.NVarChar(150)
+  department            String      @db.NVarChar(100)
+  orgUnitName           String      @db.NVarChar(150)
+  positionCode          String      @db.NVarChar(50)
+  classificationCode    String      @db.NVarChar(50)
+  levelCode             String      @db.NVarChar(20)
+  managerName           String?     @db.NVarChar(200)
+  compensationAmount    Decimal     @db.Decimal(12, 2)
+  payFrequency          String      @db.NVarChar(20)
+  competitionNumber     String?     @db.NVarChar(100)
+  hireDate              DateTime
+  snapshotType          String      @default("Hire") @db.NVarChar(30)
+  createdAt             DateTime    @default(now())
+
+  @@index([positionId, hireDate])
+  @@index([employeeId, hireDate])
+}
+
+model LaborGroup {
+  id                 String            @id @default(uuid())
+  code               String            @unique @db.NVarChar(50)
+  name               String            @db.NVarChar(150)
+  status             String            @default("Active") @db.NVarChar(20)
+  agreementReference String?           @db.NVarChar(150)
+  description        String?           @db.NVarChar(500)
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  employees          Employee[]
+  workRuleProfiles   WorkRuleProfile[] @relation("WorkRuleProfileLaborGroup")
+
+  @@index([status, name])
+}
+
+model WorkRuleProfile {
+  id                        String            @id @default(uuid())
+  code                      String            @unique @db.NVarChar(50)
+  name                      String            @db.NVarChar(150)
+  status                    String            @default("Active") @db.NVarChar(20)
+  laborGroupId              String?
+  laborGroup                LaborGroup?       @relation("WorkRuleProfileLaborGroup", fields: [laborGroupId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  orgUnitId                 String?
+  orgUnit                   OrgUnit?          @relation("WorkRuleProfileOrgUnit", fields: [orgUnitId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  positionId                String?
+  position                  Position?         @relation("WorkRuleProfilePosition", fields: [positionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  classificationId          String?
+  classification            JobClassification? @relation("WorkRuleProfileClassification", fields: [classificationId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  dailyOvertimeThreshold    Decimal           @default(8) @db.Decimal(10, 2)
+  weeklyOvertimeThreshold   Decimal           @default(40) @db.Decimal(10, 2)
+  doubleTimeThreshold       Decimal?          @db.Decimal(10, 2)
+  minimumRestHours          Decimal           @default(8) @db.Decimal(10, 2)
+  scheduledDailyHoursTarget Decimal           @default(8) @db.Decimal(10, 2)
+  shiftPremiumRules         String?           @db.NVarChar(2000)
+  holidayTreatment          String?           @db.NVarChar(200)
+  leaveTreatment            String?           @db.NVarChar(200)
+  createdAt                 DateTime          @default(now())
+  updatedAt                 DateTime          @updatedAt
+  shiftTemplates            ShiftTemplate[]
+
+  @@index([status, laborGroupId])
+  @@index([orgUnitId, status])
+  @@index([positionId, status])
+  @@index([classificationId, status])
+}
+
+model ShiftTemplate {
+  id                   String           @id @default(uuid())
+  orgUnitId            String
+  orgUnit              OrgUnit          @relation(fields: [orgUnitId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  workRuleProfileId    String?
+  workRuleProfile      WorkRuleProfile? @relation(fields: [workRuleProfileId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  code                 String           @db.NVarChar(50)
+  name                 String           @db.NVarChar(150)
+  startTime            String           @db.NVarChar(10)
+  endTime              String           @db.NVarChar(10)
+  unpaidBreakMinutes   Int              @default(0)
+  paidBreakMinutes     Int              @default(0)
+  status               String           @default("Active") @db.NVarChar(20)
+  createdAt            DateTime         @default(now())
+  updatedAt            DateTime         @updatedAt
+  scheduledShifts      ScheduledShift[]
+
+  @@unique([orgUnitId, code])
+  @@index([orgUnitId, status])
+  @@index([workRuleProfileId, status])
+}
+
+model WorkSchedule {
+  id               String           @id @default(uuid())
+  orgUnitId        String
+  orgUnit          OrgUnit          @relation(fields: [orgUnitId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  periodStart      DateTime
+  periodEnd        DateTime
+  status           String           @default("Draft") @db.NVarChar(20)
+  notes            String?          @db.NVarChar(500)
+  publishedAt      DateTime?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  scheduledShifts  ScheduledShift[]
+
+  @@unique([orgUnitId, periodStart, periodEnd])
+  @@index([status, periodStart, periodEnd])
+}
+
+model ScheduledShift {
+  id                 String         @id @default(uuid())
+  scheduleId         String
+  schedule           WorkSchedule   @relation(fields: [scheduleId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  employeeId         String?
+  employee           Employee?      @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  orgUnitId          String
+  orgUnit            OrgUnit        @relation(fields: [orgUnitId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  shiftTemplateId    String?
+  shiftTemplate      ShiftTemplate? @relation(fields: [shiftTemplateId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  shiftDate          DateTime
+  startDateTime      DateTime
+  endDateTime        DateTime
+  breakMinutes       Int            @default(0)
+  status             String         @default("Scheduled") @db.NVarChar(20)
+  notes              String?        @db.NVarChar(500)
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+  timeEntries        TimeEntry[]
+
+  @@index([scheduleId, shiftDate])
+  @@index([employeeId, shiftDate])
+  @@index([orgUnitId, shiftDate])
+  @@index([shiftTemplateId, shiftDate])
+}
+
+model TimeCard {
+  id                  String     @id @default(uuid())
+  employeeId          String
+  employee            Employee   @relation("TimeCardEmployee", fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  orgUnitId           String
+  orgUnit             OrgUnit    @relation(fields: [orgUnitId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  approverId          String?
+  approver            Employee?  @relation("TimeCardApprover", fields: [approverId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  periodStart         DateTime
+  periodEnd           DateTime
+  status              String     @default("Draft") @db.NVarChar(20)
+  submittedAt         DateTime?
+  approvedAt          DateTime?
+  rejectedAt          DateTime?
+  recalledAt          DateTime?
+  approvalComment     String?    @db.NVarChar(500)
+  regularHours        Decimal    @default(0) @db.Decimal(10, 2)
+  overtimeHours       Decimal    @default(0) @db.Decimal(10, 2)
+  doubleTimeHours     Decimal    @default(0) @db.Decimal(10, 2)
+  leaveHours          Decimal    @default(0) @db.Decimal(10, 2)
+  holidayHours        Decimal    @default(0) @db.Decimal(10, 2)
+  totalWorkedHours    Decimal    @default(0) @db.Decimal(10, 2)
+  exceptionCount      Int        @default(0)
+  createdAt           DateTime   @default(now())
+  updatedAt           DateTime   @updatedAt
+  entries             TimeEntry[]
+
+  @@unique([employeeId, periodStart, periodEnd])
+  @@index([employeeId, status])
+  @@index([approverId, status])
+  @@index([orgUnitId, status])
+  @@index([periodStart, periodEnd, status])
+}
+
+model TimeEntry {
+  id               String         @id @default(uuid())
+  timeCardId       String
+  timeCard         TimeCard       @relation(fields: [timeCardId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  scheduledShiftId String?
+  scheduledShift   ScheduledShift? @relation(fields: [scheduledShiftId], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  workDate         DateTime
+  earningType      String         @db.NVarChar(30)
+  workedHours      Decimal        @default(0) @db.Decimal(10, 2)
+  startDateTime    DateTime?
+  endDateTime      DateTime?
+  breakMinutes     Int            @default(0)
+  notes            String?        @db.NVarChar(500)
+  exceptionFlags   String?        @db.NVarChar(500)
+  isAutoGenerated  Boolean        @default(false)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  @@index([timeCardId, workDate])
+  @@index([scheduledShiftId, workDate])
+  @@index([earningType, workDate])
+}
+
+model PerformanceCycle {
+  id                    String              @id @default(uuid())
+  name                  String              @db.NVarChar(150)
+  status                String              @default("Draft") @db.NVarChar(30)
+  startDate             DateTime
+  endDate               DateTime
+  selfReviewDueDate     DateTime
+  managerReviewDueDate  DateTime
+  releaseDate           DateTime
+  orgUnitId             String?
+  orgUnit               OrgUnit?            @relation(fields: [orgUnitId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  publishedAt           DateTime?
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+  createdBy             String?             @db.NVarChar(255)
+  updatedBy             String?             @db.NVarChar(255)
+  reviews               PerformanceReview[]
+  goals                 PerformanceGoal[]
+
+  @@index([status, startDate, endDate])
+  @@index([orgUnitId, status])
+}
+
+model PerformanceReview {
+  id             String                     @id @default(uuid())
+  cycleId        String
+  cycle          PerformanceCycle           @relation(fields: [cycleId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  employeeId     String
+  employee       Employee                   @relation("PerformanceReviewEmployee", fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  managerId      String
+  manager        Employee                   @relation("PerformanceReviewManager", fields: [managerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  status         String                     @default("Pending Self Review") @db.NVarChar(40)
+  managerSummary String?                    @db.NVarChar(2000)
+  finalizedAt    DateTime?
+  releasedAt     DateTime?
+  acknowledgedAt DateTime?
+  createdAt      DateTime                   @default(now())
+  updatedAt      DateTime                   @updatedAt
+  sections       PerformanceReviewSection[]
+
+  @@unique([cycleId, employeeId])
+  @@index([managerId, status])
+  @@index([employeeId, status])
+}
+
+model PerformanceReviewSection {
+  id               String            @id @default(uuid())
+  reviewId         String
+  review           PerformanceReview @relation(fields: [reviewId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  sectionKey       String            @db.NVarChar(50)
+  sectionTitle     String            @db.NVarChar(150)
+  employeeResponse String?           @db.NVarChar(2000)
+  managerResponse  String?           @db.NVarChar(2000)
+  sortOrder        Int               @default(0)
+
+  @@unique([reviewId, sectionKey])
+  @@index([reviewId, sortOrder])
+}
+
+model PerformanceGoal {
+  id               String                  @id @default(uuid())
+  employeeId       String
+  employee         Employee                @relation("PerformanceGoalEmployee", fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  managerId        String?
+  manager          Employee?               @relation("PerformanceGoalManager", fields: [managerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  title            String                  @db.NVarChar(150)
+  description      String?                 @db.NVarChar(1000)
+  status           String                  @default("Active") @db.NVarChar(30)
+  targetDate       DateTime?
+  createdInCycleId String?
+  createdInCycle   PerformanceCycle?       @relation(fields: [createdInCycleId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  closedAt         DateTime?
+  createdAt        DateTime                @default(now())
+  updatedAt        DateTime                @updatedAt
+  updates          PerformanceGoalUpdate[]
+
+  @@index([employeeId, status])
+  @@index([managerId, status])
+  @@index([createdInCycleId, status])
+}
+
+model PerformanceGoalUpdate {
+  id               String           @id @default(uuid())
+  goalId           String
+  goal             PerformanceGoal  @relation(fields: [goalId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  authorEmployeeId String
+  authorEmployee   Employee         @relation(fields: [authorEmployeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  progressNote     String           @db.NVarChar(2000)
+  percentComplete  Int?
+  createdAt        DateTime         @default(now())
+
+  @@index([goalId, createdAt])
+  @@index([authorEmployeeId, createdAt])
+}
+
+model LearningProvider {
+  id                 String            @id @default(uuid())
+  code               String            @unique @db.NVarChar(50)
+  displayName        String            @db.NVarChar(150)
+  providerType       String            @db.NVarChar(50)
+  status             String            @default("Active") @db.NVarChar(30)
+  syncMode           String            @default("Manual") @db.NVarChar(30)
+  connectionMetadata String?           @db.NVarChar(2000)
+  defaultLaunchBaseUrl String?         @db.NVarChar(500)
+  lastSyncStartedAt  DateTime?
+  lastSyncCompletedAt DateTime?
+  lastSyncStatus     String?           @db.NVarChar(30)
+  lastSyncMessage    String?           @db.NVarChar(500)
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  contents           LearningContent[]
+  syncRuns           LearningSyncRun[]
+
+  @@index([status, syncMode])
+}
+
+model LearningContent {
+  id                 String            @id @default(uuid())
+  providerId         String
+  provider           LearningProvider  @relation(fields: [providerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  providerContentId  String            @db.NVarChar(100)
+  title              String            @db.NVarChar(200)
+  description        String?           @db.NVarChar(2000)
+  modality           String            @default("Link") @db.NVarChar(30)
+  durationMinutes    Int?
+  thumbnailUrl       String?           @db.NVarChar(500)
+  launchUrl          String            @db.NVarChar(500)
+  tagList            String?           @db.NVarChar(500)
+  versionLabel       String?           @db.NVarChar(50)
+  certificateEligible Boolean         @default(false)
+  contentStatus      String            @default("Active") @db.NVarChar(30)
+  lastSyncedAt       DateTime?
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  pathItems          LearningPathItem[]
+  assignments        LearningAssignment[]
+  assignmentRules    LearningAssignmentRule[]
+  learningRecords    LearningRecord[]
+  contentSkills      LearningContentSkill[]
+
+  @@unique([providerId, providerContentId])
+  @@index([contentStatus, title])
+  @@index([providerId, contentStatus])
+}
+
+model SkillCategory {
+  id           String     @id @default(uuid())
+  code         String     @unique @db.NVarChar(50)
+  name         String     @db.NVarChar(150)
+  description  String?    @db.NVarChar(500)
+  displayOrder Int        @default(0)
+  isActive     Boolean    @default(true)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  skillTags    SkillTag[]
+
+  @@index([isActive, displayOrder])
+}
+
+model SkillTag {
+  id                   String                 @id @default(uuid())
+  categoryId           String
+  category             SkillCategory          @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  code                 String                 @unique @db.NVarChar(50)
+  name                 String                 @db.NVarChar(150)
+  description          String?                @db.NVarChar(500)
+  displayOrder         Int                    @default(0)
+  isActive             Boolean                @default(true)
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  employeeSkills       EmployeeSkill[]
+  learningContentSkills LearningContentSkill[]
+
+  @@index([categoryId, isActive, displayOrder])
+}
+
+model EmployeeSkill {
+  id                   String    @id @default(uuid())
+  employeeId           String
+  employee             Employee  @relation("EmployeeSkillEmployee", fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  skillTagId           String
+  skillTag             SkillTag  @relation(fields: [skillTagId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  source               String    @default("Self") @db.NVarChar(20)
+  selfReportedLevel    String?   @db.NVarChar(50)
+  confidence           Int?
+  validationStatus     String    @default("Unreviewed") @db.NVarChar(20)
+  managerNote          String?   @db.NVarChar(500)
+  validatedByEmployeeId String?
+  validatedByEmployee  Employee? @relation("EmployeeSkillValidator", fields: [validatedByEmployeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  validatedAt          DateTime?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  @@unique([employeeId, skillTagId, source])
+  @@index([employeeId, validationStatus])
+  @@index([skillTagId, validationStatus])
+  @@index([validatedByEmployeeId])
+}
+
+model LearningContentSkill {
+  id         String          @id @default(uuid())
+  contentId  String
+  content    LearningContent @relation(fields: [contentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  skillTagId String
+  skillTag   SkillTag        @relation(fields: [skillTagId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  createdAt  DateTime        @default(now())
+
+  @@unique([contentId, skillTagId])
+  @@index([skillTagId])
+}
+
+model LearningPath {
+  id                 String               @id @default(uuid())
+  code               String               @unique @db.NVarChar(50)
+  name               String               @db.NVarChar(150)
+  description        String?              @db.NVarChar(1000)
+  status             String               @default("Active") @db.NVarChar(30)
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  items              LearningPathItem[]
+  assignments        LearningAssignment[]
+  assignmentRules    LearningAssignmentRule[]
+  learningRecords    LearningRecord[]
+
+  @@index([status, name])
+}
+
+model LearningPathItem {
+  id                 String          @id @default(uuid())
+  pathId             String
+  path               LearningPath    @relation(fields: [pathId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  contentId          String
+  content            LearningContent @relation(fields: [contentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  sortOrder          Int             @default(0)
+  isRequired         Boolean         @default(true)
+
+  @@unique([pathId, contentId])
+  @@index([pathId, sortOrder])
+}
+
+model LearningAssignment {
+  id                 String            @id @default(uuid())
+  assignmentType     String            @db.NVarChar(20)
+  requirementType    String            @default("Required") @db.NVarChar(20)
+  contentId          String?
+  content            LearningContent?  @relation(fields: [contentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  pathId             String?
+  path               LearningPath?     @relation(fields: [pathId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  employeeId         String?
+  employee           Employee?         @relation("LearningAssignmentEmployee", fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  orgUnitId          String?
+  orgUnit            OrgUnit?          @relation(fields: [orgUnitId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  positionId         String?
+  position           Position?         @relation(fields: [positionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  classificationId   String?
+  classification     JobClassification? @relation(fields: [classificationId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  assignedByAccountId String?
+  assignedByAccount  AppAccount?       @relation("LearningAssignmentCreator", fields: [assignedByAccountId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  sourceType         String            @default("Manual") @db.NVarChar(20)
+  status             String            @default("Active") @db.NVarChar(20)
+  mandatory          Boolean           @default(false)
+  dueDate            DateTime?
+  renewalDays        Int?
+  notes              String?           @db.NVarChar(500)
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  cancelledAt        DateTime?
+  records            LearningRecord[]
+
+  @@index([status, assignmentType])
+  @@index([employeeId, status])
+  @@index([orgUnitId, status])
+  @@index([positionId, status])
+  @@index([classificationId, status])
+}
+
+model LearningAssignmentRule {
+  id                 String            @id @default(uuid())
+  assignmentType     String            @db.NVarChar(20)
+  requirementType    String            @default("Required") @db.NVarChar(20)
+  contentId          String?
+  content            LearningContent?  @relation(fields: [contentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  pathId             String?
+  path               LearningPath?     @relation(fields: [pathId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  orgUnitId          String?
+  orgUnit            OrgUnit?          @relation(fields: [orgUnitId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  positionId         String?
+  position           Position?         @relation(fields: [positionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  classificationId   String?
+  classification     JobClassification? @relation(fields: [classificationId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  managerEmployeeId  String?
+  managerEmployee    Employee?         @relation("LearningAssignmentRuleManagerScope", fields: [managerEmployeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  createdByAccountId String?
+  createdByAccount   AppAccount?       @relation("LearningAssignmentRuleCreator", fields: [createdByAccountId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  mandatory          Boolean           @default(false)
+  renewalDays        Int?
+  defaultDueDays     Int?
+  isActive           Boolean           @default(true)
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  records            LearningRecord[]
+
+  @@index([isActive, assignmentType])
+  @@index([orgUnitId, isActive])
+  @@index([positionId, isActive])
+  @@index([classificationId, isActive])
+  @@index([managerEmployeeId, isActive])
+}
+
+model LearningRecord {
+  id                 String              @id @default(uuid())
+  employeeId         String
+  employee           Employee            @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  contentId          String
+  content            LearningContent     @relation(fields: [contentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  assignmentId       String?
+  assignment         LearningAssignment? @relation(fields: [assignmentId], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  assignmentRuleId   String?
+  assignmentRule     LearningAssignmentRule? @relation(fields: [assignmentRuleId], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  pathId             String?
+  path               LearningPath?       @relation(fields: [pathId], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  status             String              @default("Assigned") @db.NVarChar(30)
+  requirementType    String              @default("Required") @db.NVarChar(20)
+  mandatory          Boolean             @default(false)
+  dueDate            DateTime?
+  renewalDays        Int?
+  renewalDueDate     DateTime?
+  progressPercent    Int                 @default(0)
+  assignedAt         DateTime            @default(now())
+  launchedAt         DateTime?
+  lastActivityAt     DateTime?
+  completedAt        DateTime?
+  certificateIssuedAt DateTime?
+  certificateExpiresAt DateTime?
+  certificateNumber  String?             @db.NVarChar(100)
+  providerStatus     String?             @db.NVarChar(50)
+  sourceType         String              @default("Manual") @db.NVarChar(20)
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+
+  @@index([employeeId, status])
+  @@index([employeeId, dueDate])
+  @@index([assignmentId])
+  @@index([assignmentRuleId])
+  @@index([certificateExpiresAt, status])
+  @@index([contentId, status])
+}
+
+model LearningSyncRun {
+  id                 String            @id @default(uuid())
+  providerId         String
+  provider           LearningProvider  @relation(fields: [providerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  status             String            @db.NVarChar(30)
+  startedAt          DateTime          @default(now())
+  completedAt        DateTime?
+  createdCount       Int               @default(0)
+  updatedCount       Int               @default(0)
+  retiredCount       Int               @default(0)
+  message            String?           @db.NVarChar(500)
+
+  @@index([providerId, startedAt])
+}
+
+model LeaveType {
+  id           String         @id @default(uuid())
+  code         String         @unique @db.NVarChar(30)
+  name         String         @db.NVarChar(100)
+  description  String?        @db.NVarChar(255)
+  accentColor  String?        @db.NVarChar(20)
+  isActive     Boolean        @default(true)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  leaveRequests LeaveRequest[]
+}
+
+model Holiday {
+  id          String    @id @default(uuid())
+  name        String    @db.NVarChar(150)
+  holidayDate DateTime
+  note        String?   @db.NVarChar(255)
+  orgUnitId   String?
+  orgUnit     OrgUnit?  @relation(fields: [orgUnitId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([holidayDate])
+  @@index([orgUnitId, holidayDate])
+}
+
+model LeaveRequest {
+  id              String    @id @default(uuid())
+  employeeId      String
+  employee        Employee  @relation("LeaveRequestEmployee", fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  leaveTypeId     String
+  leaveType       LeaveType @relation(fields: [leaveTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  approverId      String?
+  approver        Employee? @relation("LeaveRequestApprover", fields: [approverId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  startDate       DateTime
+  endDate         DateTime
+  requestedHours  Decimal   @db.Decimal(10, 2)
+  status          String    @default("Pending") @db.NVarChar(20)
+  notes           String?   @db.NVarChar(500)
+  decisionComment String?   @db.NVarChar(500)
+  respondedAt     DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  createdBy       String?   @db.NVarChar(255)
+  updatedBy       String?   @db.NVarChar(255)
+
+  @@index([employeeId, status])
+  @@index([approverId, status])
+  @@index([startDate, endDate])
+}
+
+model WorkflowTask {
+  id               String           @id @default(uuid())
+  taskType         String           @db.NVarChar(50)
+  title            String           @db.NVarChar(150)
+  description      String?          @db.NVarChar(500)
+  status           String           @default("Open") @db.NVarChar(20)
+  priority         String           @default("Normal") @db.NVarChar(20)
+  dueDate          DateTime?
+  employeeId       String?
+  employee         Employee?        @relation("WorkflowSubjectEmployee", fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ownerEmployeeId  String?
+  ownerEmployee    Employee?        @relation("WorkflowOwnerEmployee", fields: [ownerEmployeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  assigneeAccountId String?
+  assigneeAccount  AppAccount?      @relation("WorkflowTaskAssigneeAccount", fields: [assigneeAccountId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  assigneeQueueKey String?          @db.NVarChar(50)
+  ownerLabel       String?          @db.NVarChar(100)
+  relatedEntityType String?         @db.NVarChar(50)
+  relatedEntityId  String?          @db.NVarChar(100)
+  comments         String?          @db.NVarChar(500)
+  completedAt      DateTime?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  approvalActions  ApprovalAction[]
+  jobRequestApprovalSteps JobRequestApprovalStep[]
+
+  @@index([status, dueDate])
+  @@index([ownerEmployeeId, status])
+  @@index([assigneeAccountId, status])
+  @@index([assigneeQueueKey, status])
+  @@index([employeeId, status])
+  @@index([relatedEntityType, relatedEntityId])
+}
+
+model ApprovalAction {
+  id              String    @id @default(uuid())
+  taskId          String
+  task            WorkflowTask @relation(fields: [taskId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  actorEmployeeId String?
+  actorEmployee   Employee? @relation("ApprovalActionActor", fields: [actorEmployeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  action          String    @db.NVarChar(30)
+  comments        String?   @db.NVarChar(500)
+  createdAt       DateTime  @default(now())
+
+  @@index([taskId, createdAt])
+}
+
+model ChecklistTemplate {
+  id               String                 @id @default(uuid())
+  code             String                 @unique @db.NVarChar(50)
+  name             String                 @db.NVarChar(150)
+  lifecycleType    String                 @db.NVarChar(30)
+  description      String?                @db.NVarChar(255)
+  isActive         Boolean                @default(true)
+  createdAt        DateTime               @default(now())
+  updatedAt        DateTime               @updatedAt
+  items            ChecklistTemplateItem[]
+  employeeChecklists EmployeeChecklist[]
+
+  @@index([lifecycleType, isActive])
+}
+
+model ChecklistTemplateItem {
+  id            String            @id @default(uuid())
+  templateId    String
+  template      ChecklistTemplate @relation(fields: [templateId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  title         String            @db.NVarChar(150)
+  ownerLabel    String            @db.NVarChar(100)
+  dueDaysOffset Int               @default(0)
+  sortOrder     Int               @default(0)
+  isRequired    Boolean           @default(true)
+
+  @@index([templateId, sortOrder])
+}
+
+model EmployeeChecklist {
+  id            String            @id @default(uuid())
+  employeeId    String
+  employee      Employee          @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  templateId    String?
+  template      ChecklistTemplate? @relation(fields: [templateId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  title         String            @db.NVarChar(150)
+  lifecycleType String            @db.NVarChar(30)
+  status        String            @default("In Progress") @db.NVarChar(20)
+  dueDate       DateTime?
+  startedAt     DateTime          @default(now())
+  completedAt   DateTime?
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  items         ChecklistItem[]
+
+  @@index([employeeId, status])
+  @@index([lifecycleType, status])
+}
+
+model ChecklistItem {
+  id          String            @id @default(uuid())
+  checklistId String
+  checklist   EmployeeChecklist @relation(fields: [checklistId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  title       String            @db.NVarChar(150)
+  ownerLabel  String            @db.NVarChar(100)
+  dueDate     DateTime?
+  status      String            @default("Open") @db.NVarChar(20)
+  isRequired  Boolean           @default(true)
+  sortOrder   Int               @default(0)
+  completedAt DateTime?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  @@index([checklistId, status])
+  @@index([dueDate, status])
+}
+
+model DocumentCategory {
+  id          String            @id @default(uuid())
+  code        String            @unique @db.NVarChar(50)
+  name        String            @db.NVarChar(150)
+  description String?           @db.NVarChar(255)
+  isActive    Boolean           @default(true)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  templates   DocumentTemplate[]
+  documents   EmployeeDocument[]
+}
+
+model DocumentTemplate {
+  id                     String            @id @default(uuid())
+  categoryId             String
+  category               DocumentCategory  @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  code                   String            @unique @db.NVarChar(50)
+  name                   String            @db.NVarChar(150)
+  requiresAcknowledgement Boolean          @default(false)
+  defaultExpiryDays      Int?
+  isActive               Boolean           @default(true)
+  createdAt              DateTime          @default(now())
+  updatedAt              DateTime          @updatedAt
+  documents              EmployeeDocument[]
+
+  @@index([categoryId, isActive])
+}
+
+model EmployeeDocument {
+  id         String                 @id @default(uuid())
+  employeeId String
+  employee   Employee               @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  categoryId String
+  category   DocumentCategory       @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  templateId String?
+  template   DocumentTemplate?      @relation(fields: [templateId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  title      String                 @db.NVarChar(150)
+  status     String                 @default("Current") @db.NVarChar(30)
+  required   Boolean                @default(false)
+  issueDate  DateTime?
+  expiryDate DateTime?
+  notes      String?                @db.NVarChar(500)
+  createdAt  DateTime               @default(now())
+  updatedAt  DateTime               @updatedAt
+  acknowledgments DocumentAcknowledgment[]
+
+  @@index([employeeId, status])
+  @@index([expiryDate, status])
+}
+
+model DocumentAcknowledgment {
+  id                String          @id @default(uuid())
+  employeeDocumentId String
+  employeeDocument  EmployeeDocument @relation(fields: [employeeDocumentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  employeeId        String
+  employee          Employee        @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  status            String          @default("Pending") @db.NVarChar(20)
+  dueDate           DateTime?
+  acknowledgedAt    DateTime?
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  @@index([employeeId, status])
+  @@index([employeeDocumentId, status])
 }

@@ -1,0 +1,306 @@
+.learning-admin-page {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.learning-admin-hero,
+.learning-admin-panel,
+.learning-admin-rule-card {
+  display: grid;
+  gap: 1rem;
+}
+
+.learning-admin-header {
+  align-items: start;
+  gap: 1rem;
+}
+
+.learning-admin-eyebrow {
+  display: inline-flex;
+  margin-bottom: 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.learning-admin-header-actions,
+.learning-admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.learning-admin-modal {
+  width: min(760px, calc(100vw - 2rem));
+}
+
+.learning-admin-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 1rem;
+  border-radius: 1rem;
+}
+
+.learning-admin-banner-error {
+  background: rgba(248, 113, 113, 0.12);
+  color: #991b1b;
+}
+
+.learning-admin-summary-grid,
+.learning-admin-overview-grid,
+.learning-admin-layout,
+.learning-admin-card-grid,
+.learning-admin-form-grid,
+.learning-admin-meta-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.learning-admin-summary-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.learning-admin-overview-grid,
+.learning-admin-layout {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.learning-admin-card-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.learning-admin-form-grid,
+.learning-admin-meta-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.learning-admin-metric,
+.learning-admin-card,
+.learning-admin-list-row,
+.learning-admin-empty,
+.learning-admin-static {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.learning-admin-metric,
+.learning-admin-card,
+.learning-admin-static {
+  padding: 1.1rem;
+}
+
+.learning-admin-metric {
+  display: grid;
+  gap: 0.65rem;
+  align-content: start;
+  min-height: 170px;
+  padding: 1.2rem 1.2rem 1.15rem;
+  border-color: rgba(15, 23, 42, 0.1);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.96) 100%);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.05);
+}
+
+.learning-admin-metric-label,
+.learning-admin-field span,
+.learning-admin-list-meta {
+  color: var(--color-text-muted);
+}
+
+.learning-admin-metric-label {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 0.32rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.05);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.learning-admin-metric-value {
+  display: block;
+  font-size: clamp(2rem, 3vw, 2.6rem);
+  font-weight: 700;
+  line-height: 0.95;
+  color: var(--color-text);
+}
+
+.learning-admin-metric-detail,
+.learning-admin-copy,
+.learning-admin-card p {
+  color: var(--color-text-muted);
+}
+
+.learning-admin-metric-detail {
+  display: block;
+  max-width: 22ch;
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+.learning-admin-tab-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.learning-admin-tab {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(248, 250, 252, 0.85);
+  border-radius: 999px;
+  padding: 0.65rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.learning-admin-tab-active {
+  background: var(--color-primary);
+  color: white;
+  border-color: transparent;
+}
+
+.learning-admin-card,
+.learning-admin-list,
+.learning-admin-static {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.learning-admin-pill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.learning-admin-skill-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.38rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(0, 152, 219, 0.1);
+  color: var(--color-primary);
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.learning-admin-card-header,
+.learning-admin-row-shell {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.learning-admin-card h3,
+.learning-admin-list-title {
+  margin: 0;
+}
+
+.learning-admin-list-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1rem;
+}
+
+.learning-admin-empty {
+  padding: 1rem;
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.learning-admin-field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.learning-admin-field-full {
+  grid-column: 1 / -1;
+}
+
+.learning-admin-field input,
+.learning-admin-field select,
+.learning-admin-field textarea {
+  width: 100%;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 0.85rem;
+  padding: 0.8rem 0.9rem;
+  background: white;
+  color: inherit;
+}
+
+.learning-admin-checkbox-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.learning-admin-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.learning-admin-skill-group {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0.9rem 0;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.learning-admin-skill-group:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.learning-admin-static {
+  grid-column: 1 / -1;
+}
+
+.learning-admin-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  min-height: 220px;
+  color: var(--color-text-muted);
+}
+
+.learning-admin-spin {
+  animation: learning-admin-spin 1s linear infinite;
+}
+
+@keyframes learning-admin-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 1024px) {
+  .learning-admin-summary-grid,
+  .learning-admin-overview-grid,
+  .learning-admin-layout,
+  .learning-admin-card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .learning-admin-form-grid,
+  .learning-admin-meta-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .learning-admin-card-header,
+  .learning-admin-row-shell,
+  .learning-admin-list-row {
+    flex-direction: column;
+  }
+}

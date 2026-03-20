@@ -5408,3 +5408,893 @@ Restarting 'src/server.ts'
 [14:51:43.245] [32mINFO[39m (50804): [36mEnvironment: development[39m
 [14:51:43.245] [33mWARN[39m (50804): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
 Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+[16:00:00.990] [32mINFO[39m (37012): [36mElevate HR API running on http://localhost:4000[39m
+[16:00:00.990] [32mINFO[39m (37012): [36mEnvironment: development[39m
+[16:00:00.990] [33mWARN[39m (37012): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+[16:00:02.465] [32mINFO[39m (58904): [36mElevate HR API running on http://localhost:4000[39m
+[16:00:02.465] [32mINFO[39m (58904): [36mEnvironment: development[39m
+[16:00:02.465] [33mWARN[39m (58904): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+Failed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+[16:03:26.806] [32mINFO[39m (46236): [36mElevate HR API running on http://localhost:4000[39m
+[16:03:26.806] [32mINFO[39m (46236): [36mEnvironment: development[39m
+[16:03:26.806] [33mWARN[39m (46236): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+[16:14:29.617] [32mINFO[39m (40480): [36mElevate HR API running on http://localhost:4000[39m
+[16:14:29.617] [32mINFO[39m (40480): [36mEnvironment: development[39m
+[16:14:29.617] [33mWARN[39m (40480): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+[20:54:31.158] [32mINFO[39m (17752): [36mElevate HR API running on http://localhost:4000[39m
+[20:54:31.158] [32mINFO[39m (17752): [36mEnvironment: development[39m
+[20:54:31.158] [33mWARN[39m (17752): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+[20:54:32.132] [32mINFO[39m (30904): [36mElevate HR API running on http://localhost:4000[39m
+[20:54:32.133] [32mINFO[39m (30904): [36mEnvironment: development[39m
+[20:54:32.133] [33mWARN[39m (30904): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+Failed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+Failed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+Failed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🤖 agentic secret storage: https://dotenvx.com/as2
+Failed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+Failed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+Failed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🤖 agentic secret storage: https://dotenvx.com/as2
+Failed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+Failed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  override existing env vars with { override: true }
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+Failed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🤖 agentic secret storage: https://dotenvx.com/as2
+[22:07:17.827] [32mINFO[39m (2316): [36mElevate HR API running on http://localhost:4000[39m
+[22:07:17.828] [32mINFO[39m (2316): [36mEnvironment: development[39m
+[22:07:17.828] [33mWARN[39m (2316): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+[22:07:19.245] [32mINFO[39m (1252): [36mElevate HR API running on http://localhost:4000[39m
+[22:07:19.245] [32mINFO[39m (1252): [36mEnvironment: development[39m
+[22:07:19.245] [33mWARN[39m (1252): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+[22:07:37.031] [32mINFO[39m (1252): [36m::1 - GET /api/dashboard HTTP/1.1 200 7190 - 289.398 ms[39m
+[22:07:37.104] [32mINFO[39m (1252): [36m::1 - GET /api/dashboard HTTP/1.1 304 - - 70.405 ms[39m
+[22:07:39.614] [32mINFO[39m (1252): [36m::1 - GET /api/dashboard HTTP/1.1 200 7190 - 21.611 ms[39m
+[22:07:41.245] [32mINFO[39m (1252): [36m::1 - GET /api/time-off/leave-types HTTP/1.1 200 665 - 14.497 ms[39m
+[22:07:41.249] [32mINFO[39m (1252): [36m::1 - GET /api/time-off/holidays HTTP/1.1 200 469 - 17.084 ms[39m
+[22:07:41.264] [32mINFO[39m (1252): [36m::1 - GET /api/employees?page=1&limit=100&sortBy=lastName&sortOrder=asc HTTP/1.1 200 9143 - 39.490 ms[39m
+[22:07:41.548] [32mINFO[39m (1252): [36m::1 - GET /api/time-off/leave-requests?page=1&limit=100 HTTP/1.1 200 3554 - 12.653 ms[39m
+[22:08:12.031] [32mINFO[39m (1252): [36m::1 - GET /api/employees?page=1&limit=100&sortBy=lastName&sortOrder=asc HTTP/1.1 304 - - 15.613 ms[39m
+[22:08:13.946] [32mINFO[39m (1252): [36m::1 - GET /api/employees/f30144ff-5b63-4747-80e2-6c85a0276a38 HTTP/1.1 200 1238 - 35.030 ms[39m
+[22:08:13.962] [32mINFO[39m (1252): [36m::1 - GET /api/employee-checklists?employeeId=f30144ff-5b63-4747-80e2-6c85a0276a38 HTTP/1.1 200 26 - 11.232 ms[39m
+[22:08:14.302] [32mINFO[39m (1252): [36m::1 - GET /api/employee-documents/reference-data HTTP/1.1 200 1868 - 33.497 ms[39m
+[22:08:14.305] [32mINFO[39m (1252): [36m::1 - GET /api/employee-checklists/templates HTTP/1.1 200 1415 - 37.939 ms[39m
+[22:08:14.306] [32mINFO[39m (1252): [36m::1 - GET /api/employee-documents?employeeId=f30144ff-5b63-4747-80e2-6c85a0276a38 HTTP/1.1 200 26 - 41.298 ms[39m
+[22:08:16.801] [32mINFO[39m (1252): [36mEmployee checklist created[39m
+    [35mchecklistId[39m: "4b8f004c-a3dc-4b40-8dca-02c4e0c31c80"
+    [35mcreatedBy[39m: "dev-user-001"
+[22:08:16.801] [32mINFO[39m (1252): [36m::1 - POST /api/employee-checklists HTTP/1.1 201 1626 - 140.983 ms[39m
+[22:08:16.924] [32mINFO[39m (1252): [36m::1 - GET /api/employee-checklists?employeeId=f30144ff-5b63-4747-80e2-6c85a0276a38 HTTP/1.1 200 1628 - 9.737 ms[39m
+[22:08:17.128] [32mINFO[39m (1252): [36m::1 - GET /api/employee-documents?employeeId=f30144ff-5b63-4747-80e2-6c85a0276a38 HTTP/1.1 304 - - 12.469 ms[39m
+[22:08:17.149] [32mINFO[39m (1252): [36m::1 - GET /api/employees?page=1&limit=100&sortBy=lastName&sortOrder=asc HTTP/1.1 200 9335 - 16.017 ms[39m
+[22:08:30.599] [32mINFO[39m (1252): [36mChecklist item updated[39m
+    [35mchecklistItemId[39m: "636aebf3-7358-4ff5-af5f-9c2a07f85447"
+    [35mupdatedBy[39m: "dev-user-001"
+[22:08:30.599] [32mINFO[39m (1252): [36m::1 - PUT /api/employee-checklists/items/636aebf3-7358-4ff5-af5f-9c2a07f85447 HTTP/1.1 200 1653 - 74.585 ms[39m
+[22:08:30.799] [32mINFO[39m (1252): [36m::1 - GET /api/employee-checklists?employeeId=f30144ff-5b63-4747-80e2-6c85a0276a38 HTTP/1.1 200 1655 - 11.128 ms[39m
+[22:08:30.924] [32mINFO[39m (1252): [36m::1 - GET /api/employee-documents?employeeId=f30144ff-5b63-4747-80e2-6c85a0276a38 HTTP/1.1 304 - - 13.385 ms[39m
+[22:08:30.941] [32mINFO[39m (1252): [36m::1 - GET /api/employees?page=1&limit=100&sortBy=lastName&sortOrder=asc HTTP/1.1 200 9289 - 12.829 ms[39m
+[22:08:32.343] [32mINFO[39m (1252): [36mChecklist item updated[39m
+    [35mchecklistItemId[39m: "7eb21572-8c46-443f-bb9d-f0d2573cd61d"
+    [35mupdatedBy[39m: "dev-user-001"
+[22:08:32.344] [32mINFO[39m (1252): [36m::1 - PUT /api/employee-checklists/items/7eb21572-8c46-443f-bb9d-f0d2573cd61d HTTP/1.1 200 1680 - 39.380 ms[39m
+[22:08:32.578] [32mINFO[39m (1252): [36m::1 - GET /api/employee-checklists?employeeId=f30144ff-5b63-4747-80e2-6c85a0276a38 HTTP/1.1 200 1682 - 8.464 ms[39m
+[22:08:32.676] [32mINFO[39m (1252): [36m::1 - GET /api/employee-documents?employeeId=f30144ff-5b63-4747-80e2-6c85a0276a38 HTTP/1.1 304 - - 12.262 ms[39m
+[22:08:32.697] [32mINFO[39m (1252): [36m::1 - GET /api/employees?page=1&limit=100&sortBy=lastName&sortOrder=asc HTTP/1.1 200 9243 - 17.091 ms[39m
+[22:08:34.269] [32mINFO[39m (1252): [36mChecklist item updated[39m
+    [35mchecklistItemId[39m: "1669091f-446e-476f-94ad-c80841efc0e7"
+    [35mupdatedBy[39m: "dev-user-001"
+[22:08:34.269] [32mINFO[39m (1252): [36m::1 - PUT /api/employee-checklists/items/1669091f-446e-476f-94ad-c80841efc0e7 HTTP/1.1 200 1727 - 38.708 ms[39m
+[22:08:34.501] [32mINFO[39m (1252): [36m::1 - GET /api/employee-checklists?employeeId=f30144ff-5b63-4747-80e2-6c85a0276a38 HTTP/1.1 200 1729 - 7.614 ms[39m
+[22:08:34.597] [32mINFO[39m (1252): [36m::1 - GET /api/employee-documents?employeeId=f30144ff-5b63-4747-80e2-6c85a0276a38 HTTP/1.1 304 - - 10.903 ms[39m
+[22:08:34.615] [32mINFO[39m (1252): [36m::1 - GET /api/employees?page=1&limit=100&sortBy=lastName&sortOrder=asc HTTP/1.1 200 9143 - 13.504 ms[39m
+[22:08:55.161] [32mINFO[39m (1252): [36m::1 - GET /api/organization HTTP/1.1 200 48501 - 55.878 ms[39m
+[22:08:55.373] [32mINFO[39m (1252): [36m::1 - GET /api/organization/org-units?includeArchived=true HTTP/1.1 200 7827 - 15.472 ms[39m
+[22:08:55.418] [32mINFO[39m (1252): [36m::1 - GET /api/organization/positions?includeArchived=true HTTP/1.1 200 15496 - 13.367 ms[39m
+[22:08:55.435] [32mINFO[39m (1252): [36m::1 - GET /api/organization/levels?includeArchived=true HTTP/1.1 200 14112 - 12.700 ms[39m
+[22:08:55.438] [32mINFO[39m (1252): [36m::1 - GET /api/organization/employee-options HTTP/1.1 200 3655 - 13.582 ms[39m
+[22:08:55.439] [32mINFO[39m (1252): [36m::1 - GET /api/organization/classifications?includeArchived=true HTTP/1.1 200 13428 - 18.889 ms[39m
+[22:08:55.493] [32mINFO[39m (1252): [36m::1 - GET /api/organization HTTP/1.1 304 - - 25.659 ms[39m
+[22:08:55.695] [32mINFO[39m (1252): [36m::1 - GET /api/organization/org-units?includeArchived=true HTTP/1.1 304 - - 11.942 ms[39m
+[22:08:55.739] [32mINFO[39m (1252): [36m::1 - GET /api/organization/positions?includeArchived=true HTTP/1.1 304 - - 12.220 ms[39m
+[22:08:55.753] [32mINFO[39m (1252): [36m::1 - GET /api/organization/levels?includeArchived=true HTTP/1.1 304 - - 9.181 ms[39m
+[22:08:55.753] [32mINFO[39m (1252): [36m::1 - GET /api/organization/employee-options HTTP/1.1 304 - - 8.882 ms[39m
+[22:08:55.758] [32mINFO[39m (1252): [36m::1 - GET /api/organization/classifications?includeArchived=true HTTP/1.1 304 - - 13.670 ms[39m
+[22:08:59.411] [32mINFO[39m (1252): [36m::1 - GET /api/dashboard HTTP/1.1 304 - - 16.483 ms[39m
+[22:08:59.659] [32mINFO[39m (1252): [36m::1 - GET /api/dashboard HTTP/1.1 304 - - 17.581 ms[39m
+[22:09:04.946] [32mINFO[39m (1252): [36m::1 - GET /api/employees?page=1&limit=100&sortBy=lastName&sortOrder=asc HTTP/1.1 304 - - 12.148 ms[39m
+[22:09:05.248] [32mINFO[39m (1252): [36m::1 - GET /api/time-off/leave-types HTTP/1.1 304 - - 4.881 ms[39m
+[22:09:05.252] [32mINFO[39m (1252): [36m::1 - GET /api/time-off/holidays HTTP/1.1 304 - - 8.504 ms[39m
+[22:09:05.254] [32mINFO[39m (1252): [36m::1 - GET /api/time-off/leave-requests?page=1&limit=100 HTTP/1.1 304 - - 10.540 ms[39m
+[22:09:08.170] [32mINFO[39m (1252): [36m::1 - GET /api/dashboard HTTP/1.1 304 - - 13.642 ms[39m
+[22:09:08.414] [32mINFO[39m (1252): [36m::1 - GET /api/dashboard HTTP/1.1 304 - - 16.053 ms[39m
+[22:09:09.251] [32mINFO[39m (1252): [36m::1 - GET /api/employees?page=1&limit=100&sortBy=lastName&sortOrder=asc HTTP/1.1 304 - - 11.011 ms[39m
+[22:09:11.125] [32mINFO[39m (1252): [36m::1 - GET /api/dashboard HTTP/1.1 304 - - 19.253 ms[39m
+[22:09:11.384] [32mINFO[39m (1252): [36m::1 - GET /api/dashboard HTTP/1.1 304 - - 15.321 ms[39m
+[22:09:54.204] [32mINFO[39m (1252): [36m::1 - GET /api/reports/operations HTTP/1.1 200 12545 - 50.825 ms[39m
+[22:09:54.471] [32mINFO[39m (1252): [36m::1 - GET /api/reports/operations HTTP/1.1 304 - - 23.903 ms[39m
+[22:10:21.495] [32mINFO[39m (1252): [36m::1 - GET /api/organization HTTP/1.1 304 - - 18.727 ms[39m
+[22:10:21.796] [32mINFO[39m (1252): [36m::1 - GET /api/organization/positions?includeArchived=true HTTP/1.1 304 - - 16.248 ms[39m
+[22:10:21.800] [32mINFO[39m (1252): [36m::1 - GET /api/organization/levels?includeArchived=true HTTP/1.1 304 - - 20.275 ms[39m
+[22:10:21.801] [32mINFO[39m (1252): [36m::1 - GET /api/organization/employee-options HTTP/1.1 304 - - 20.682 ms[39m
+[22:10:21.804] [32mINFO[39m (1252): [36m::1 - GET /api/organization/org-units?includeArchived=true HTTP/1.1 304 - - 25.121 ms[39m
+[22:10:21.812] [32mINFO[39m (1252): [36m::1 - GET /api/organization/classifications?includeArchived=true HTTP/1.1 304 - - 32.233 ms[39m
+[22:10:21.829] [32mINFO[39m (1252): [36m::1 - GET /api/organization HTTP/1.1 304 - - 24.892 ms[39m
+[22:10:22.124] [32mINFO[39m (1252): [36m::1 - GET /api/organization/employee-options HTTP/1.1 304 - - 15.270 ms[39m
+[22:10:22.125] [32mINFO[39m (1252): [36m::1 - GET /api/organization/positions?includeArchived=true HTTP/1.1 304 - - 17.311 ms[39m
+[22:10:22.127] [32mINFO[39m (1252): [36m::1 - GET /api/organization/levels?includeArchived=true HTTP/1.1 304 - - 18.315 ms[39m
+[22:10:22.142] [32mINFO[39m (1252): [36m::1 - GET /api/organization/classifications?includeArchived=true HTTP/1.1 304 - - 16.353 ms[39m
+[22:10:22.147] [32mINFO[39m (1252): [36m::1 - GET /api/organization/org-units?includeArchived=true HTTP/1.1 304 - - 21.478 ms[39m
+[22:10:23.962] [32mINFO[39m (1252): [36m::1 - GET /api/employees?page=1&limit=100&sortBy=lastName&sortOrder=asc HTTP/1.1 304 - - 23.239 ms[39m
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+[07:35:03.038] [32mINFO[39m (3488): [36mElevate HR API running on http://localhost:4000[39m
+[07:35:03.038] [32mINFO[39m (3488): [36mEnvironment: development[39m
+[07:35:03.038] [33mWARN[39m (3488): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  override existing env vars with { override: true }
+[07:35:04.211] [32mINFO[39m (10060): [36mElevate HR API running on http://localhost:4000[39m
+[07:35:04.211] [32mINFO[39m (10060): [36mEnvironment: development[39m
+[07:35:04.211] [33mWARN[39m (10060): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+[07:55:42.931] [32mINFO[39m (10060): [36m::1 - GET /api/time-off/leave-types HTTP/1.1 304 - - 162.204 ms[39m
+[07:55:42.946] [32mINFO[39m (10060): [36m::1 - GET /api/time-off/leave-requests?page=1&limit=100 HTTP/1.1 304 - - 167.024 ms[39m
+[07:55:42.948] [32mINFO[39m (10060): [36m::1 - GET /api/time-off/holidays HTTP/1.1 304 - - 169.581 ms[39m
+[07:55:42.953] [32mINFO[39m (10060): [36m::1 - GET /api/employees?page=1&limit=100&sortBy=lastName&sortOrder=asc HTTP/1.1 304 - - 176.878 ms[39m
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+[07:55:44.052] [32mINFO[39m (2320): [36mElevate HR API running on http://localhost:4000[39m
+[07:55:44.052] [32mINFO[39m (2320): [36mEnvironment: development[39m
+[07:55:44.053] [33mWARN[39m (2320): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+[07:55:47.160] [32mINFO[39m (2320): [36m::1 - GET /api/reports/operations HTTP/1.1 304 - - 189.689 ms[39m
+[07:55:47.504] [32mINFO[39m (2320): [36m::1 - GET /api/reports/operations HTTP/1.1 304 - - 35.578 ms[39m
+[07:55:51.991] [32mINFO[39m (2320): [36m::1 - GET /api/organization HTTP/1.1 304 - - 47.520 ms[39m
+[07:55:52.287] [32mINFO[39m (2320): [36m::1 - GET /api/organization/positions?includeArchived=true HTTP/1.1 304 - - 36.665 ms[39m
+[07:55:52.290] [32mINFO[39m (2320): [36m::1 - GET /api/organization/employee-options HTTP/1.1 304 - - 34.331 ms[39m
+[07:55:52.293] [32mINFO[39m (2320): [36m::1 - GET /api/organization/levels?includeArchived=true HTTP/1.1 304 - - 38.352 ms[39m
+[07:55:52.294] [32mINFO[39m (2320): [36m::1 - GET /api/organization/org-units?includeArchived=true HTTP/1.1 304 - - 46.925 ms[39m
+[07:55:52.296] [32mINFO[39m (2320): [36m::1 - GET /api/organization/classifications?includeArchived=true HTTP/1.1 304 - - 43.456 ms[39m
+[07:55:52.330] [32mINFO[39m (2320): [36m::1 - GET /api/organization HTTP/1.1 304 - - 33.513 ms[39m
+[07:55:52.627] [32mINFO[39m (2320): [36m::1 - GET /api/organization/positions?includeArchived=true HTTP/1.1 304 - - 19.807 ms[39m
+[07:55:52.630] [32mINFO[39m (2320): [36m::1 - GET /api/organization/employee-options HTTP/1.1 304 - - 21.499 ms[39m
+[07:55:52.634] [32mINFO[39m (2320): [36m::1 - GET /api/organization/levels?includeArchived=true HTTP/1.1 304 - - 25.929 ms[39m
+[07:55:52.638] [32mINFO[39m (2320): [36m::1 - GET /api/organization/classifications?includeArchived=true HTTP/1.1 304 - - 28.347 ms[39m
+[07:55:52.638] [32mINFO[39m (2320): [36m::1 - GET /api/organization/org-units?includeArchived=true HTTP/1.1 304 - - 29.582 ms[39m
+[07:55:54.987] [32mINFO[39m (2320): [36m::1 - GET /api/employees?page=1&limit=100&sortBy=lastName&sortOrder=asc HTTP/1.1 304 - - 17.778 ms[39m
+[07:55:57.292] [32mINFO[39m (2320): [36m::1 - GET /api/dashboard HTTP/1.1 304 - - 41.614 ms[39m
+[07:55:57.629] [32mINFO[39m (2320): [36m::1 - GET /api/dashboard HTTP/1.1 304 - - 26.573 ms[39m
+[09:29:15.553] [32mINFO[39m (2320): [36m::1 - GET /api/employees?page=1&limit=100&sortBy=lastName&sortOrder=asc HTTP/1.1 304 - - 48.087 ms[39m
+[09:29:15.926] [32mINFO[39m (2320): [36m::1 - GET /api/organization HTTP/1.1 304 - - 84.841 ms[39m
+[09:29:16.195] [32mINFO[39m (2320): [36m::1 - GET /api/organization/positions?includeArchived=true HTTP/1.1 304 - - 31.552 ms[39m
+[09:29:16.205] [32mINFO[39m (2320): [36m::1 - GET /api/organization/levels?includeArchived=true HTTP/1.1 304 - - 39.459 ms[39m
+[09:29:16.208] [32mINFO[39m (2320): [36m::1 - GET /api/organization/employee-options HTTP/1.1 304 - - 41.672 ms[39m
+[09:29:16.209] [32mINFO[39m (2320): [36m::1 - GET /api/organization/org-units?includeArchived=true HTTP/1.1 304 - - 46.991 ms[39m
+[09:29:16.215] [32mINFO[39m (2320): [36m::1 - GET /api/organization/classifications?includeArchived=true HTTP/1.1 304 - - 50.578 ms[39m
+[09:29:16.276] [32mINFO[39m (2320): [36m::1 - GET /api/organization HTTP/1.1 304 - - 41.294 ms[39m
+[09:29:16.519] [32mINFO[39m (2320): [36m::1 - GET /api/organization/positions?includeArchived=true HTTP/1.1 304 - - 16.525 ms[39m
+[09:29:16.537] [32mINFO[39m (2320): [36m::1 - GET /api/organization/employee-options HTTP/1.1 304 - - 17.162 ms[39m
+[09:29:16.541] [32mINFO[39m (2320): [36m::1 - GET /api/organization/levels?includeArchived=true HTTP/1.1 304 - - 21.344 ms[39m
+[09:29:16.565] [32mINFO[39m (2320): [36m::1 - GET /api/organization/classifications?includeArchived=true HTTP/1.1 304 - - 39.912 ms[39m
+[09:29:16.566] [32mINFO[39m (2320): [36m::1 - GET /api/organization/org-units?includeArchived=true HTTP/1.1 304 - - 44.518 ms[39m
+[09:29:37.854] [32mINFO[39m (2320): [36m::1 - GET /api/employees?page=1&limit=100&sortBy=lastName&sortOrder=asc HTTP/1.1 304 - - 16.887 ms[39m
+[09:29:38.156] [32mINFO[39m (2320): [36m::1 - GET /api/dashboard HTTP/1.1 304 - - 26.255 ms[39m
+[09:29:38.494] [32mINFO[39m (2320): [36m::1 - GET /api/dashboard HTTP/1.1 304 - - 26.005 ms[39m
+[09:29:39.057] [32mINFO[39m (2320): [36m::1 - GET /api/employees?page=1&limit=100&sortBy=lastName&sortOrder=asc HTTP/1.1 304 - - 13.854 ms[39m
+[09:29:40.077] [32mINFO[39m (2320): [36m::1 - GET /api/dashboard HTTP/1.1 304 - - 26.359 ms[39m
+[09:29:40.315] [32mINFO[39m (2320): [36m::1 - GET /api/dashboard HTTP/1.1 304 - - 21.936 ms[39m
+[09:29:40.777] [32mINFO[39m (2320): [36m::1 - GET /api/organization HTTP/1.1 304 - - 29.374 ms[39m
+[09:29:41.089] [32mINFO[39m (2320): [36m::1 - GET /api/organization/positions?includeArchived=true HTTP/1.1 304 - - 28.274 ms[39m
+[09:29:41.092] [32mINFO[39m (2320): [36m::1 - GET /api/organization/levels?includeArchived=true HTTP/1.1 304 - - 29.684 ms[39m
+[09:29:41.092] [32mINFO[39m (2320): [36m::1 - GET /api/organization/employee-options HTTP/1.1 304 - - 30.021 ms[39m
+[09:29:41.094] [32mINFO[39m (2320): [36m::1 - GET /api/organization/org-units?includeArchived=true HTTP/1.1 304 - - 34.964 ms[39m
+[09:29:41.095] [32mINFO[39m (2320): [36m::1 - GET /api/organization/classifications?includeArchived=true HTTP/1.1 304 - - 33.990 ms[39m
+[09:29:41.141] [32mINFO[39m (2320): [36m::1 - GET /api/organization HTTP/1.1 304 - - 44.691 ms[39m
+[09:29:41.423] [32mINFO[39m (2320): [36m::1 - GET /api/organization/positions?includeArchived=true HTTP/1.1 304 - - 23.452 ms[39m
+[09:29:41.424] [32mINFO[39m (2320): [36m::1 - GET /api/organization/levels?includeArchived=true HTTP/1.1 304 - - 23.439 ms[39m
+[09:29:41.429] [32mINFO[39m (2320): [36m::1 - GET /api/organization/employee-options HTTP/1.1 304 - - 27.739 ms[39m
+[09:29:41.435] [32mINFO[39m (2320): [36m::1 - GET /api/organization/org-units?includeArchived=true HTTP/1.1 304 - - 33.139 ms[39m
+[09:29:41.441] [32mINFO[39m (2320): [36m::1 - GET /api/organization/classifications?includeArchived=true HTTP/1.1 304 - - 21.831 ms[39m
+[09:33:21.412] [32mINFO[39m (2320): [36m::1 - GET /api/dashboard HTTP/1.1 304 - - 43.208 ms[39m
+[09:33:21.652] [32mINFO[39m (2320): [36m::1 - GET /api/dashboard HTTP/1.1 304 - - 19.336 ms[39m
+Restarting 'src/server.ts'
+Restarting 'src/server.ts'
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+[09:33:38.037] [32mINFO[39m (11268): [36mElevate HR API running on http://localhost:4000[39m
+[09:33:38.037] [32mINFO[39m (11268): [36mEnvironment: development[39m
+[09:33:38.037] [33mWARN[39m (11268): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+[09:33:39.201] [32mINFO[39m (37692): [36mElevate HR API running on http://localhost:4000[39m
+[09:33:39.201] [32mINFO[39m (37692): [36mEnvironment: development[39m
+[09:33:39.201] [33mWARN[39m (37692): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Restarting 'src/server.ts'
+Restarting 'src/server.ts'
+Restarting 'src/server.ts'
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+[12:34:03.223] [32mINFO[39m (24376): [36mElevate HR API running on http://localhost:4000[39m
+[12:34:03.224] [32mINFO[39m (24376): [36mEnvironment: development[39m
+[12:34:03.224] [33mWARN[39m (24376): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+[12:34:04.417] [32mINFO[39m (56356): [36mElevate HR API running on http://localhost:4000[39m
+[12:34:04.418] [32mINFO[39m (56356): [36mEnvironment: development[39m
+[12:34:04.418] [33mWARN[39m (56356): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+[12:38:33.959] [32mINFO[39m (5056): [36mElevate HR API running on http://localhost:4000[39m
+[12:38:33.959] [32mINFO[39m (5056): [36mEnvironment: development[39m
+[12:38:33.959] [33mWARN[39m (5056): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🤖 agentic secret storage: https://dotenvx.com/as2
+[12:38:45.025] [32mINFO[39m (16816): [36mElevate HR API running on http://localhost:4000[39m
+[12:38:45.025] [32mINFO[39m (16816): [36mEnvironment: development[39m
+[12:38:45.025] [33mWARN[39m (16816): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+[12:39:17.101] [32mINFO[39m (40688): [36mElevate HR API running on http://localhost:4000[39m
+[12:39:17.101] [32mINFO[39m (40688): [36mEnvironment: development[39m
+[12:39:17.101] [33mWARN[39m (40688): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+[12:41:02.331] [32mINFO[39m (30764): [36mElevate HR API running on http://localhost:4000[39m
+[12:41:02.331] [32mINFO[39m (30764): [36mEnvironment: development[39m
+[12:41:02.331] [33mWARN[39m (30764): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+[12:41:32.628] [32mINFO[39m (11084): [36mElevate HR API running on http://localhost:4000[39m
+[12:41:32.629] [32mINFO[39m (11084): [36mEnvironment: development[39m
+[12:41:32.629] [33mWARN[39m (11084): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚡️ secrets for agents: https://dotenvx.com/as2
+[12:42:57.980] [32mINFO[39m (56428): [36mElevate HR API running on http://localhost:4000[39m
+[12:42:57.980] [32mINFO[39m (56428): [36mEnvironment: development[39m
+[12:42:57.980] [33mWARN[39m (56428): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🛡️ auth for agents: https://vestauth.com
+[12:58:29.544] [32mINFO[39m (16560): [36mElevate HR API running on http://localhost:4000[39m
+[12:58:29.544] [32mINFO[39m (16560): [36mEnvironment: development[39m
+[12:58:29.544] [33mWARN[39m (16560): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+[13:01:15.702] [32mINFO[39m (16560): [36m::1 - GET /api/health HTTP/1.1 200 54 - 2.399 ms[39m
+Failed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🤖 agentic secret storage: https://dotenvx.com/as2
+[13:34:09.220] [32mINFO[39m (37936): [36mElevate HR API running on http://localhost:4000[39m
+[13:34:09.221] [32mINFO[39m (37936): [36mEnvironment: development[39m
+[13:34:09.221] [33mWARN[39m (37936): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+[13:34:10.469] [32mINFO[39m (59288): [36mElevate HR API running on http://localhost:4000[39m
+[13:34:10.469] [32mINFO[39m (59288): [36mEnvironment: development[39m
+[13:34:10.469] [33mWARN[39m (59288): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚡️ secrets for agents: https://dotenvx.com/as2
+[13:35:32.597] [32mINFO[39m (8928): [36mElevate HR API running on http://localhost:4000[39m
+[13:35:32.597] [32mINFO[39m (8928): [36mEnvironment: development[39m
+[13:35:32.597] [33mWARN[39m (8928): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+Failed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🤖 agentic secret storage: https://dotenvx.com/as2
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+Failed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+[13:42:44.948] [32mINFO[39m (58256): [36mElevate HR API running on http://localhost:4000[39m
+[13:42:44.948] [32mINFO[39m (58256): [36mEnvironment: development[39m
+[13:42:44.948] [33mWARN[39m (58256): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+[13:42:46.205] [32mINFO[39m (17156): [36mElevate HR API running on http://localhost:4000[39m
+[13:42:46.206] [32mINFO[39m (17156): [36mEnvironment: development[39m
+[13:42:46.206] [33mWARN[39m (17156): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+[13:43:07.696] [32mINFO[39m (14476): [36mElevate HR API running on http://localhost:4000[39m
+[13:43:07.696] [32mINFO[39m (14476): [36mEnvironment: development[39m
+[13:43:07.696] [33mWARN[39m (14476): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+[14:11:43.715] [32mINFO[39m (18828): [36mElevate HR API running on http://localhost:4000[39m
+[14:11:43.715] [32mINFO[39m (18828): [36mEnvironment: development[39m
+[14:11:43.715] [33mWARN[39m (18828): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  override existing env vars with { override: true }
+Failed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+[14:15:07.178] [32mINFO[39m (20376): [36mElevate HR API running on http://localhost:4000[39m
+[14:15:07.179] [32mINFO[39m (20376): [36mEnvironment: development[39m
+[14:15:07.179] [33mWARN[39m (20376): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+[14:58:44.070] [32mINFO[39m (10052): [36mElevate HR API running on http://localhost:4000[39m
+[14:58:44.070] [32mINFO[39m (10052): [36mEnvironment: development[39m
+[14:58:44.070] [33mWARN[39m (10052): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🛡️ auth for agents: https://vestauth.com
+[14:58:45.369] [32mINFO[39m (55508): [36mElevate HR API running on http://localhost:4000[39m
+[14:58:45.369] [32mINFO[39m (55508): [36mEnvironment: development[39m
+[14:58:45.369] [33mWARN[39m (55508): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+[15:12:40.846] [32mINFO[39m (45112): [36mElevate HR API running on http://localhost:4000[39m
+[15:12:40.846] [32mINFO[39m (45112): [36mEnvironment: development[39m
+[15:12:40.846] [33mWARN[39m (45112): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+[15:19:10.252] [32mINFO[39m (18904): [36mElevate HR API running on http://localhost:4000[39m
+[15:19:10.252] [32mINFO[39m (18904): [36mEnvironment: development[39m
+[15:19:10.252] [33mWARN[39m (18904): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+[15:19:58.516] [32mINFO[39m (24464): [36mElevate HR API running on http://localhost:4000[39m
+[15:19:58.516] [32mINFO[39m (24464): [36mEnvironment: development[39m
+[15:19:58.516] [33mWARN[39m (24464): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+[15:20:02.261] [32mINFO[39m (13812): [36mElevate HR API running on http://localhost:4000[39m
+[15:20:02.261] [32mINFO[39m (13812): [36mEnvironment: development[39m
+[15:20:02.261] [33mWARN[39m (13812): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+[15:20:08.959] [32mINFO[39m (36164): [36mElevate HR API running on http://localhost:4000[39m
+[15:20:08.959] [32mINFO[39m (36164): [36mEnvironment: development[39m
+[15:20:08.959] [33mWARN[39m (36164): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+[15:20:25.232] [32mINFO[39m (45668): [36mElevate HR API running on http://localhost:4000[39m
+[15:20:25.232] [32mINFO[39m (45668): [36mEnvironment: development[39m
+[15:20:25.232] [33mWARN[39m (45668): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+[15:29:56.896] [32mINFO[39m (39232): [36mElevate HR API running on http://localhost:4000[39m
+[15:29:56.896] [32mINFO[39m (39232): [36mEnvironment: development[39m
+[15:29:56.896] [33mWARN[39m (39232): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+[15:30:19.668] [32mINFO[39m (27500): [36mElevate HR API running on http://localhost:4000[39m
+[15:30:19.668] [32mINFO[39m (27500): [36mEnvironment: development[39m
+[15:30:19.668] [33mWARN[39m (27500): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🛡️ auth for agents: https://vestauth.com
+[15:32:40.271] [32mINFO[39m (57880): [36mElevate HR API running on http://localhost:4000[39m
+[15:32:40.272] [32mINFO[39m (57880): [36mEnvironment: development[39m
+[15:32:40.272] [33mWARN[39m (57880): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+[15:32:46.079] [32mINFO[39m (44228): [36mElevate HR API running on http://localhost:4000[39m
+[15:32:46.080] [32mINFO[39m (44228): [36mEnvironment: development[39m
+[15:32:46.080] [33mWARN[39m (44228): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+[15:32:56.356] [32mINFO[39m (51412): [36mElevate HR API running on http://localhost:4000[39m
+[15:32:56.356] [32mINFO[39m (51412): [36mEnvironment: development[39m
+[15:32:56.356] [33mWARN[39m (51412): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🛡️ auth for agents: https://vestauth.com
+[15:48:28.916] [32mINFO[39m (51348): [36mElevate HR API running on http://localhost:4000[39m
+[15:48:28.916] [32mINFO[39m (51348): [36mEnvironment: development[39m
+[15:48:28.916] [33mWARN[39m (51348): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+[16:00:04.009] [32mINFO[39m (28728): [36mElevate HR API running on http://localhost:4000[39m
+[16:00:04.010] [32mINFO[39m (28728): [36mEnvironment: development[39m
+[16:00:04.010] [33mWARN[39m (28728): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+[16:00:05.400] [32mINFO[39m (17604): [36mElevate HR API running on http://localhost:4000[39m
+[16:00:05.401] [32mINFO[39m (17604): [36mEnvironment: development[39m
+[16:00:05.401] [33mWARN[39m (17604): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+[16:12:29.126] [32mINFO[39m (24624): [36mElevate HR API running on http://localhost:4000[39m
+[16:12:29.126] [32mINFO[39m (24624): [36mEnvironment: development[39m
+[16:12:29.126] [33mWARN[39m (24624): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🛡️ auth for agents: https://vestauth.com
+[16:15:06.663] [32mINFO[39m (18020): [36mElevate HR API running on http://localhost:4000[39m
+[16:15:06.664] [32mINFO[39m (18020): [36mEnvironment: development[39m
+[16:15:06.664] [33mWARN[39m (18020): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚡️ secrets for agents: https://dotenvx.com/as2
+[16:25:07.573] [32mINFO[39m (59904): [36mElevate HR API running on http://localhost:4000[39m
+[16:25:07.573] [32mINFO[39m (59904): [36mEnvironment: development[39m
+[16:25:07.573] [33mWARN[39m (59904): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+[16:43:43.087] [32mINFO[39m (55412): [36mElevate HR API running on http://localhost:4000[39m
+[16:43:43.087] [32mINFO[39m (55412): [36mEnvironment: development[39m
+[16:43:43.087] [33mWARN[39m (55412): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+[18:28:22.355] [32mINFO[39m (15844): [36mElevate HR API running on http://localhost:4000[39m
+[18:28:22.356] [32mINFO[39m (15844): [36mEnvironment: development[39m
+[18:28:22.356] [33mWARN[39m (15844): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚡️ secrets for agents: https://dotenvx.com/as2
+[18:28:23.637] [32mINFO[39m (39764): [36mElevate HR API running on http://localhost:4000[39m
+[18:28:23.638] [32mINFO[39m (39764): [36mEnvironment: development[39m
+[18:28:23.638] [33mWARN[39m (39764): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+[18:48:43.834] [32mINFO[39m (53424): [36mElevate HR API running on http://localhost:4000[39m
+[18:48:43.834] [32mINFO[39m (53424): [36mEnvironment: development[39m
+[18:48:43.834] [33mWARN[39m (53424): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+[18:48:52.585] [32mINFO[39m (45348): [36mElevate HR API running on http://localhost:4000[39m
+[18:48:52.585] [32mINFO[39m (45348): [36mEnvironment: development[39m
+[18:48:52.585] [33mWARN[39m (45348): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+[18:48:57.761] [32mINFO[39m (59580): [36mElevate HR API running on http://localhost:4000[39m
+[18:48:57.761] [32mINFO[39m (59580): [36mEnvironment: development[39m
+[18:48:57.761] [33mWARN[39m (59580): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+[18:49:14.579] [32mINFO[39m (32128): [36mElevate HR API running on http://localhost:4000[39m
+[18:49:14.579] [32mINFO[39m (32128): [36mEnvironment: development[39m
+[18:49:14.579] [33mWARN[39m (32128): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🛡️ auth for agents: https://vestauth.com
+[18:49:23.879] [32mINFO[39m (45436): [36mElevate HR API running on http://localhost:4000[39m
+[18:49:23.879] [32mINFO[39m (45436): [36mEnvironment: development[39m
+[18:49:23.879] [33mWARN[39m (45436): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+[18:49:29.780] [32mINFO[39m (23844): [36mElevate HR API running on http://localhost:4000[39m
+[18:49:29.780] [32mINFO[39m (23844): [36mEnvironment: development[39m
+[18:49:29.780] [33mWARN[39m (23844): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+[18:49:46.272] [32mINFO[39m (43236): [36mElevate HR API running on http://localhost:4000[39m
+[18:49:46.272] [32mINFO[39m (43236): [36mEnvironment: development[39m
+[18:49:46.272] [33mWARN[39m (43236): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🛡️ auth for agents: https://vestauth.com
+[18:49:54.479] [32mINFO[39m (59344): [36mElevate HR API running on http://localhost:4000[39m
+[18:49:54.479] [32mINFO[39m (59344): [36mEnvironment: development[39m
+[18:49:54.479] [33mWARN[39m (59344): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  override existing env vars with { override: true }
+[19:11:38.635] [32mINFO[39m (41260): [36mElevate HR API running on http://localhost:4000[39m
+[19:11:38.635] [32mINFO[39m (41260): [36mEnvironment: development[39m
+[19:11:38.635] [33mWARN[39m (41260): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+[19:59:24.410] [32mINFO[39m (17544): [36mElevate HR API running on http://localhost:4000[39m
+[19:59:24.410] [32mINFO[39m (17544): [36mEnvironment: development[39m
+[19:59:24.410] [33mWARN[39m (17544): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🛡️ auth for agents: https://vestauth.com
+[19:59:25.858] [32mINFO[39m (12112): [36mElevate HR API running on http://localhost:4000[39m
+[19:59:25.858] [32mINFO[39m (12112): [36mEnvironment: development[39m
+[19:59:25.858] [33mWARN[39m (12112): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  override existing env vars with { override: true }
+[20:08:07.567] [32mINFO[39m (14232): [36mElevate HR API running on http://localhost:4000[39m
+[20:08:07.567] [32mINFO[39m (14232): [36mEnvironment: development[39m
+[20:08:07.567] [33mWARN[39m (14232): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚡️ secrets for agents: https://dotenvx.com/as2
+[20:08:11.641] [32mINFO[39m (38124): [36mElevate HR API running on http://localhost:4000[39m
+[20:08:11.641] [32mINFO[39m (38124): [36mEnvironment: development[39m
+[20:08:11.641] [33mWARN[39m (38124): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+[20:08:46.549] [32mINFO[39m (54660): [36mElevate HR API running on http://localhost:4000[39m
+[20:08:46.549] [32mINFO[39m (54660): [36mEnvironment: development[39m
+[20:08:46.549] [33mWARN[39m (54660): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+[20:08:58.606] [32mINFO[39m (36048): [36mElevate HR API running on http://localhost:4000[39m
+[20:08:58.606] [32mINFO[39m (36048): [36mEnvironment: development[39m
+[20:08:58.606] [33mWARN[39m (36048): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+[20:09:16.145] [32mINFO[39m (33644): [36mElevate HR API running on http://localhost:4000[39m
+[20:09:16.145] [32mINFO[39m (33644): [36mEnvironment: development[39m
+[20:09:16.145] [33mWARN[39m (33644): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+[20:09:32.430] [32mINFO[39m (19044): [36mElevate HR API running on http://localhost:4000[39m
+[20:09:32.430] [32mINFO[39m (19044): [36mEnvironment: development[39m
+[20:09:32.430] [33mWARN[39m (19044): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚡️ secrets for agents: https://dotenvx.com/as2
+[20:09:40.647] [32mINFO[39m (14428): [36mElevate HR API running on http://localhost:4000[39m
+[20:09:40.647] [32mINFO[39m (14428): [36mEnvironment: development[39m
+[20:09:40.647] [33mWARN[39m (14428): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+[20:09:52.031] [32mINFO[39m (17036): [36mElevate HR API running on http://localhost:4000[39m
+[20:09:52.031] [32mINFO[39m (17036): [36mEnvironment: development[39m
+[20:09:52.031] [33mWARN[39m (17036): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+[20:10:07.162] [32mINFO[39m (22032): [36mElevate HR API running on http://localhost:4000[39m
+[20:10:07.162] [32mINFO[39m (22032): [36mEnvironment: development[39m
+[20:10:07.162] [33mWARN[39m (22032): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+[20:10:30.693] [32mINFO[39m (54552): [36mElevate HR API running on http://localhost:4000[39m
+[20:10:30.693] [32mINFO[39m (54552): [36mEnvironment: development[39m
+[20:10:30.693] [33mWARN[39m (54552): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+[20:10:37.685] [32mINFO[39m (21184): [36mElevate HR API running on http://localhost:4000[39m
+[20:10:37.685] [32mINFO[39m (21184): [36mEnvironment: development[39m
+[20:10:37.685] [33mWARN[39m (21184): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+[20:14:10.296] [32mINFO[39m (23616): [36mElevate HR API running on http://localhost:4000[39m
+[20:14:10.297] [32mINFO[39m (23616): [36mEnvironment: development[39m
+[20:14:10.297] [33mWARN[39m (23616): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+[20:14:15.784] [32mINFO[39m (29972): [36mElevate HR API running on http://localhost:4000[39m
+[20:14:15.785] [32mINFO[39m (29972): [36mEnvironment: development[39m
+[20:14:15.785] [33mWARN[39m (29972): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+[20:15:02.359] [32mINFO[39m (29028): [36mElevate HR API running on http://localhost:4000[39m
+[20:15:02.360] [32mINFO[39m (29028): [36mEnvironment: development[39m
+[20:15:02.360] [33mWARN[39m (29028): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🛡️ auth for agents: https://vestauth.com
+[20:27:57.388] [32mINFO[39m (57380): [36mElevate HR API running on http://localhost:4000[39m
+[20:27:57.388] [32mINFO[39m (57380): [36mEnvironment: development[39m
+[20:27:57.388] [33mWARN[39m (57380): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  override existing env vars with { override: true }
+[20:28:14.880] [32mINFO[39m (27960): [36mElevate HR API running on http://localhost:4000[39m
+[20:28:14.880] [32mINFO[39m (27960): [36mEnvironment: development[39m
+[20:28:14.880] [33mWARN[39m (27960): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+[20:40:36.977] [32mINFO[39m (20364): [36mElevate HR API running on http://localhost:4000[39m
+[20:40:36.978] [32mINFO[39m (20364): [36mEnvironment: development[39m
+[20:40:36.978] [33mWARN[39m (20364): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚡️ secrets for agents: https://dotenvx.com/as2
+[20:40:46.019] [32mINFO[39m (38824): [36mElevate HR API running on http://localhost:4000[39m
+[20:40:46.019] [32mINFO[39m (38824): [36mEnvironment: development[39m
+[20:40:46.019] [33mWARN[39m (38824): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+[20:40:51.544] [32mINFO[39m (25848): [36mElevate HR API running on http://localhost:4000[39m
+[20:40:51.544] [32mINFO[39m (25848): [36mEnvironment: development[39m
+[20:40:51.544] [33mWARN[39m (25848): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+[20:40:59.259] [32mINFO[39m (45892): [36mElevate HR API running on http://localhost:4000[39m
+[20:40:59.259] [32mINFO[39m (45892): [36mEnvironment: development[39m
+[20:40:59.259] [33mWARN[39m (45892): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+[21:00:15.245] [32mINFO[39m (28816): [36mElevate HR API running on http://localhost:4000[39m
+[21:00:15.245] [32mINFO[39m (28816): [36mEnvironment: development[39m
+[21:00:15.245] [33mWARN[39m (28816): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚡️ secrets for agents: https://dotenvx.com/as2
+[21:00:16.875] [32mINFO[39m (18176): [36mElevate HR API running on http://localhost:4000[39m
+[21:00:16.875] [32mINFO[39m (18176): [36mEnvironment: development[39m
+[21:00:16.875] [33mWARN[39m (18176): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+[21:06:41.826] [32mINFO[39m (37064): [36mElevate HR API running on http://localhost:4000[39m
+[21:06:41.827] [32mINFO[39m (37064): [36mEnvironment: development[39m
+[21:06:41.827] [33mWARN[39m (37064): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+[21:09:17.059] [32mINFO[39m (24272): [36mElevate HR API running on http://localhost:4000[39m
+[21:09:17.059] [32mINFO[39m (24272): [36mEnvironment: development[39m
+[21:09:17.059] [33mWARN[39m (24272): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  override existing env vars with { override: true }
+[21:11:47.031] [32mINFO[39m (44108): [36mElevate HR API running on http://localhost:4000[39m
+[21:11:47.032] [32mINFO[39m (44108): [36mEnvironment: development[39m
+[21:11:47.032] [33mWARN[39m (44108): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🛡️ auth for agents: https://vestauth.com
+[21:15:00.464] [32mINFO[39m (29392): [36mElevate HR API running on http://localhost:4000[39m
+[21:15:00.464] [32mINFO[39m (29392): [36mEnvironment: development[39m
+[21:15:00.464] [33mWARN[39m (29392): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+[07:30:30.164] [32mINFO[39m (35468): [36mElevate HR API running on http://localhost:4000[39m
+[07:30:30.164] [32mINFO[39m (35468): [36mEnvironment: development[39m
+[07:30:30.164] [33mWARN[39m (35468): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  override existing env vars with { override: true }
+[07:30:31.604] [32mINFO[39m (48484): [36mElevate HR API running on http://localhost:4000[39m
+[07:30:31.605] [32mINFO[39m (48484): [36mEnvironment: development[39m
+[07:30:31.605] [33mWARN[39m (48484): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+[12:04:40.465] [32mINFO[39m (44480): [36mElevate HR API running on http://localhost:4000[39m
+[12:04:40.465] [32mINFO[39m (44480): [36mEnvironment: development[39m
+[12:04:40.465] [33mWARN[39m (44480): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚡️ secrets for agents: https://dotenvx.com/as2
+[12:04:42.405] [32mINFO[39m (60012): [36mElevate HR API running on http://localhost:4000[39m
+[12:04:42.405] [32mINFO[39m (60012): [36mEnvironment: development[39m
+[12:04:42.405] [33mWARN[39m (60012): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+[12:23:21.509] [32mINFO[39m (51176): [36mElevate HR API running on http://localhost:4000[39m
+[12:23:21.509] [32mINFO[39m (51176): [36mEnvironment: development[39m
+[12:23:21.509] [33mWARN[39m (51176): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+[12:23:37.188] [32mINFO[39m (43216): [36mElevate HR API running on http://localhost:4000[39m
+[12:23:37.188] [32mINFO[39m (43216): [36mEnvironment: development[39m
+[12:23:37.188] [33mWARN[39m (43216): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+[12:23:56.520] [32mINFO[39m (56772): [36mElevate HR API running on http://localhost:4000[39m
+[12:23:56.520] [32mINFO[39m (56772): [36mEnvironment: development[39m
+[12:23:56.520] [33mWARN[39m (56772): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🛡️ auth for agents: https://vestauth.com
+[12:24:39.618] [32mINFO[39m (8352): [36mElevate HR API running on http://localhost:4000[39m
+[12:24:39.618] [32mINFO[39m (8352): [36mEnvironment: development[39m
+[12:24:39.618] [33mWARN[39m (8352): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+[12:32:54.996] [32mINFO[39m (7788): [36mElevate HR API running on http://localhost:4000[39m
+[12:32:54.997] [32mINFO[39m (7788): [36mEnvironment: development[39m
+[12:32:54.997] [33mWARN[39m (7788): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+[12:33:56.261] [32mINFO[39m (31360): [36mElevate HR API running on http://localhost:4000[39m
+[12:33:56.261] [32mINFO[39m (31360): [36mEnvironment: development[39m
+[12:33:56.261] [33mWARN[39m (31360): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  override existing env vars with { override: true }
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+[14:35:48.759] [32mINFO[39m (46652): [36mElevate HR API running on http://localhost:4000[39m
+[14:35:48.759] [32mINFO[39m (46652): [36mEnvironment: development[39m
+[14:35:48.759] [33mWARN[39m (46652): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+[14:35:50.339] [32mINFO[39m (18280): [36mElevate HR API running on http://localhost:4000[39m
+[14:35:50.340] [32mINFO[39m (18280): [36mEnvironment: development[39m
+[14:35:50.340] [33mWARN[39m (18280): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  override existing env vars with { override: true }
+[15:04:05.176] [32mINFO[39m (17728): [36mElevate HR API running on http://localhost:4000[39m
+[15:04:05.176] [32mINFO[39m (17728): [36mEnvironment: development[39m
+[15:04:05.176] [33mWARN[39m (17728): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+[15:04:18.022] [32mINFO[39m (39864): [36mElevate HR API running on http://localhost:4000[39m
+[15:04:18.022] [32mINFO[39m (39864): [36mEnvironment: development[39m
+[15:04:18.022] [33mWARN[39m (39864): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+[15:05:34.629] [32mINFO[39m (41012): [36mElevate HR API running on http://localhost:4000[39m
+[15:05:34.629] [32mINFO[39m (41012): [36mEnvironment: development[39m
+[15:05:34.629] [33mWARN[39m (41012): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  override existing env vars with { override: true }
+[15:05:43.772] [32mINFO[39m (22036): [36mElevate HR API running on http://localhost:4000[39m
+[15:05:43.772] [32mINFO[39m (22036): [36mEnvironment: development[39m
+[15:05:43.772] [33mWARN[39m (22036): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+Failed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+Failed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+Failed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+Failed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+Failed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+Failed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+[15:45:49.552] [32mINFO[39m (24292): [36mElevate HR API running on http://localhost:4000[39m
+[15:45:49.552] [32mINFO[39m (24292): [36mEnvironment: development[39m
+[15:45:49.552] [33mWARN[39m (24292): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+[15:45:51.023] [32mINFO[39m (23152): [36mElevate HR API running on http://localhost:4000[39m
+[15:45:51.023] [32mINFO[39m (23152): [36mEnvironment: development[39m
+[15:45:51.023] [33mWARN[39m (23152): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+[16:04:55.854] [32mINFO[39m (43756): [36mElevate HR API running on http://localhost:4000[39m
+[16:04:55.854] [32mINFO[39m (43756): [36mEnvironment: development[39m
+[16:04:55.855] [33mWARN[39m (43756): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+[16:08:02.326] [32mINFO[39m (8860): [36mElevate HR API running on http://localhost:4000[39m
+[16:08:02.327] [32mINFO[39m (8860): [36mEnvironment: development[39m
+[16:08:02.327] [33mWARN[39m (8860): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+[16:17:20.270] [32mINFO[39m (13864): [36mElevate HR API running on http://localhost:4000[39m
+[16:17:20.271] [32mINFO[39m (13864): [36mEnvironment: development[39m
+[16:17:20.271] [33mWARN[39m (13864): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+[16:23:44.069] [32mINFO[39m (45636): [36mElevate HR API running on http://localhost:4000[39m
+[16:23:44.069] [32mINFO[39m (45636): [36mEnvironment: development[39m
+[16:23:44.069] [33mWARN[39m (45636): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: 🤖 agentic secret storage: https://dotenvx.com/as2
+[18:12:56.176] [32mINFO[39m (58824): [36mElevate HR API running on http://localhost:4000[39m
+[18:12:56.176] [32mINFO[39m (58824): [36mEnvironment: development[39m
+[18:12:56.176] [33mWARN[39m (58824): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  override existing env vars with { override: true }
+[18:12:57.593] [32mINFO[39m (54228): [36mElevate HR API running on http://localhost:4000[39m
+[18:12:57.594] [32mINFO[39m (54228): [36mEnvironment: development[39m
+[18:12:57.594] [33mWARN[39m (54228): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...

@@ -1,0 +1,357 @@
+.performance-page {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.performance-hero {
+  display: grid;
+  gap: 1rem;
+}
+
+.performance-header {
+  align-items: start;
+  gap: 1rem;
+}
+
+.performance-eyebrow {
+  display: inline-flex;
+  margin-bottom: 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.performance-header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.performance-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-radius: 0.9rem;
+  background: rgba(248, 113, 113, 0.12);
+  color: #991b1b;
+}
+
+.performance-banner-error {
+  border: 1px solid rgba(248, 113, 113, 0.2);
+}
+
+.performance-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.performance-summary-card {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1.1rem;
+  border-radius: 1rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(244, 247, 251, 0.96));
+  border: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.performance-summary-label {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.performance-summary-value {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.performance-summary-detail {
+  color: var(--color-text-muted);
+  font-size: 0.92rem;
+}
+
+.performance-tab-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.performance-tab {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(248, 250, 252, 0.85);
+  border-radius: 999px;
+  padding: 0.65rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.performance-tab-active {
+  background: var(--color-primary);
+  color: white;
+  border-color: transparent;
+}
+
+.performance-section {
+  display: grid;
+  gap: 1rem;
+}
+
+.performance-main-panel,
+.performance-side-panel {
+  min-width: 0;
+}
+
+.performance-table-shell {
+  overflow-x: auto;
+}
+
+.performance-card-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.performance-card {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.15rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.performance-card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.performance-card-header h4 {
+  margin: 0;
+}
+
+.performance-card-header p,
+.performance-card-copy {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.performance-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem 1rem;
+  color: var(--color-text-secondary);
+}
+
+.performance-card-actions,
+.performance-panel-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.performance-review-panel,
+.performance-empty-panel {
+  display: grid;
+  gap: 1rem;
+  padding: 1.15rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(248, 250, 252, 0.9);
+}
+
+.performance-review-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: start;
+}
+
+.performance-review-header h3,
+.performance-review-section h4 {
+  margin: 0;
+}
+
+.performance-review-header p {
+  margin: 0.25rem 0 0;
+  color: var(--color-text-muted);
+}
+
+.performance-review-section {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.performance-review-label {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+}
+
+.performance-review-response {
+  padding: 0.85rem 1rem;
+  border-radius: 0.9rem;
+  background: white;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  color: var(--color-text-secondary);
+}
+
+.performance-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.performance-field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.performance-field span {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.performance-field input,
+.performance-field select,
+.performance-field textarea {
+  width: 100%;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 0.85rem;
+  padding: 0.8rem 0.9rem;
+  background: white;
+  color: inherit;
+}
+
+.performance-field-full {
+  grid-column: 1 / -1;
+}
+
+.performance-modal {
+  width: min(760px, calc(100vw - 2rem));
+}
+
+.performance-review-modal {
+  width: min(920px, calc(100vw - 2rem));
+  max-height: calc(100vh - 2rem);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+
+.performance-review-modal-header {
+  padding-bottom: 0;
+}
+
+.performance-review-modal-body {
+  display: grid;
+  gap: 1rem;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.performance-review-modal-actions {
+  justify-content: flex-end;
+}
+
+.performance-state {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  justify-content: center;
+  min-height: 220px;
+  color: var(--color-text-muted);
+}
+
+.performance-spin {
+  animation: performance-spin 1s linear infinite;
+}
+
+.performance-empty-cell {
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: 1.5rem 0.75rem;
+}
+
+.performance-skill-list {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.performance-skill-row {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 0.9rem;
+  background: rgba(248, 250, 252, 0.86);
+}
+
+.performance-skill-copy {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.performance-skill-copy strong {
+  color: #0f172a;
+}
+
+.performance-skill-copy span {
+  color: var(--color-text-muted);
+}
+
+.performance-skill-actions {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.performance-skill-note {
+  width: 100%;
+  min-height: 84px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 0.85rem;
+  padding: 0.8rem 0.9rem;
+  background: white;
+  color: inherit;
+}
+
+@keyframes performance-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 1100px) {
+  .performance-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .performance-summary-grid,
+  .performance-card-grid,
+  .performance-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .performance-card-header,
+  .performance-review-header {
+    flex-direction: column;
+  }
+
+  .performance-review-modal {
+    width: calc(100vw - 1rem);
+    max-height: calc(100vh - 1rem);
+  }
+
+  .performance-review-modal-actions {
+    justify-content: stretch;
+  }
+}

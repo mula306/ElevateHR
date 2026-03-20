@@ -38,6 +38,7 @@ export const listEmployeesQuerySchema = z.object({
   search: z.string().optional(),
   status: employeeStatusSchema.optional(),
   department: z.string().optional(),
+  attentionOnly: z.coerce.boolean().default(false),
   sortBy: z.enum([
     'employeeNumber',
     'firstName',

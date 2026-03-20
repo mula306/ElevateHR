@@ -1,0 +1,250 @@
+.time-attendance-page {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.time-attendance-hero,
+.time-attendance-section,
+.time-attendance-history-panel,
+.time-attendance-day-card,
+.time-attendance-leave-card {
+  border: 1px solid color-mix(in srgb, var(--border-color, #d7dee7) 88%, white);
+}
+
+.time-attendance-header,
+.time-attendance-header-actions,
+.time-attendance-metrics,
+.time-attendance-tabs,
+.time-attendance-card-meta,
+.time-attendance-table-actions,
+.time-attendance-history-grid {
+  display: flex;
+  gap: 1rem;
+}
+
+.time-attendance-header,
+.time-attendance-day-header,
+.time-attendance-inline-row,
+.time-attendance-leave-card-header,
+.time-attendance-history-row,
+.time-attendance-metric-header {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.time-attendance-eyebrow {
+  display: inline-flex;
+  margin-bottom: 0.5rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: #edf7ff;
+  color: #0d4a71;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.time-attendance-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 1rem;
+  border-radius: 0.9rem;
+  background: #fff8e1;
+  color: #7c5200;
+}
+
+.time-attendance-banner-error {
+  background: #fff0f0;
+  color: #8b1e1e;
+}
+
+.time-attendance-banner-info {
+  background: #edf7ff;
+  color: #0d4a71;
+}
+
+.time-attendance-metrics {
+  flex-wrap: wrap;
+}
+
+.time-attendance-metric-card {
+  flex: 1 1 13rem;
+  min-width: 12rem;
+  padding: 1rem 1.1rem;
+  border-radius: 1rem;
+  background: linear-gradient(180deg, #ffffff, #f7fafc);
+  border: 1px solid #d7dee7;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.time-attendance-metric-label,
+.time-attendance-metric-detail,
+.time-attendance-inline-meta,
+.time-attendance-day-header span,
+.time-attendance-leave-note {
+  color: #5a6b7d;
+  font-size: 0.92rem;
+}
+
+.time-attendance-metric-value {
+  font-size: 1.5rem;
+  line-height: 1.1;
+}
+
+.time-attendance-metric-icon {
+  color: #0f5e95;
+}
+
+.time-attendance-tabs {
+  flex-wrap: wrap;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #d7dee7;
+}
+
+.time-attendance-tab {
+  border: none;
+  background: #eef3f8;
+  color: #395063;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.time-attendance-tab-active {
+  background: #0f5e95;
+  color: white;
+}
+
+.time-attendance-section {
+  display: grid;
+  gap: 1rem;
+  padding-top: 1.25rem;
+}
+
+.time-attendance-state,
+.time-attendance-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  padding: 2rem 1rem;
+  color: #5a6b7d;
+  text-align: center;
+}
+
+.time-attendance-empty-copy {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.time-attendance-schedule-grid,
+.time-attendance-leave-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+}
+
+.time-attendance-day-card,
+.time-attendance-leave-card,
+.time-attendance-history-panel {
+  background: #fdfefe;
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.time-attendance-day-list {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.time-attendance-inline-row,
+.time-attendance-history-row {
+  display: flex;
+  gap: 1rem;
+  padding: 0.8rem 0;
+}
+
+.time-attendance-inline-row + .time-attendance-inline-row,
+.time-attendance-history-row + .time-attendance-history-row {
+  border-top: 1px solid #e5ebf2;
+}
+
+.time-attendance-inline-row-leave {
+  background: linear-gradient(90deg, rgba(88, 166, 24, 0.08), transparent);
+  border-radius: 0.75rem;
+  padding: 0.8rem;
+}
+
+.time-attendance-inline-row-holiday {
+  background: linear-gradient(90deg, rgba(245, 158, 11, 0.08), transparent);
+  border-radius: 0.75rem;
+  padding: 0.8rem;
+}
+
+.time-attendance-inline-title {
+  font-weight: 700;
+  color: #162433;
+}
+
+.time-attendance-card-meta {
+  flex-wrap: wrap;
+}
+
+.time-attendance-table-shell {
+  overflow-x: auto;
+}
+
+.time-attendance-table-input {
+  min-width: 7rem;
+  width: 100%;
+  padding: 0.55rem 0.65rem;
+  border-radius: 0.7rem;
+  border: 1px solid #cfd8e3;
+  background: white;
+}
+
+.time-attendance-empty-cell {
+  text-align: center;
+  color: #5a6b7d;
+  padding: 1.5rem;
+}
+
+.time-attendance-table-actions {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.time-attendance-history-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.time-attendance-history-panel h4 {
+  margin: 0 0 1rem;
+}
+
+.time-attendance-spin {
+  animation: time-attendance-spin 0.9s linear infinite;
+}
+
+@keyframes time-attendance-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 900px) {
+  .time-attendance-header,
+  .time-attendance-header-actions,
+  .time-attendance-history-grid {
+    flex-direction: column;
+  }
+
+  .time-attendance-history-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,3 +1,5 @@
+import { apiRequest, buildQuery } from '@/shared/lib/api';
+
 export type EmployeeStatus = 'Active' | 'On Leave' | 'Terminated' | 'Probation';
 export type EmployeePayFrequency = 'Biweekly' | 'Monthly' | 'Weekly';
 
@@ -9,9 +11,11 @@ export interface Employee {
   email: string;
   phone: string | null;
   dateOfBirth?: string | null;
-  hireDate: string;
+  hireDate: string | null;
+  terminationDate?: string | null;
   jobTitle: string;
   department: string;
+  positionId?: string | null;
   managerId?: string | null;
   salary: number;
   payFrequency?: EmployeePayFrequency;
@@ -25,7 +29,37 @@ export interface Employee {
   emergencyName?: string | null;
   emergencyPhone?: string | null;
   emergencyRelation?: string | null;
-  createdAt?: string;
+  createdAt?: string | null;
+  updatedAt?: string | null;
+  opsSummary?: {
+    openChecklistItems: number;
+    pendingAcknowledgments: number;
+    expiringDocuments: number;
+    needsAttention: boolean;
+  };
+  learningSummary?: {
+    assigned: number;
+    overdue: number;
+    completed: number;
+    certificateAlerts: number;
+  };
+  manager?: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    jobTitle: string;
+  } | null;
+  position?: {
+    id: string;
+    positionCode: string;
+    title: string;
+  } | null;
+  reports?: Array<{
+    id: string;
+    firstName: string;
+    lastName: string;
+    jobTitle: string;
+  }>;
 }
 
 export interface EmployeeListResponse {
@@ -68,75 +102,30 @@ export interface EmployeeMutationPayload {
   emergencyRelation: string | null;
 }
 
-interface ApiErrorShape {
-  error?: {
-    message?: string;
-  };
-}
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '';
-
-async function request<T>(path: string, init?: RequestInit): Promise<T> {
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      ...(init?.headers ?? {}),
-    },
-    ...init,
-  });
-
-  if (!response.ok) {
-    let message = 'Something went wrong while contacting the API.';
-
-    try {
-      const payload = await response.json() as ApiErrorShape;
-      message = payload.error?.message ?? message;
-    } catch {
-      // Leave the default message if the response body is not JSON.
-    }
-
-    throw new Error(message);
-  }
-
-  if (response.status === 204) {
-    return undefined as T;
-  }
-
-  return response.json() as Promise<T>;
-}
-
-export async function listEmployees(params: Record<string, string | number | undefined>) {
-  const searchParams = new URLSearchParams();
-
-  Object.entries(params).forEach(([key, value]) => {
-    if (value !== undefined && value !== '') {
-      searchParams.set(key, String(value));
-    }
-  });
-
-  return request<EmployeeListResponse>(`/api/employees?${searchParams.toString()}`);
+export async function listEmployees(params: Record<string, string | number | boolean | undefined>) {
+  return apiRequest<EmployeeListResponse>(`/api/employees${buildQuery(params)}`, {}, 'Unable to load employees.');
 }
 
 export async function getEmployee(id: string) {
-  return request<EmployeeResponse>(`/api/employees/${id}`);
+  return apiRequest<EmployeeResponse>(`/api/employees/${id}`, {}, 'Unable to load employee details.');
 }
 
 export async function createEmployee(payload: EmployeeMutationPayload) {
-  return request<EmployeeResponse>('/api/employees', {
+  return apiRequest<EmployeeResponse>('/api/employees', {
     method: 'POST',
     body: JSON.stringify(payload),
-  });
+  }, 'Unable to create employee.');
 }
 
 export async function updateEmployee(id: string, payload: EmployeeMutationPayload) {
-  return request<EmployeeResponse>(`/api/employees/${id}`, {
+  return apiRequest<EmployeeResponse>(`/api/employees/${id}`, {
     method: 'PUT',
     body: JSON.stringify(payload),
-  });
+  }, 'Unable to update employee.');
 }
 
 export async function deleteEmployee(id: string) {
-  return request<{ success: true; message: string }>(`/api/employees/${id}`, {
+  return apiRequest<{ success: true; message: string }>(`/api/employees/${id}`, {
     method: 'DELETE',
-  });
+  }, 'Unable to terminate employee.');
 }

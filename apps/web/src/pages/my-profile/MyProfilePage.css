@@ -1,0 +1,208 @@
+.my-profile-page {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.my-profile-hero,
+.my-profile-section {
+  display: grid;
+  gap: 1rem;
+}
+
+.my-profile-header {
+  align-items: flex-start;
+}
+
+.my-profile-eyebrow {
+  display: inline-flex;
+  margin-bottom: 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.my-profile-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.my-profile-summary-card,
+.my-profile-readonly-field,
+.my-profile-skill-card {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.my-profile-summary-card {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem 1.1rem;
+}
+
+.my-profile-summary-label,
+.my-profile-readonly-field > span,
+.my-profile-field > span {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.my-profile-summary-value {
+  font-size: 1.15rem;
+  color: #0f172a;
+}
+
+.my-profile-summary-detail,
+.my-profile-skill-copy {
+  color: #475569;
+}
+
+.my-profile-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.9rem 1rem;
+  border-radius: 0.9rem;
+}
+
+.my-profile-banner-error {
+  background: rgba(248, 113, 113, 0.12);
+  color: #991b1b;
+}
+
+.my-profile-tab-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.my-profile-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: rgba(248, 250, 252, 0.9);
+  color: #334155;
+  font-weight: 600;
+}
+
+.my-profile-tab-active {
+  background: rgba(14, 116, 144, 0.12);
+  border-color: rgba(14, 116, 144, 0.25);
+  color: #155e75;
+}
+
+.my-profile-form-grid,
+.my-profile-readonly-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.my-profile-field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.my-profile-field input,
+.my-profile-field select,
+.my-profile-field textarea {
+  width: 100%;
+  padding: 0.8rem 0.9rem;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  background: #fff;
+}
+
+.my-profile-readonly-field {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem;
+}
+
+.my-profile-readonly-field strong {
+  color: #0f172a;
+}
+
+.my-profile-actions,
+.my-profile-skill-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.my-profile-skills-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+  gap: 1.5rem;
+}
+
+.my-profile-skill-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.my-profile-skill-card {
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem 1.1rem;
+}
+
+.my-profile-skill-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.my-profile-skill-header h4 {
+  margin: 0;
+  color: #0f172a;
+}
+
+.my-profile-skill-header p {
+  margin: 0.3rem 0 0;
+  color: #475569;
+}
+
+.my-profile-empty,
+.my-profile-state {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 1.25rem;
+  color: #475569;
+}
+
+.my-profile-state {
+  justify-content: center;
+}
+
+.my-profile-danger-outline {
+  color: #991b1b;
+  border-color: rgba(185, 28, 28, 0.24);
+}
+
+.my-profile-spin {
+  animation: my-profile-spin 1s linear infinite;
+}
+
+@keyframes my-profile-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 900px) {
+  .my-profile-skills-layout {
+    grid-template-columns: 1fr;
+  }
+}

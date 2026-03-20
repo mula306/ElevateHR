@@ -1,0 +1,249 @@
+.my-performance-page {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.my-performance-hero {
+  display: grid;
+  gap: 1rem;
+}
+
+.my-performance-header {
+  gap: 1rem;
+}
+
+.my-performance-eyebrow {
+  display: inline-flex;
+  margin-bottom: 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.my-performance-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.my-performance-summary-card {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1.05rem;
+  border-radius: 1rem;
+  background: rgba(248, 250, 252, 0.9);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.my-performance-summary-label {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.my-performance-summary-value {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.my-performance-summary-detail {
+  color: var(--color-text-muted);
+}
+
+.my-performance-banner {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.9rem 1rem;
+  border-radius: 0.9rem;
+  background: rgba(248, 113, 113, 0.12);
+  color: #991b1b;
+}
+
+.my-performance-tab-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.my-performance-tab {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(248, 250, 252, 0.85);
+  border-radius: 999px;
+  padding: 0.65rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.my-performance-tab-active {
+  background: var(--color-primary);
+  color: white;
+  border-color: transparent;
+}
+
+.my-performance-card-list,
+.my-performance-history-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.my-performance-history-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.my-performance-card,
+.my-performance-history-block {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.my-performance-card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.my-performance-card-header h3,
+.my-performance-review-section h3 {
+  margin: 0;
+}
+
+.my-performance-card-header p,
+.my-performance-copy {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.my-performance-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem 1rem;
+}
+
+.my-performance-updates {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.my-performance-update-row,
+.my-performance-history-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 0.85rem;
+  background: rgba(248, 250, 252, 0.92);
+}
+
+.my-performance-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.my-performance-empty {
+  padding: 1.2rem 1rem;
+  border-radius: 0.9rem;
+  background: rgba(248, 250, 252, 0.85);
+  color: var(--color-text-muted);
+}
+
+.my-performance-review-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.my-performance-review-section {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.my-performance-field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.my-performance-field span {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.my-performance-field input,
+.my-performance-field textarea {
+  width: 100%;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 0.85rem;
+  padding: 0.8rem 0.9rem;
+  background: white;
+  color: inherit;
+}
+
+.my-performance-readonly-block,
+.my-performance-manager-block,
+.my-performance-summary-block {
+  padding: 0.85rem 1rem;
+  border-radius: 0.9rem;
+  background: rgba(248, 250, 252, 0.9);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.my-performance-summary-block p {
+  margin: 0.5rem 0 0;
+}
+
+.my-performance-form-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.my-performance-modal {
+  width: min(760px, calc(100vw - 2rem));
+}
+
+.my-performance-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  min-height: 220px;
+  color: var(--color-text-muted);
+}
+
+.my-performance-spin {
+  animation: my-performance-spin 1s linear infinite;
+}
+
+@keyframes my-performance-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 900px) {
+  .my-performance-summary-grid,
+  .my-performance-history-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .my-performance-summary-grid,
+  .my-performance-history-grid,
+  .my-performance-meta-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .my-performance-card-header,
+  .my-performance-update-row,
+  .my-performance-history-row {
+    flex-direction: column;
+  }
+}

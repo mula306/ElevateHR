@@ -1,0 +1,246 @@
+.workforce-time-page {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.workforce-time-header,
+.workforce-time-header-actions,
+.workforce-time-metrics,
+.workforce-time-tabs,
+.workforce-time-card-actions,
+.workforce-time-panel-actions,
+.workforce-time-summary-head {
+  display: flex;
+  gap: 1rem;
+}
+
+.workforce-time-header,
+.workforce-time-card-header,
+.workforce-time-inline-row,
+.workforce-time-summary-head {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.workforce-time-eyebrow {
+  display: inline-flex;
+  margin-bottom: 0.5rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: #eef7f1;
+  color: #13592b;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.workforce-time-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 1rem;
+  border-radius: 0.9rem;
+  background: #edf7ff;
+  color: #0d4a71;
+}
+
+.workforce-time-banner-error {
+  background: #fff0f0;
+  color: #8b1e1e;
+}
+
+.workforce-time-metrics {
+  flex-wrap: wrap;
+}
+
+.workforce-time-summary-card {
+  flex: 1 1 12rem;
+  min-width: 11rem;
+  padding: 1rem 1.1rem;
+  border-radius: 1rem;
+  border: 1px solid #d7dee7;
+  background: linear-gradient(180deg, #ffffff, #f7fafc);
+  display: grid;
+  gap: 0.45rem;
+}
+
+.workforce-time-summary-card strong {
+  font-size: 1.5rem;
+}
+
+.workforce-time-tabs {
+  flex-wrap: wrap;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #d7dee7;
+}
+
+.workforce-time-tab {
+  border: none;
+  background: #eef3f8;
+  color: #395063;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.workforce-time-tab-active {
+  background: #13592b;
+  color: white;
+}
+
+.workforce-time-section {
+  display: grid;
+  gap: 1rem;
+  padding-top: 1.25rem;
+}
+
+.workforce-time-state,
+.workforce-time-readonly {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 2rem 1rem;
+  color: #5a6b7d;
+  text-align: center;
+}
+
+.workforce-time-card-grid,
+.workforce-time-rules-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.workforce-time-card-grid {
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+}
+
+.workforce-time-rules-grid {
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+}
+
+.workforce-time-card,
+.workforce-time-panel {
+  border: 1px solid #d7dee7;
+  border-radius: 1rem;
+  background: #fff;
+  padding: 1rem;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.workforce-time-card-header h3,
+.workforce-time-panel h3 {
+  margin: 0;
+}
+
+.workforce-time-card-header p,
+.workforce-time-card-grid-meta,
+.workforce-time-inline-meta,
+.workforce-time-copy,
+.workforce-time-field span {
+  color: #5a6b7d;
+}
+
+.workforce-time-card-grid-meta,
+.workforce-time-inline-list,
+.workforce-time-list,
+.workforce-time-review-grid {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.workforce-time-inline-row {
+  display: flex;
+  gap: 1rem;
+  padding: 0.75rem 0;
+}
+
+.workforce-time-inline-row + .workforce-time-inline-row {
+  border-top: 1px solid #e5ebf2;
+}
+
+.workforce-time-row-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.workforce-time-table-shell {
+  overflow-x: auto;
+}
+
+.workforce-time-empty-cell {
+  text-align: center;
+  padding: 1.5rem;
+  color: #5a6b7d;
+}
+
+.workforce-time-form-grid,
+.workforce-time-shift-row {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.workforce-time-form-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.workforce-time-shift-row {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.workforce-time-field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.workforce-time-field-full {
+  grid-column: 1 / -1;
+}
+
+.workforce-time-field input,
+.workforce-time-field select,
+.workforce-time-field textarea,
+.workforce-time-shift-row input,
+.workforce-time-shift-row select {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid #cfd8e3;
+  background: white;
+}
+
+.workforce-time-modal {
+  width: min(72rem, calc(100vw - 2rem));
+}
+
+.workforce-time-review-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.workforce-time-spin {
+  animation: workforce-time-spin 0.9s linear infinite;
+}
+
+@keyframes workforce-time-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 900px) {
+  .workforce-time-header,
+  .workforce-time-header-actions,
+  .workforce-time-row-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .workforce-time-form-grid,
+  .workforce-time-review-grid,
+  .workforce-time-shift-row {
+    grid-template-columns: 1fr;
+  }
+}

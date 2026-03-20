@@ -26,3 +26,323 @@ Error: .omit() cannot be used on object schemas containing refinements
     at Module.load (node:internal/modules/cjs/loader:1481:32)
     at Module._load (node:internal/modules/cjs/loader:1300:12)
     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+Error: Cannot find module './dashboard.service'
+Require stack:
+- C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\modules\dashboard\dashboard.router.ts
+- C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\app\create-app.ts
+- C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\server.ts
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1421:15)
+    at Module._resolveFilename.sharedData.moduleResolveFilenameHook.installedValue [as _resolveFilename] (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\@cspotcode\source-map-support\source-map-support.js:811:30)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\modules\dashboard\dashboard.router.ts:2:1) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'C:\\Users\\amula\\Documents\\AntiGravity\\ElevateHR\\apps\\api\\src\\modules\\dashboard\\dashboard.router.ts',
+    'C:\\Users\\amula\\Documents\\AntiGravity\\ElevateHR\\apps\\api\\src\\app\\create-app.ts',
+    'C:\\Users\\amula\\Documents\\AntiGravity\\ElevateHR\\apps\\api\\src\\server.ts'
+  ]
+}
+C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\zod\v4\core\util.cjs:493
+        throw new Error(".partial() cannot be used on object schemas containing refinements");
+              ^
+Error: .partial() cannot be used on object schemas containing refinements
+    at Object.partial (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\zod\v4\core\util.cjs:493:15)
+    at _.inst.partial (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\zod\v4\classic\schemas.cjs:690:49)
+    at Object.<anonymous> (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\modules\time-off\time-off.schemas.ts:47:66)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Module.m._compile (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\ts-node\src\index.ts:1618:23)
+    at node:internal/modules/cjs/loader:1893:10
+    at Object.require.extensions.<computed> [as .ts] (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\ts-node\src\index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\zod\v4\core\util.cjs:493
+        throw new Error(".partial() cannot be used on object schemas containing refinements");
+              ^
+Error: .partial() cannot be used on object schemas containing refinements
+    at Object.partial (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\zod\v4\core\util.cjs:493:15)
+    at _.inst.partial (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\zod\v4\classic\schemas.cjs:690:49)
+    at Object.<anonymous> (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\modules\time-off\time-off.schemas.ts:47:66)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Module.m._compile (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\ts-node\src\index.ts:1618:23)
+    at node:internal/modules/cjs/loader:1893:10
+    at Object.require.extensions.<computed> [as .ts] (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\ts-node\src\index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+Error: Cannot find module './employees.service'
+Require stack:
+- C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\modules\employees\employees.router.ts
+- C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\app\create-app.ts
+- C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\server.ts
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1421:15)
+    at Module._resolveFilename.sharedData.moduleResolveFilenameHook.installedValue [as _resolveFilename] (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\@cspotcode\source-map-support\source-map-support.js:811:30)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\modules\employees\employees.router.ts:9:1) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'C:\\Users\\amula\\Documents\\AntiGravity\\ElevateHR\\apps\\api\\src\\modules\\employees\\employees.router.ts',
+    'C:\\Users\\amula\\Documents\\AntiGravity\\ElevateHR\\apps\\api\\src\\app\\create-app.ts',
+    'C:\\Users\\amula\\Documents\\AntiGravity\\ElevateHR\\apps\\api\\src\\server.ts'
+  ]
+}
+C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\zod\v4\core\util.cjs:493
+        throw new Error(".partial() cannot be used on object schemas containing refinements");
+              ^
+Error: .partial() cannot be used on object schemas containing refinements
+    at Object.partial (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\zod\v4\core\util.cjs:493:15)
+    at _.inst.partial (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\zod\v4\classic\schemas.cjs:690:49)
+    at Object.<anonymous> (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\modules\time-off\time-off.schemas.ts:47:66)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Module.m._compile (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\ts-node\src\index.ts:1618:23)
+    at node:internal/modules/cjs/loader:1893:10
+    at Object.require.extensions.<computed> [as .ts] (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\ts-node\src\index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+Error: Cannot find module './dashboard.service'
+Require stack:
+- C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\modules\dashboard\dashboard.router.ts
+- C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\app\create-app.ts
+- C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\server.ts
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1421:15)
+    at Module._resolveFilename.sharedData.moduleResolveFilenameHook.installedValue [as _resolveFilename] (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\@cspotcode\source-map-support\source-map-support.js:811:30)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\modules\dashboard\dashboard.router.ts:2:1) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'C:\\Users\\amula\\Documents\\AntiGravity\\ElevateHR\\apps\\api\\src\\modules\\dashboard\\dashboard.router.ts',
+    'C:\\Users\\amula\\Documents\\AntiGravity\\ElevateHR\\apps\\api\\src\\app\\create-app.ts',
+    'C:\\Users\\amula\\Documents\\AntiGravity\\ElevateHR\\apps\\api\\src\\server.ts'
+  ]
+}
+C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\zod\v4\core\util.cjs:493
+        throw new Error(".partial() cannot be used on object schemas containing refinements");
+              ^
+Error: .partial() cannot be used on object schemas containing refinements
+    at Object.partial (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\zod\v4\core\util.cjs:493:15)
+    at _.inst.partial (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\zod\v4\classic\schemas.cjs:690:49)
+    at Object.<anonymous> (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\modules\time-off\time-off.schemas.ts:47:66)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Module.m._compile (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\ts-node\src\index.ts:1618:23)
+    at node:internal/modules/cjs/loader:1893:10
+    at Object.require.extensions.<computed> [as .ts] (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\ts-node\src\index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\zod\v4\core\util.cjs:493
+        throw new Error(".partial() cannot be used on object schemas containing refinements");
+              ^
+Error: .partial() cannot be used on object schemas containing refinements
+    at Object.partial (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\zod\v4\core\util.cjs:493:15)
+    at _.inst.partial (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\zod\v4\classic\schemas.cjs:690:49)
+    at Object.<anonymous> (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\modules\time-off\time-off.schemas.ts:47:66)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Module.m._compile (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\ts-node\src\index.ts:1618:23)
+    at node:internal/modules/cjs/loader:1893:10
+    at Object.require.extensions.<computed> [as .ts] (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\ts-node\src\index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\zod\v4\core\util.cjs:493
+        throw new Error(".partial() cannot be used on object schemas containing refinements");
+              ^
+Error: .partial() cannot be used on object schemas containing refinements
+    at Object.partial (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\zod\v4\core\util.cjs:493:15)
+    at _.inst.partial (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\zod\v4\classic\schemas.cjs:690:49)
+    at Object.<anonymous> (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\modules\time-off\time-off.schemas.ts:47:66)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Module.m._compile (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\ts-node\src\index.ts:1618:23)
+    at node:internal/modules/cjs/loader:1893:10
+    at Object.require.extensions.<computed> [as .ts] (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\ts-node\src\index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\zod\v4\core\util.cjs:493
+        throw new Error(".partial() cannot be used on object schemas containing refinements");
+              ^
+Error: .partial() cannot be used on object schemas containing refinements
+    at Object.partial (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\zod\v4\core\util.cjs:493:15)
+    at _.inst.partial (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\zod\v4\classic\schemas.cjs:690:49)
+    at Object.<anonymous> (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\modules\time-off\time-off.schemas.ts:47:66)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Module.m._compile (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\ts-node\src\index.ts:1618:23)
+    at node:internal/modules/cjs/loader:1893:10
+    at Object.require.extensions.<computed> [as .ts] (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\ts-node\src\index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+Error: Cannot find module './time-off.service'
+Require stack:
+- C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\modules\time-off\time-off.router.ts
+- C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\app\create-app.ts
+- C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\server.ts
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1421:15)
+    at Module._resolveFilename.sharedData.moduleResolveFilenameHook.installedValue [as _resolveFilename] (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\@cspotcode\source-map-support\source-map-support.js:811:30)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\modules\time-off\time-off.router.ts:10:1) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'C:\\Users\\amula\\Documents\\AntiGravity\\ElevateHR\\apps\\api\\src\\modules\\time-off\\time-off.router.ts',
+    'C:\\Users\\amula\\Documents\\AntiGravity\\ElevateHR\\apps\\api\\src\\app\\create-app.ts',
+    'C:\\Users\\amula\\Documents\\AntiGravity\\ElevateHR\\apps\\api\\src\\server.ts'
+  ]
+}
+Error: Cannot find module './time-off.service'
+Require stack:
+- C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\modules\time-off\time-off.router.ts
+- C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\app\create-app.ts
+- C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\server.ts
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1421:15)
+    at Module._resolveFilename.sharedData.moduleResolveFilenameHook.installedValue [as _resolveFilename] (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\@cspotcode\source-map-support\source-map-support.js:811:30)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\modules\time-off\time-off.router.ts:10:1) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'C:\\Users\\amula\\Documents\\AntiGravity\\ElevateHR\\apps\\api\\src\\modules\\time-off\\time-off.router.ts',
+    'C:\\Users\\amula\\Documents\\AntiGravity\\ElevateHR\\apps\\api\\src\\app\\create-app.ts',
+    'C:\\Users\\amula\\Documents\\AntiGravity\\ElevateHR\\apps\\api\\src\\server.ts'
+  ]
+}
+Error: Cannot find module './session.service'
+Require stack:
+- C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\modules\session\session.router.ts
+- C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\app\create-app.ts
+- C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\server.ts
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1421:15)
+    at Module._resolveFilename.sharedData.moduleResolveFilenameHook.installedValue [as _resolveFilename] (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\@cspotcode\source-map-support\source-map-support.js:811:30)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\modules\session\session.router.ts:2:1) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'C:\\Users\\amula\\Documents\\AntiGravity\\ElevateHR\\apps\\api\\src\\modules\\session\\session.router.ts',
+    'C:\\Users\\amula\\Documents\\AntiGravity\\ElevateHR\\apps\\api\\src\\app\\create-app.ts',
+    'C:\\Users\\amula\\Documents\\AntiGravity\\ElevateHR\\apps\\api\\src\\server.ts'
+  ]
+}
+C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\modules\recruitment\recruitment.service.ts:1601
+                lastName: hiringRecord.selectedEmployee?.lastName ?? data.candidateName.split(' ').slice(1).join(' ') || data.candidateName,
+                                                                                                                      ^^
+
+SyntaxError: Unexpected token '||'
+    at wrapSafe (node:internal/modules/cjs/loader:1692:18)
+    at Module._compile (node:internal/modules/cjs/loader:1735:20)
+    at Module.m._compile (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\ts-node\src\index.ts:1618:23)
+    at node:internal/modules/cjs/loader:1893:10
+    at Object.require.extensions.<computed> [as .ts] (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\ts-node\src\index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\modules\recruitment\recruitment.service.ts:1601
+                lastName: hiringRecord.selectedEmployee?.lastName ?? data.candidateName.split(' ').slice(1).join(' ') || data.candidateName,
+                                                                                                                      ^^
+
+SyntaxError: Unexpected token '||'
+    at wrapSafe (node:internal/modules/cjs/loader:1692:18)
+    at Module._compile (node:internal/modules/cjs/loader:1735:20)
+    at Module.m._compile (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\ts-node\src\index.ts:1618:23)
+    at node:internal/modules/cjs/loader:1893:10
+    at Object.require.extensions.<computed> [as .ts] (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\ts-node\src\index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\modules\recruitment\recruitment.service.ts:1601
+                lastName: hiringRecord.selectedEmployee?.lastName ?? data.candidateName.split(' ').slice(1).join(' ') || data.candidateName,
+                                                                                                                      ^^
+
+SyntaxError: Unexpected token '||'
+    at wrapSafe (node:internal/modules/cjs/loader:1692:18)
+    at Module._compile (node:internal/modules/cjs/loader:1735:20)
+    at Module.m._compile (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\ts-node\src\index.ts:1618:23)
+    at node:internal/modules/cjs/loader:1893:10
+    at Object.require.extensions.<computed> [as .ts] (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\ts-node\src\index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\modules\recruitment\recruitment.service.ts:1615
+                lastName: hiringRecord.selectedEmployee?.lastName ?? data.candidateName.split(' ').slice(1).join(' ') || data.candidateName,
+                                                                                                                      ^^
+
+SyntaxError: Unexpected token '||'
+    at wrapSafe (node:internal/modules/cjs/loader:1692:18)
+    at Module._compile (node:internal/modules/cjs/loader:1735:20)
+    at Module.m._compile (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\ts-node\src\index.ts:1618:23)
+    at node:internal/modules/cjs/loader:1893:10
+    at Object.require.extensions.<computed> [as .ts] (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\ts-node\src\index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\modules\recruitment\recruitment.service.ts:1615
+                lastName: hiringRecord.selectedEmployee?.lastName ?? data.candidateName.split(' ').slice(1).join(' ') || data.candidateName,
+                                                                                                                      ^^
+
+SyntaxError: Unexpected token '||'
+    at wrapSafe (node:internal/modules/cjs/loader:1692:18)
+    at Module._compile (node:internal/modules/cjs/loader:1735:20)
+    at Module.m._compile (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\ts-node\src\index.ts:1618:23)
+    at node:internal/modules/cjs/loader:1893:10
+    at Object.require.extensions.<computed> [as .ts] (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\ts-node\src\index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\src\modules\recruitment\recruitment.service.ts:1617
+                lastName: hiringRecord.selectedEmployee?.lastName ?? data.candidateName.split(' ').slice(1).join(' ') || data.candidateName,
+                                                                                                                      ^^
+
+SyntaxError: Unexpected token '||'
+    at wrapSafe (node:internal/modules/cjs/loader:1692:18)
+    at Module._compile (node:internal/modules/cjs/loader:1735:20)
+    at Module.m._compile (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\ts-node\src\index.ts:1618:23)
+    at node:internal/modules/cjs/loader:1893:10
+    at Object.require.extensions.<computed> [as .ts] (C:\Users\amula\Documents\AntiGravity\ElevateHR\apps\api\node_modules\ts-node\src\index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)

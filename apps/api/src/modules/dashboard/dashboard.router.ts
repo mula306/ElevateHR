@@ -5,7 +5,7 @@ const router = Router();
 
 router.get('/', async (_req: Request, res: Response, next: NextFunction) => {
   try {
-    const data = await getDashboardSummary();
+    const data = await getDashboardSummary(_req.account);
     res.json({ success: true, data });
   } catch (error) {
     next(error);

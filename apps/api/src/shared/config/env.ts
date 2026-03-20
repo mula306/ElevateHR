@@ -9,6 +9,7 @@ const envSchema = z.object({
   DATABASE_URL: z.string().min(1),
   AZURE_TENANT_ID: z.string().default(''),
   AZURE_CLIENT_ID: z.string().default(''),
+  AZURE_API_SCOPE: z.string().default('access_as_user'),
   FRONTEND_URL: z.string().min(1).default('http://localhost:5173'),
   AUTH_BYPASS: z.enum(['true', 'false']).default('false'),
 });

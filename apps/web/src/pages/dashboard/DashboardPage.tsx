@@ -1,10 +1,9 @@
-import { useMemo, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 import {
   Bar,
   BarChart,
   CartesianGrid,
   Cell,
-  Legend,
   Pie,
   PieChart,
   ResponsiveContainer,
@@ -13,180 +12,240 @@ import {
   YAxis,
 } from 'recharts';
 import {
-  createColumnHelper,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
-import {
   ArrowDownRight,
   ArrowUpRight,
-  Clock,
+  CalendarClock,
+  CheckCircle2,
+  ClipboardCheck,
   CreditCard,
-  Eye,
-  MoreHorizontal,
+  FileWarning,
+  LoaderCircle,
+  RefreshCcw,
+  ShieldAlert,
   UserPlus,
   Users,
 } from 'lucide-react';
-import { departmentData, employeeData, payrollData } from './dashboard.data';
-import type { DashboardEmployee } from './dashboard.types';
+import { Link } from 'react-router-dom';
+import { useAppSession } from '@/shared/auth/AppSessionProvider';
+import { isFeatureEnabled } from '@/shared/features/feature-registry';
+import { getDashboardSummary, type DashboardSummary } from './dashboard.api';
 import './DashboardPage.css';
 
-const columnHelper = createColumnHelper<DashboardEmployee>();
+const departmentColors = ['#0098DB', '#58A618', '#F59E0B', '#0F766E', '#C2410C', '#1D4ED8'];
 
-interface TooltipPayloadItem {
-  color: string;
-  name: string;
-  value: number;
+function formatCurrency(value: number) {
+  return new Intl.NumberFormat('en-CA', {
+    style: 'currency',
+    currency: 'CAD',
+    maximumFractionDigits: 0,
+  }).format(value);
 }
 
-interface CustomTooltipProps {
-  active?: boolean;
-  payload?: TooltipPayloadItem[];
-  label?: string;
+function formatPercent(value: number) {
+  return `${value.toFixed(1)}%`;
 }
 
-function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
-  if (!active || !payload?.length) {
-    return null;
+function formatShortDate(value: string | null) {
+  if (!value) {
+    return 'TBD';
   }
 
-  return (
-    <div className="dashboard-tooltip">
-      <div className="dashboard-tooltip-label">{label}</div>
-      {payload.map((entry) => (
-        <div key={entry.name} className="dashboard-tooltip-row">
-          <span className="dashboard-tooltip-dot" style={{ background: entry.color }} />
-          {entry.name}: <strong className="dashboard-tooltip-value">${(entry.value / 1000).toFixed(0)}K</strong>
-        </div>
-      ))}
-    </div>
-  );
+  return new Intl.DateTimeFormat('en-CA', {
+    month: 'short',
+    day: '2-digit',
+    year: 'numeric',
+  }).format(new Date(value));
+}
+
+function getStatusBadgeClass(status: string) {
+  if (status === 'Active') {
+    return 'badge-success';
+  }
+
+  if (status === 'On Leave') {
+    return 'badge-warning';
+  }
+
+  if (status === 'Probation') {
+    return 'badge-primary';
+  }
+
+  return 'badge-danger';
 }
 
 export function DashboardPage() {
-  const columns = useMemo(() => [
-    columnHelper.display({
-      id: 'employee',
-      header: 'Employee',
-      cell: ({ row }) => (
-        <div className="employee-cell">
-          <div className="employee-initials">{row.original.initials}</div>
-          <div>
-            <div className="employee-name">{row.original.name}</div>
-            <div className="employee-id">{row.original.id}</div>
-          </div>
-        </div>
-      ),
-    }),
-    columnHelper.accessor('department', { header: 'Department' }),
-    columnHelper.accessor('role', { header: 'Role' }),
-    columnHelper.accessor('joinDate', { header: 'Join Date' }),
-    columnHelper.accessor('salary', {
-      header: 'Salary',
-      cell: (info) => <span className="salary-cell">${info.getValue().toLocaleString()}</span>,
-    }),
-    columnHelper.accessor('status', {
-      header: 'Status',
-      cell: (info) => {
-        const status = info.getValue();
-        const className = status === 'Active'
-          ? 'badge-success'
-          : status === 'On Leave'
-            ? 'badge-warning'
-            : 'badge-primary';
+  const { session } = useAppSession();
+  const [summary, setSummary] = useState<DashboardSummary | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-        return <span className={`badge ${className}`}>{status}</span>;
-      },
-    }),
-    columnHelper.display({
-      id: 'actions',
-      header: '',
-      cell: () => (
-        <div className="row-actions">
-          <button className="header-icon-btn" title="View">
-            <Eye size={16} />
-          </button>
-          <button className="header-icon-btn" title="More">
-            <MoreHorizontal size={16} />
+  const loadDashboard = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const nextSummary = await getDashboardSummary();
+      setSummary(nextSummary);
+    } catch (loadError) {
+      setError(loadError instanceof Error ? loadError.message : 'Unable to load dashboard.');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    void loadDashboard();
+  }, [loadDashboard]);
+
+  const departmentChartData = useMemo(() => {
+    return (summary?.departmentDistribution ?? []).map((department, index) => ({
+      ...department,
+      color: departmentColors[index % departmentColors.length],
+    }));
+  }, [summary]);
+
+  if (loading && !summary) {
+    return (
+      <div className="dashboard-stack">
+        <div className="card dashboard-state">
+          <LoaderCircle className="dashboard-spin" size={18} />
+          <span>Loading dashboard...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (error && !summary) {
+    return (
+      <div className="dashboard-stack">
+        <div className="card dashboard-state dashboard-state-error">
+          <ShieldAlert size={18} />
+          <span>{error}</span>
+          <button type="button" className="button" onClick={() => { void loadDashboard(); }}>
+            <RefreshCcw size={16} />
+            Retry
           </button>
         </div>
-      ),
-    }),
-  ], []);
+      </div>
+    );
+  }
 
-  const table = useReactTable({
-    data: employeeData,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
+  const metrics = summary?.metrics;
+  const timeOffRequestsEnabled = isFeatureEnabled(session?.features, 'time_off_requests');
+
+  if (!summary || !metrics) {
+    return (
+      <div className="dashboard-stack">
+        <div className="card dashboard-state">
+          <span>No dashboard data is available.</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="dashboard-stack">
       <div className="page-header">
         <div>
           <h1 className="page-title">Dashboard</h1>
-          <p className="page-subtitle">Welcome back! Here&apos;s what&apos;s happening with your workforce.</p>
+          <p className="page-subtitle">Live workforce metrics with approvals, leave, lifecycle tasks, and document risk in one operational view.</p>
         </div>
-        <button className="button">
-          <UserPlus size={16} /> Add Employee
-        </button>
+        <div className="dashboard-header-actions">
+          <Link to="/time-off" className="button button-outline dashboard-link-button">
+            <CalendarClock size={16} />
+            Time Off
+          </Link>
+          <Link to="/employees" className="button">
+            <UserPlus size={16} />
+            Employees
+          </Link>
+        </div>
       </div>
 
-      <div className="metrics-grid">
+      {error ? (
+        <div className="dashboard-banner dashboard-banner-error">
+          <ShieldAlert size={16} />
+          <span>{error}</span>
+          <button type="button" className="button button-outline dashboard-inline-button" onClick={() => { void loadDashboard(); }}>
+            <RefreshCcw size={16} />
+            Refresh
+          </button>
+        </div>
+      ) : null}
+
+      <div className="metrics-grid dashboard-metrics-grid-wide">
         <MetricCard
-          title="Total Employees"
-          value="2,450"
-          trend={4.5}
+          title="Current Workforce"
+          value={metrics.currentEmployees.toLocaleString()}
+          trend={metrics.currentWorkforceTrend}
+          detail={`${metrics.filledSeats} filled seats | ${metrics.openSeats} open seats`}
           icon={<Users size={20} />}
           iconBackground="var(--color-primary-light)"
           iconColor="var(--color-primary)"
         />
         <MetricCard
-          title="Payroll Expense"
-          value="$1.2M"
-          trend={-1.2}
+          title="Annual Payroll"
+          value={formatCurrency(metrics.annualPayroll)}
+          detail={`Average salary ${formatCurrency(metrics.averageAnnualSalary)}`}
           icon={<CreditCard size={20} />}
           iconBackground="var(--color-secondary-light)"
           iconColor="var(--color-success)"
         />
         <MetricCard
-          title="New Hires (Q1)"
-          value="67"
-          trend={12}
+          title="New Hires (QTD)"
+          value={metrics.newHiresThisQuarter.toLocaleString()}
+          trend={metrics.newHireTrend}
+          detail={`Previous quarter ${metrics.previousQuarterNewHires}`}
           icon={<UserPlus size={20} />}
           iconBackground="var(--color-warning-bg)"
           iconColor="var(--color-warning)"
         />
         <MetricCard
-          title="Avg Attendance"
-          value="96.4%"
-          trend={0.8}
-          icon={<Clock size={20} />}
-          iconBackground="hsl(270 50% 95%)"
-          iconColor="hsl(270 56% 52%)"
+          title="Active Workforce Rate"
+          value={formatPercent(metrics.activeStatusRate)}
+          detail={`${metrics.activeEmployees} active | ${metrics.onLeaveEmployees} on leave`}
+          icon={<CheckCircle2 size={20} />}
+          iconBackground="rgb(224 242 254)"
+          iconColor="rgb(3 105 161)"
         />
+        {timeOffRequestsEnabled ? (
+          <MetricCard
+            title="Pending Approvals"
+            value={metrics.pendingApprovals.toLocaleString()}
+            detail={`${metrics.overdueTasks} overdue workflow tasks`}
+            icon={<ClipboardCheck size={20} />}
+            iconBackground="rgb(254 249 195)"
+            iconColor="rgb(161 98 7)"
+          />
+        ) : null}
+        {timeOffRequestsEnabled ? (
+          <MetricCard
+            title="Upcoming Absences"
+            value={metrics.upcomingAbsences.toLocaleString()}
+            detail={`${metrics.expiringDocuments} document alerts`}
+            icon={<FileWarning size={20} />}
+            iconBackground="rgb(239 246 255)"
+            iconColor="rgb(29 78 216)"
+          />
+        ) : null}
       </div>
 
       <div className="charts-grid">
         <div className="card">
           <div className="card-header">
             <div>
-              <h3 className="card-title">Payroll Overview</h3>
-              <p className="card-subtitle">Monthly payroll cost vs budget</p>
+              <h3 className="card-title">Hiring Trend</h3>
+              <p className="card-subtitle">Confirmed hires over the last six months</p>
             </div>
-            <button className="button button-outline dashboard-inline-button">View Details</button>
           </div>
           <div className="chart-surface">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={payrollData} margin={{ top: 5, right: 5, left: -10, bottom: 5 }} barGap={4}>
+              <BarChart data={summary.hiringTrend} margin={{ top: 5, right: 5, left: -10, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-border)" />
-                <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: 'var(--color-text-muted)', fontSize: 12 }} dy={10} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fill: 'var(--color-text-muted)', fontSize: 12 }} tickFormatter={(value) => `$${value / 1000}K`} />
-                <Tooltip content={<CustomTooltip />} cursor={{ fill: 'var(--color-background)', radius: 4 }} />
-                <Legend iconType="circle" wrapperStyle={{ paddingTop: '16px', fontSize: '13px' }} />
-                <Bar dataKey="cost" name="Actual Cost" fill="#0098DB" radius={[6, 6, 0, 0]} maxBarSize={32} />
-                <Bar dataKey="budget" name="Budget" fill="#58A618" radius={[6, 6, 0, 0]} maxBarSize={32} />
+                <XAxis dataKey="label" axisLine={false} tickLine={false} tick={{ fill: 'var(--color-text-muted)', fontSize: 12 }} dy={10} />
+                <YAxis allowDecimals={false} axisLine={false} tickLine={false} tick={{ fill: 'var(--color-text-muted)', fontSize: 12 }} />
+                <Tooltip cursor={{ fill: 'var(--color-background)', radius: 4 }} />
+                <Bar dataKey="hires" name="Hires" fill="#0098DB" radius={[6, 6, 0, 0]} maxBarSize={32} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -196,15 +255,24 @@ export function DashboardPage() {
           <div className="card-header">
             <div>
               <h3 className="card-title">Departments</h3>
-              <p className="card-subtitle">Headcount distribution</p>
+              <p className="card-subtitle">Current workforce distribution by department</p>
             </div>
           </div>
           <div className="donut-surface">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
-                <Pie data={departmentData} cx="50%" cy="50%" innerRadius={55} outerRadius={85} paddingAngle={4} dataKey="value" strokeWidth={0}>
-                  {departmentData.map((entry) => (
-                    <Cell key={entry.name} fill={entry.color} />
+                <Pie
+                  data={departmentChartData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={55}
+                  outerRadius={85}
+                  paddingAngle={4}
+                  dataKey="employeeCount"
+                  strokeWidth={0}
+                >
+                  {departmentChartData.map((entry) => (
+                    <Cell key={entry.department} fill={entry.color} />
                   ))}
                 </Pie>
                 <Tooltip />
@@ -212,47 +280,145 @@ export function DashboardPage() {
             </ResponsiveContainer>
           </div>
           <div className="department-legend">
-            {departmentData.map((department) => (
-              <div key={department.name} className="department-legend-row">
+            {departmentChartData.map((department) => (
+              <div key={department.department} className="department-legend-row">
                 <div className="department-legend-label">
                   <span className="department-legend-dot" style={{ backgroundColor: department.color }} />
-                  <span>{department.name}</span>
+                  <span>{department.department}</span>
                 </div>
-                <span className="department-legend-value">{department.value}%</span>
+                <span className="department-legend-value">{department.employeeCount} | {formatPercent(department.workforceShare)}</span>
               </div>
             ))}
           </div>
         </div>
       </div>
 
+      <div className="dashboard-ops-grid">
+        <div className="card dashboard-personal-work-card">
+          <div className="card-header">
+            <div>
+              <h3 className="card-title">My Work</h3>
+              <p className="card-subtitle">Personal queue for approvals and assigned operational work.</p>
+            </div>
+            <Link to="/inbox" className="button button-outline dashboard-inline-button">
+              <ClipboardCheck size={16} />
+              Open Inbox
+            </Link>
+          </div>
+          <div className="dashboard-personal-work-grid">
+            <div className="dashboard-personal-work-metric">
+              <span className="dashboard-personal-work-label">Open work</span>
+              <strong>{summary.myWork.openCount.toLocaleString()}</strong>
+            </div>
+            <div className="dashboard-personal-work-metric">
+              <span className="dashboard-personal-work-label">Overdue</span>
+              <strong>{summary.myWork.overdueCount.toLocaleString()}</strong>
+            </div>
+            <div className="dashboard-personal-work-metric">
+              <span className="dashboard-personal-work-label">Approvals</span>
+              <strong>{summary.myWork.approvalCount.toLocaleString()}</strong>
+            </div>
+            <div className="dashboard-personal-work-metric">
+              <span className="dashboard-personal-work-label">Due today</span>
+              <strong>{summary.myWork.dueTodayCount.toLocaleString()}</strong>
+            </div>
+          </div>
+        </div>
+        {timeOffRequestsEnabled ? (
+          <SurfaceListCard
+            title="Upcoming Time Off"
+            subtitle="Approved absences in the next 30 days"
+            rows={summary.upcomingTimeOff}
+            emptyMessage="No approved absences in the next 30 days."
+            renderRow={(row) => (
+              <>
+                <div>
+                  <div className="dashboard-list-title">{row.employee?.fullName ?? 'Unknown employee'}</div>
+                  <div className="dashboard-list-meta">{row.leaveType?.name ?? 'Leave'} | {row.requestedHours} hours</div>
+                </div>
+                <span className="dashboard-list-date">{formatShortDate(row.startDate)}</span>
+              </>
+            )}
+          />
+        ) : null}
+      </div>
+
+      <div className="dashboard-secondary-grid">
+        <SurfaceListCard
+          title="Lifecycle Queue"
+          subtitle="Open onboarding and offboarding work"
+          rows={summary.lifecycleQueue}
+          emptyMessage="No lifecycle items are currently open."
+          renderRow={(row) => (
+            <>
+              <div>
+                <div className="dashboard-list-title">{row.employee?.fullName ?? 'Unknown employee'}</div>
+                <div className="dashboard-list-meta">{row.lifecycleType} | {row.openItems} open items</div>
+              </div>
+              <span className="badge badge-primary">{formatShortDate(row.dueDate)}</span>
+            </>
+          )}
+        />
+        <SurfaceListCard
+          title="Document Alerts"
+          subtitle="Pending acknowledgments and expiring records"
+          rows={summary.documentAlerts}
+          emptyMessage="No document alerts are active."
+          renderRow={(row) => (
+            <>
+              <div>
+                <div className="dashboard-list-title">{row.title}</div>
+                <div className="dashboard-list-meta">{row.employee?.fullName ?? 'Unknown employee'}</div>
+              </div>
+              <span className={`badge ${row.status === 'Pending Acknowledgment' ? 'badge-warning' : 'badge-danger'}`}>{row.status}</span>
+            </>
+          )}
+        />
+      </div>
+
       <div className="card">
         <div className="card-header">
           <div>
             <h3 className="card-title">Recent Employees</h3>
-            <p className="card-subtitle">Latest additions to your team</p>
+            <p className="card-subtitle">Latest hires currently stored in the database</p>
           </div>
-          <button className="button button-outline dashboard-inline-button">View All</button>
+          <button type="button" className="button button-outline dashboard-inline-button" onClick={() => { void loadDashboard(); }}>
+            <RefreshCcw size={16} />
+            Refresh
+          </button>
         </div>
         <table className="data-table">
           <thead>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <th key={header.id}>
-                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                  </th>
-                ))}
-              </tr>
-            ))}
+            <tr>
+              <th>Employee</th>
+              <th>Department</th>
+              <th>Role</th>
+              <th>Join Date</th>
+              <th>Salary</th>
+              <th>Status</th>
+            </tr>
           </thead>
           <tbody>
-            {table.getRowModel().rows.map((row) => (
-              <tr key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
+            {summary.recentEmployees.length === 0 ? (
+              <tr>
+                <td colSpan={6} className="dashboard-table-empty">No employees found.</td>
+              </tr>
+            ) : summary.recentEmployees.map((employee) => (
+              <tr key={employee.id}>
+                <td>
+                  <div className="employee-cell">
+                    <div className="employee-initials">{employee.initials}</div>
+                    <div>
+                      <div className="employee-name">{employee.fullName}</div>
+                      <div className="employee-id">{employee.employeeNumber}</div>
+                    </div>
+                  </div>
+                </td>
+                <td>{employee.department}</td>
+                <td>{employee.jobTitle}</td>
+                <td>{formatShortDate(employee.hireDate)}</td>
+                <td><span className="salary-cell">{formatCurrency(employee.salary)}</span></td>
+                <td><span className={`badge ${getStatusBadgeClass(employee.status)}`}>{employee.status}</span></td>
               </tr>
             ))}
           </tbody>
@@ -265,7 +431,8 @@ export function DashboardPage() {
 interface MetricCardProps {
   title: string;
   value: string;
-  trend?: number;
+  detail?: string;
+  trend?: number | null;
   icon?: ReactNode;
   iconBackground?: string;
   iconColor?: string;
@@ -274,12 +441,15 @@ interface MetricCardProps {
 function MetricCard({
   title,
   value,
+  detail,
   trend,
   icon,
   iconBackground,
   iconColor,
 }: MetricCardProps) {
-  const isPositive = trend !== undefined && trend > 0;
+  const isPositive = trend !== null && trend !== undefined && trend > 0;
+  const isNegative = trend !== null && trend !== undefined && trend < 0;
+  const trendClassName = isPositive ? 'badge-success' : isNegative ? 'badge-danger' : 'badge-primary';
 
   return (
     <div className="card metric-card">
@@ -299,12 +469,43 @@ function MetricCard({
       </div>
       <div className="metric-card-value-row">
         <span className="metric-card-value">{value}</span>
-        {trend !== undefined ? (
-          <span className={`badge ${isPositive ? 'badge-success' : 'badge-danger'} metric-card-trend`}>
-            {isPositive ? <ArrowUpRight size={12} /> : <ArrowDownRight size={12} />}
+        {trend !== null && trend !== undefined ? (
+          <span className={`badge ${trendClassName} metric-card-trend`}>
+            {isNegative ? <ArrowDownRight size={12} /> : <ArrowUpRight size={12} />}
             {Math.abs(trend)}%
           </span>
         ) : null}
+      </div>
+      {detail ? <p className="metric-card-detail">{detail}</p> : null}
+    </div>
+  );
+}
+
+function SurfaceListCard<T>({
+  title,
+  subtitle,
+  rows,
+  emptyMessage,
+  renderRow,
+}: {
+  title: string;
+  subtitle: string;
+  rows: T[];
+  emptyMessage: string;
+  renderRow: (row: T) => ReactNode;
+}) {
+  return (
+    <div className="card">
+      <div className="card-header">
+        <div>
+          <h3 className="card-title">{title}</h3>
+          <p className="card-subtitle">{subtitle}</p>
+        </div>
+      </div>
+      <div className="dashboard-list">
+        {rows.length === 0 ? <div className="dashboard-list-empty">{emptyMessage}</div> : rows.map((row, index) => (
+          <div key={index} className="dashboard-list-row">{renderRow(row)}</div>
+        ))}
       </div>
     </div>
   );

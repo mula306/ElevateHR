@@ -7,12 +7,18 @@ export function errorHandler(err: Error, req: Request, res: Response, _next: Nex
   logger.error({ err, path: req.path, method: req.method }, 'Unhandled error');
 
   if (err instanceof ZodError) {
+    const details = err.flatten();
+    const firstValidationMessage = [
+      ...details.formErrors,
+      ...Object.values(details.fieldErrors).flat().filter(Boolean),
+    ][0] ?? 'Request validation failed';
+
     res.status(400).json({
       success: false,
       error: {
         code: 400,
-        message: 'Request validation failed',
-        details: err.flatten(),
+        message: firstValidationMessage,
+        details,
       },
     });
     return;
@@ -43,13 +49,17 @@ export function errorHandler(err: Error, req: Request, res: Response, _next: Nex
   }
 
   const statusCode = (err as Error & { statusCode?: number }).statusCode ?? 500;
+  const errorType = (err as Error & { errorType?: string }).errorType;
+  const details = (err as Error & { details?: Record<string, unknown> }).details;
   const message = statusCode === 500 ? 'Internal server error' : err.message;
 
   res.status(statusCode).json({
     success: false,
     error: {
       code: statusCode,
+      type: errorType,
       message,
+      details,
     },
   });
 }
