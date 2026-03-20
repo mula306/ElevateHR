@@ -120,6 +120,7 @@ function validateGoalForm(form: GoalFormState) {
 export function PerformancePage() {
   const { session, refreshInboxSummary } = useAppSession();
   const currentEmployeeId = session?.account?.employeeId ?? null;
+  const defaultManagementTab: PerformanceTab = session?.access?.isHrAdmin ? 'cycles' : 'reviews';
   const [summary, setSummary] = useState<PerformanceSummary | null>(null);
   const [cycles, setCycles] = useState<PerformanceCycleRecord[]>([]);
   const [reviews, setReviews] = useState<PerformanceReviewRecord[]>([]);
@@ -127,7 +128,7 @@ export function PerformancePage() {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [orgUnits, setOrgUnits] = useState<OrgUnitRecord[]>([]);
   const [teamSkills, setTeamSkills] = useState<TeamSkillGroupRecord[]>([]);
-  const [tab, setTab] = useState<PerformanceTab>('reviews');
+  const [tab, setTab] = useState<PerformanceTab>(defaultManagementTab);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -452,6 +453,40 @@ export function PerformancePage() {
             <SummaryCard label="Goal completion" value={`${summary.management.goalCompletionRate}%`} detail="Completed and closed goals across current scope" />
           </div>
         ) : null}
+      </div>
+
+      <div className="card performance-start-card">
+        <div className="card-header">
+          <div>
+            <h3 className="card-title">Start Here</h3>
+            <p className="card-subtitle">
+              {summary?.access.isHrAdmin
+                ? 'Use cycles for HR-owned planning, reviews for active manager work, and skills for validation follow-up.'
+                : 'Use reviews for current manager work, goals for individual development, and skills for team validation follow-up.'}
+            </p>
+          </div>
+        </div>
+        <div className="performance-start-grid">
+          {(summary?.access.isHrAdmin ? [
+            ['cycles', 'Review cycles', 'Open, publish, and monitor cycle health.'],
+            ['reviews', 'Team reviews', 'Complete and release manager feedback.'],
+            ['skills', 'Team skills', 'Validate self-identified skills for direct reports.'],
+          ] : [
+            ['reviews', 'Current reviews', 'Finish manager feedback and release final reviews.'],
+            ['goals', 'Individual goals', 'Adjust goals and watch progress notes.'],
+            ['skills', 'Team skills', 'Validate skill claims and add manager notes.'],
+          ]).map(([value, label, copy]) => (
+            <button
+              key={value}
+              type="button"
+              className="performance-start-link"
+              onClick={() => setTab(value as PerformanceTab)}
+            >
+              <strong>{label}</strong>
+              <span>{copy}</span>
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="card">

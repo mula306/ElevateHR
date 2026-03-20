@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
-import { LoaderCircle, RefreshCcw, ShieldAlert } from 'lucide-react';
+import { LoaderCircle, RefreshCcw, Search, ShieldAlert } from 'lucide-react';
 import {
   createApprovalRuleSet,
   createFundingType,
@@ -351,21 +351,25 @@ export function RecruitmentSettingsSection() {
           <button type="button" className={`settings-section-tab ${activeTab === 'rule-sets' ? 'settings-section-tab-active' : ''}`} onClick={() => setActiveTab('rule-sets')}>Approval Rule Sets</button>
         </div>
 
-        <div className="settings-toolbar-grid">
-          <label className="settings-toolbar-field">
-            <span>Search</span>
-            <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Filter records in the active tab" />
-          </label>
-          <label className="settings-toolbar-field">
-            <span>Status</span>
-            <select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value as 'all' | 'active' | 'archived' | 'draft')}>
-              <option value="all">All statuses</option>
-              <option value="active">Active</option>
-              <option value="archived">Archived</option>
-              <option value="draft">Draft</option>
-            </select>
-          </label>
-          <div className="settings-toolbar-actions settings-toolbar-actions-end">
+        <div className="settings-filter-bar">
+          <div className="settings-filter-bar-main">
+            <label className="settings-search-field">
+              <Search size={16} />
+              <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Filter records in the active tab" />
+            </label>
+          </div>
+          <div className="settings-filter-bar-controls">
+            <label className="settings-toolbar-field settings-toolbar-field-inline">
+              <span>Status</span>
+              <select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value as 'all' | 'active' | 'archived' | 'draft')}>
+                <option value="all">All statuses</option>
+                <option value="active">Active</option>
+                <option value="archived">Archived</option>
+                <option value="draft">Draft</option>
+              </select>
+            </label>
+          </div>
+          <div className="settings-filter-bar-actions">
             {activeTab === 'request-types' ? <button type="button" className="button" onClick={() => openRequestTypeEditor()}>Add request type</button> : null}
             {activeTab === 'funding-types' ? <button type="button" className="button" onClick={() => openFundingTypeEditor()}>Add funding type</button> : null}
             {activeTab === 'rule-sets' ? <button type="button" className="button" onClick={() => openRuleSetEditor()}>Add rule set</button> : null}

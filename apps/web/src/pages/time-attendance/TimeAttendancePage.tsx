@@ -11,7 +11,7 @@ import {
   Send,
   TimerReset,
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useAppSession } from '@/shared/auth/AppSessionProvider';
 import { isFeatureEnabled } from '@/shared/features/feature-registry';
 import {
@@ -34,6 +34,10 @@ import { listLeaveRequests, type LeaveRequestRecord } from '@/pages/time-off/tim
 import './TimeAttendancePage.css';
 
 type TimeAttendanceTab = 'schedule' | 'time-card' | 'leave' | 'history';
+
+function isTimeAttendanceTab(value: string | null): value is TimeAttendanceTab {
+  return value === 'schedule' || value === 'time-card' || value === 'leave' || value === 'history';
+}
 
 interface EditableEntry {
   id: string;
@@ -157,7 +161,11 @@ function getCurrentWeekRange() {
 
 export function TimeAttendancePage() {
   const { session } = useAppSession();
-  const [tab, setTab] = useState<TimeAttendanceTab>('schedule');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [tab, setTab] = useState<TimeAttendanceTab>(() => {
+    const requestedTab = searchParams.get('tab');
+    return isTimeAttendanceTab(requestedTab) ? requestedTab : 'schedule';
+  });
   const [summary, setSummary] = useState<TimeAttendanceSummary | null>(null);
   const [schedule, setSchedule] = useState<MyScheduleWorkspace | null>(null);
   const [timeCard, setTimeCard] = useState<TimeCardRecord | null>(null);
@@ -200,6 +208,26 @@ export function TimeAttendancePage() {
   useEffect(() => {
     void loadWorkspace();
   }, [loadWorkspace]);
+
+  useEffect(() => {
+    const requestedTab = searchParams.get('tab');
+    if (isTimeAttendanceTab(requestedTab) && requestedTab !== tab) {
+      setTab(requestedTab);
+    }
+  }, [searchParams, tab]);
+
+  const setActiveTab = (nextTab: TimeAttendanceTab) => {
+    setTab(nextTab);
+    const nextParams = new URLSearchParams(searchParams);
+
+    if (nextTab === 'schedule') {
+      nextParams.delete('tab');
+    } else {
+      nextParams.set('tab', nextTab);
+    }
+
+    setSearchParams(nextParams, { replace: true });
+  };
 
   const scheduleDays = useMemo(() => {
     if (!schedule) {
@@ -410,7 +438,7 @@ export function TimeAttendancePage() {
               key={value}
               type="button"
               className={`time-attendance-tab ${tab === value ? 'time-attendance-tab-active' : ''}`}
-              onClick={() => setTab(value)}
+              onClick={() => setActiveTab(value)}
             >
               {label}
             </button>
@@ -576,9 +604,9 @@ export function TimeAttendancePage() {
             <div className="card-header">
               <div>
                 <h3 className="card-title">Leave</h3>
-                <p className="card-subtitle">Keep current requests visible from the same workforce-time workspace, while full request management remains available in Time Off.</p>
+                <p className="card-subtitle">Keep leave context inside the same workforce-time workspace, then open the focused leave request flow only when you need to create, edit, or cancel a request.</p>
               </div>
-              <Link to="/time-off" className="button">Open Time Off</Link>
+              <Link to="/time-off" className="button">Manage leave requests</Link>
             </div>
 
             {!timeOffRequestsEnabled ? (

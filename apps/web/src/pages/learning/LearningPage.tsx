@@ -101,6 +101,7 @@ function emptyRuleForm() {
 export function LearningPage() {
   const { session } = useAppSession();
   const currentEmployeeId = session?.account?.employeeId ?? null;
+  const defaultLearningTab: LearningTab = session?.access?.isHrAdmin ? 'overview' : 'assignments';
   const [summary, setSummary] = useState<LearningSummary | null>(null);
   const [catalog, setCatalog] = useState<LearningContentRecord[]>([]);
   const [assignments, setAssignments] = useState<LearningAssignmentRecord[]>([]);
@@ -112,7 +113,7 @@ export function LearningPage() {
   const [positions, setPositions] = useState<PositionRecord[]>([]);
   const [classifications, setClassifications] = useState<ClassificationRecord[]>([]);
   const [skillTaxonomy, setSkillTaxonomy] = useState<SkillCategoryRecord[]>([]);
-  const [tab, setTab] = useState<LearningTab>('overview');
+  const [tab, setTab] = useState<LearningTab>(defaultLearningTab);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -347,7 +348,11 @@ export function LearningPage() {
           <div>
             <span className="learning-admin-eyebrow">Management</span>
             <h1 className="page-title">Learning</h1>
-            <p className="page-subtitle">Provider-backed learning operations with assignment controls, curated paths, automation rules, and compliance visibility.</p>
+            <p className="page-subtitle">
+              {isHrAdmin
+                ? 'Provider-backed learning operations with assignment controls, curated paths, automation rules, and compliance visibility.'
+                : 'Team learning follow-up with assignments, due pressure, catalog visibility, and reusable paths without the HR-only provider overhead.'}
+            </p>
           </div>
           <div className="learning-admin-header-actions">
             <button type="button" className="button button-outline" onClick={() => { void loadData(); }}>

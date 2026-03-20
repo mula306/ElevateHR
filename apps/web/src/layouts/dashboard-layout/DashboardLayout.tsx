@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Bell,
   ChevronDown,
@@ -10,9 +10,10 @@ import {
   TrendingUp,
   X,
 } from 'lucide-react';
-import { Link, NavLink, Outlet } from 'react-router-dom';
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAppSession } from '@/shared/auth/AppSessionProvider';
 import { getNavigationSections } from '@/shared/navigation/navigation';
+import { searchGlobal, type GlobalSearchResultGroup, type GlobalSearchResultItem } from '@/shared/search/search.api';
 import './DashboardLayout.css';
 
 function getInitials(value: string) {
@@ -39,9 +40,19 @@ function formatShortDate(value: string | null) {
   }).format(new Date(value));
 }
 
+function flattenSearchGroups(groups: GlobalSearchResultGroup[]) {
+  return groups.flatMap((group) => group.items);
+}
+
 export function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
+  const [commandQuery, setCommandQuery] = useState('');
+  const [commandResults, setCommandResults] = useState<GlobalSearchResultGroup[]>([]);
+  const [commandLoading, setCommandLoading] = useState(false);
+  const [commandError, setCommandError] = useState<string | null>(null);
+  const [activeResultIndex, setActiveResultIndex] = useState(0);
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window === 'undefined') {
       return false;
@@ -61,14 +72,155 @@ export function DashboardLayout() {
     setSelectedDevAccountId,
     signOut,
   } = useAppSession();
+  const navigate = useNavigate();
   const navigationSections = getNavigationSections(session?.access?.visibleRoutes);
+  const notificationButtonRef = useRef<HTMLButtonElement | null>(null);
+  const notificationPopoverRef = useRef<HTMLDivElement | null>(null);
+  const searchButtonRef = useRef<HTMLButtonElement | null>(null);
+  const commandPaletteRef = useRef<HTMLDivElement | null>(null);
+  const commandInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
     window.localStorage.setItem('elevate-theme', darkMode ? 'dark' : 'light');
   }, [darkMode]);
 
+  useEffect(() => {
+    if (!commandPaletteOpen) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      commandInputRef.current?.focus();
+    }, 0);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [commandPaletteOpen]);
+
+  useEffect(() => {
+    const handleKeyboardShortcut = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        setCommandPaletteOpen(true);
+        setNotificationsOpen(false);
+      }
+
+      if (event.key === 'Escape') {
+        if (commandPaletteOpen) {
+          setCommandPaletteOpen(false);
+          setCommandQuery('');
+          setCommandResults([]);
+          setCommandError(null);
+          searchButtonRef.current?.focus();
+        }
+
+        if (notificationsOpen) {
+          setNotificationsOpen(false);
+          notificationButtonRef.current?.focus();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyboardShortcut);
+    return () => window.removeEventListener('keydown', handleKeyboardShortcut);
+  }, [commandPaletteOpen, notificationsOpen]);
+
+  useEffect(() => {
+    if (!commandPaletteOpen || commandQuery.trim().length < 2) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setCommandLoading(true);
+      setCommandError(null);
+      void searchGlobal(commandQuery.trim(), 5)
+        .then((result) => {
+          setCommandResults(result.groups);
+          setActiveResultIndex(0);
+        })
+        .catch((error) => {
+          setCommandError(error instanceof Error ? error.message : 'Unable to search the workspace.');
+          setCommandResults([]);
+        })
+        .finally(() => setCommandLoading(false));
+    }, 200);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [commandPaletteOpen, commandQuery]);
+
+  useEffect(() => {
+    if (!commandPaletteOpen && !notificationsOpen) {
+      return;
+    }
+
+    const handlePointerDown = (event: MouseEvent) => {
+      const target = event.target as Node;
+
+      if (
+        notificationsOpen
+        && notificationPopoverRef.current
+        && !notificationPopoverRef.current.contains(target)
+        && !notificationButtonRef.current?.contains(target)
+      ) {
+        setNotificationsOpen(false);
+      }
+
+      if (
+        commandPaletteOpen
+        && commandPaletteRef.current
+        && !commandPaletteRef.current.contains(target)
+        && !searchButtonRef.current?.contains(target)
+      ) {
+        setCommandPaletteOpen(false);
+        setCommandQuery('');
+        setCommandResults([]);
+        setCommandError(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handlePointerDown);
+    return () => document.removeEventListener('mousedown', handlePointerDown);
+  }, [commandPaletteOpen, notificationsOpen]);
+
+  const workspaceShortcuts = useMemo<GlobalSearchResultGroup[]>(() => {
+    const items = navigationSections.flatMap((section) => (
+      section.items.map((item) => ({
+        id: item.to,
+        type: 'workspace' as const,
+        title: item.label,
+        subtitle: section.label,
+        route: item.to === '/time-off' ? '/time-attendance?tab=leave' : item.to,
+        badge: section.label,
+      }))
+    ));
+
+    return items.length > 0 ? [{ type: 'workspace', label: 'Workspaces', items }] : [];
+  }, [navigationSections]);
+
+  const visibleSearchGroups = commandQuery.trim().length >= 2 ? commandResults : workspaceShortcuts;
+  const flattenedResults = flattenSearchGroups(visibleSearchGroups);
+
   const closeSidebar = () => setSidebarOpen(false);
+
+  const closeCommandPalette = () => {
+    setCommandPaletteOpen(false);
+    setCommandQuery('');
+    setCommandResults([]);
+    setCommandError(null);
+    setActiveResultIndex(0);
+  };
+
+  const openCommandPalette = () => {
+    setNotificationsOpen(false);
+    setCommandError(null);
+    setCommandResults([]);
+    setCommandPaletteOpen(true);
+  };
+
+  const goToResult = (result: GlobalSearchResultItem) => {
+    navigate(result.route);
+    closeCommandPalette();
+  };
 
   return (
     <div className="app-shell">
@@ -126,13 +278,20 @@ export function DashboardLayout() {
       <div className="main-wrapper">
         <header className="top-header">
           <div className="header-left">
-            <button className="mobile-menu-btn" onClick={() => setSidebarOpen(true)} title="Open menu">
+            <button className="mobile-menu-btn" onClick={() => setSidebarOpen(true)} title="Open menu" aria-label="Open menu">
               <Menu size={20} />
             </button>
-            <div className="header-search">
+            <button
+              ref={searchButtonRef}
+              type="button"
+              className="header-search-trigger"
+              onClick={openCommandPalette}
+              aria-label="Open global search"
+            >
               <Search size={16} className="header-search-icon" />
-              <input type="search" placeholder="Search employees, reports, or actions" className="header-search-input" />
-            </div>
+              <span className="header-search-text">Quick search</span>
+              <span className="header-search-shortcut">Ctrl K</span>
+            </button>
           </div>
 
           <div className="header-actions">
@@ -140,19 +299,22 @@ export function DashboardLayout() {
               className="theme-toggle"
               onClick={() => setDarkMode((currentValue) => !currentValue)}
               title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+              aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
             >
               {darkMode ? <Sun size={18} /> : <Moon size={18} />}
             </button>
             <button
+              ref={notificationButtonRef}
               className={`header-icon-btn ${inboxSummary?.openCount ? 'header-icon-btn-badge' : ''}`}
               title="Inbox activity"
+              aria-label="Inbox activity"
               onClick={() => setNotificationsOpen((currentValue) => !currentValue)}
             >
               <Bell size={18} />
               {inboxSummary?.openCount ? <span className="header-icon-pill">{getBadgeLabel(inboxSummary.openCount)}</span> : null}
             </button>
             {notificationsOpen ? (
-              <div className="header-popover">
+              <div ref={notificationPopoverRef} className="header-popover">
                 <div className="header-popover-header">
                   <div>
                     <strong>Inbox activity</strong>
@@ -201,11 +363,104 @@ export function DashboardLayout() {
               </div>
               <ChevronDown size={14} className="header-chevron" />
             </div>
-            <button type="button" className="header-icon-btn" title="Sign out" onClick={() => { void signOut(); }}>
+            <button type="button" className="header-icon-btn" title="Sign out" aria-label="Sign out" onClick={() => { void signOut(); }}>
               <LogOut size={18} />
             </button>
           </div>
         </header>
+
+        {commandPaletteOpen ? (
+          <div className="command-palette-backdrop" role="presentation">
+            <div
+              ref={commandPaletteRef}
+              className="command-palette"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="command-palette-title"
+            >
+              <div className="command-palette-header">
+                <div>
+                  <strong id="command-palette-title">Quick search</strong>
+                  <span>Employees, positions, requests, inbox work, learning, and workspaces.</span>
+                </div>
+                <button type="button" className="header-icon-btn" onClick={closeCommandPalette} aria-label="Close quick search">
+                  <X size={18} />
+                </button>
+              </div>
+
+              <label className="command-palette-input-shell">
+                <Search size={16} />
+                <input
+                  ref={commandInputRef}
+                  type="search"
+                  value={commandQuery}
+                  onChange={(event) => {
+                    const nextValue = event.target.value;
+                    setCommandQuery(nextValue);
+                    if (nextValue.trim().length < 2) {
+                      setCommandResults([]);
+                      setCommandError(null);
+                      setCommandLoading(false);
+                      setActiveResultIndex(0);
+                    }
+                  }}
+                  onKeyDown={(event) => {
+                    if (event.key === 'ArrowDown') {
+                      event.preventDefault();
+                      setActiveResultIndex((currentValue) => Math.min(currentValue + 1, Math.max(flattenedResults.length - 1, 0)));
+                    }
+
+                    if (event.key === 'ArrowUp') {
+                      event.preventDefault();
+                      setActiveResultIndex((currentValue) => Math.max(currentValue - 1, 0));
+                    }
+
+                    if (event.key === 'Enter' && flattenedResults[activeResultIndex]) {
+                      event.preventDefault();
+                      goToResult(flattenedResults[activeResultIndex]);
+                    }
+                  }}
+                  placeholder="Search by employee, position, request number, or workspace"
+                />
+              </label>
+
+              <div className="command-palette-body">
+                {commandLoading ? (
+                  <div className="command-palette-state">Searching the workspace...</div>
+                ) : commandError ? (
+                  <div className="command-palette-state command-palette-state-error">{commandError}</div>
+                ) : visibleSearchGroups.length === 0 ? (
+                  <div className="command-palette-state">No results match the current search.</div>
+                ) : (
+                  visibleSearchGroups.map((group) => (
+                    <section key={group.type} className="command-palette-group">
+                      <div className="command-palette-group-label">{group.label}</div>
+                      <div className="command-palette-group-list">
+                        {group.items.map((item) => {
+                          const resultIndex = flattenedResults.findIndex((candidate) => candidate.id === item.id && candidate.route === item.route);
+                          return (
+                            <button
+                              key={`${item.type}-${item.id}-${item.route}`}
+                              type="button"
+                              className={`command-palette-result ${resultIndex === activeResultIndex ? 'command-palette-result-active' : ''}`}
+                              onClick={() => goToResult(item)}
+                            >
+                              <div>
+                                <div className="command-palette-result-title">{item.title}</div>
+                                <div className="command-palette-result-subtitle">{item.subtitle}</div>
+                              </div>
+                              {item.badge ? <span className="badge badge-primary">{item.badge}</span> : null}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </section>
+                  ))
+                )}
+              </div>
+            </div>
+          </div>
+        ) : null}
 
         <main className="main-content">
           <Outlet />

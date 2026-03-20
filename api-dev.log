@@ -6298,3 +6298,9 @@ Restarting 'src/server.ts'
 [18:12:57.594] [32mINFO[39m (54228): [36mEnvironment: development[39m
 [18:12:57.594] [33mWARN[39m (54228): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
 Completed running 'src/server.ts'. Waiting for file changes before restarting...
+Restarting 'src/server.ts'
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚡️ secrets for agents: https://dotenvx.com/as2
+[18:28:57.650] [32mINFO[39m (21312): [36mElevate HR API running on http://localhost:4000[39m
+[18:28:57.650] [32mINFO[39m (21312): [36mEnvironment: development[39m
+[18:28:57.650] [33mWARN[39m (21312): [36mAUTH_BYPASS is enabled; JWT validation is skipped[39m
+Completed running 'src/server.ts'. Waiting for file changes before restarting...

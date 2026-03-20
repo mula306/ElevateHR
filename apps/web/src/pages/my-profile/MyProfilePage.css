@@ -76,6 +76,15 @@
   color: #991b1b;
 }
 
+.my-profile-banner-info {
+  background: rgba(14, 116, 144, 0.12);
+  color: #155e75;
+}
+
+.my-profile-banner .button {
+  margin-left: auto;
+}
+
 .my-profile-tab-list {
   display: flex;
   flex-wrap: wrap;
@@ -152,6 +161,72 @@
   gap: 1rem;
 }
 
+.my-profile-taxonomy-browser {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: linear-gradient(180deg, rgba(248, 250, 252, 0.95), rgba(255, 255, 255, 0.95));
+}
+
+.my-profile-taxonomy-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.my-profile-taxonomy-header h4 {
+  margin: 0;
+  color: #0f172a;
+}
+
+.my-profile-taxonomy-header p {
+  margin: 0.3rem 0 0;
+  color: #475569;
+  font-size: var(--font-size-sm);
+}
+
+.my-profile-taxonomy-header input {
+  width: min(260px, 100%);
+  padding: 0.8rem 0.9rem;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  background: #fff;
+}
+
+.my-profile-taxonomy-groups {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.my-profile-taxonomy-group {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.my-profile-taxonomy-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.my-profile-taxonomy-tag {
+  padding: 0.55rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: #fff;
+  color: #334155;
+  font-weight: 600;
+}
+
+.my-profile-taxonomy-tag-active {
+  background: rgba(14, 116, 144, 0.12);
+  border-color: rgba(14, 116, 144, 0.28);
+  color: #155e75;
+}
+
 .my-profile-skill-card {
   display: grid;
   gap: 0.8rem;
@@ -204,5 +279,9 @@
 @media (max-width: 900px) {
   .my-profile-skills-layout {
     grid-template-columns: 1fr;
+  }
+
+  .my-profile-taxonomy-header {
+    flex-direction: column;
   }
 }

@@ -1,7 +1,7 @@
 .settings-console {
   display: grid;
   grid-template-columns: 280px minmax(0, 1fr);
-  gap: 1.5rem;
+  gap: 1.75rem;
   align-items: start;
 }
 
@@ -20,8 +20,12 @@
   position: sticky;
   top: 1.5rem;
   display: grid;
-  gap: 1.25rem;
-  padding: 1.25rem;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 1.25rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.96)),
+    radial-gradient(circle at top left, rgba(0, 152, 219, 0.08), transparent 46%);
 }
 
 .settings-console-sidebar-header,
@@ -60,7 +64,9 @@
 }
 
 .settings-console-nav-item {
-  padding: 0.95rem 1rem;
+  position: relative;
+  min-height: 88px;
+  padding: 1rem 1rem 1rem 1.1rem;
 }
 
 .settings-console-nav-item strong,
@@ -106,6 +112,17 @@
   box-shadow: 0 16px 36px rgba(0, 152, 219, 0.14);
 }
 
+.settings-console-nav-item-active::before {
+  content: '';
+  position: absolute;
+  left: 0.55rem;
+  top: 0.85rem;
+  bottom: 0.85rem;
+  width: 4px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(0, 152, 219, 0.95), rgba(5, 150, 105, 0.75));
+}
+
 .settings-console-main {
   display: grid;
   gap: 1.5rem;
@@ -114,6 +131,7 @@
 
 .settings-hero {
   padding: 1.4rem 1.5rem;
+  border-radius: 1.25rem;
   background:
     radial-gradient(circle at top left, rgba(0, 152, 219, 0.14), transparent 36%),
     linear-gradient(135deg, rgba(15, 23, 42, 0.03), rgba(255, 255, 255, 0.92));
@@ -253,6 +271,40 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.9rem;
   align-items: end;
+}
+
+.settings-filter-bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) auto auto;
+  gap: 0.9rem;
+  align-items: end;
+  padding: 1rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 1.1rem;
+  background:
+    linear-gradient(180deg, rgba(248, 250, 252, 0.82), rgba(255, 255, 255, 0.98)),
+    radial-gradient(circle at top left, rgba(0, 152, 219, 0.06), transparent 40%);
+}
+
+.settings-filter-bar-main,
+.settings-filter-bar-controls,
+.settings-filter-bar-actions {
+  display: flex;
+  gap: 0.85rem;
+  align-items: end;
+}
+
+.settings-filter-bar-main {
+  min-width: 0;
+}
+
+.settings-filter-bar-controls {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.settings-filter-bar-actions {
+  justify-content: flex-end;
 }
 
 .settings-toolbar-grid-compact {
@@ -458,7 +510,22 @@
 }
 
 .settings-toolbar-field-inline {
-  min-width: 130px;
+  min-width: 150px;
+}
+
+.settings-filter-bar .settings-toolbar-field {
+  gap: 0.35rem;
+}
+
+.settings-filter-bar .settings-toolbar-field > span {
+  padding-left: 0.15rem;
+}
+
+.settings-filter-bar .settings-toolbar-field select,
+.settings-filter-bar .settings-toolbar-field input {
+  min-height: 52px;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.98);
 }
 
 .settings-skill-add-group {
@@ -765,9 +832,19 @@
   .settings-overview-grid,
   .settings-skill-shell,
   .settings-skill-editor-grid,
+  .settings-filter-bar,
+  .settings-filter-bar-main,
+  .settings-filter-bar-controls,
+  .settings-filter-bar-actions,
   .settings-toolbar-grid,
   .settings-drawer-body {
     grid-template-columns: 1fr;
+  }
+
+  .settings-filter-bar-main,
+  .settings-filter-bar-controls,
+  .settings-filter-bar-actions {
+    display: grid;
   }
 
   .settings-hero-header,
@@ -802,6 +879,10 @@
   .settings-search-field {
     min-width: 0;
     width: 100%;
+  }
+
+  .settings-filter-bar {
+    padding: 0.9rem;
   }
 
   .settings-record-head {

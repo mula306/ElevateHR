@@ -241,7 +241,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'calendar',
-        element: <Navigate to="/time-off" replace />,
+        element: <Navigate to="/time-attendance?tab=leave" replace />,
       },
       {
         path: 'reports',

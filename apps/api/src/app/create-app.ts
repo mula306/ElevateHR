@@ -13,6 +13,7 @@ import organizationRouter from '../modules/organization/organization.router';
 import performanceRouter from '../modules/performance/performance.router';
 import recruitmentRouter from '../modules/recruitment/recruitment.router';
 import reportsRouter from '../modules/reports/reports.router';
+import searchRouter from '../modules/search/search.router';
 import sessionRouter from '../modules/session/session.router';
 import settingsRouter from '../modules/settings/settings.router';
 import timeAttendanceRouter from '../modules/time-attendance/time-attendance.router';
@@ -70,6 +71,7 @@ export function createApp() {
   });
 
   app.use('/api/dashboard', authenticate, dashboardRouter);
+  app.use('/api/search', authenticate, searchRouter);
   app.use('/api/session', authenticate, sessionRouter);
   app.use('/api/inbox', authenticate, inboxRouter);
   app.use('/api/my-profile', authenticate, myProfileRouter);

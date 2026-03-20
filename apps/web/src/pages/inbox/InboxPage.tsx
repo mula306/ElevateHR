@@ -52,7 +52,7 @@ function getPriorityBadge(priority: string) {
 
 function getSourceRoute(item: InboxItem) {
   if (item.sourceType === 'Leave') {
-    return '/time-off';
+    return '/time-attendance?tab=leave';
   }
 
   if (item.sourceType === 'Performance') {
@@ -88,14 +88,8 @@ export function InboxPage() {
   const [dueWindow, setDueWindow] = useState<'all' | 'overdue' | 'today' | 'next7'>('all');
   const [source, setSource] = useState<'' | 'Leave' | 'Checklist' | 'Document' | 'Performance' | 'Learning' | 'Time' | 'Recruitment' | 'Operational'>('');
   const [search, setSearch] = useState('');
-  const [query, setQuery] = useState<InboxItemsQuery>({
-    tab: 'open',
-    dueWindow: 'all',
-    source: '',
-    search: '',
-    page: 1,
-    limit: 25,
-  });
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+  const [page, setPage] = useState(1);
   const [items, setItems] = useState<InboxItem[]>([]);
   const [pagination, setPagination] = useState({
     page: 1,
@@ -128,27 +122,29 @@ export function InboxPage() {
   }, []);
 
   useEffect(() => {
+    const timeoutId = window.setTimeout(() => {
+      setDebouncedSearch(search.trim());
+    }, 250);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [search]);
+
+  const query: InboxItemsQuery = useMemo(() => ({
+    tab,
+    dueWindow,
+    source,
+    search: debouncedSearch,
+    page,
+    limit: 25,
+  }), [debouncedSearch, dueWindow, page, source, tab]);
+
+  useEffect(() => {
     void loadItems(query);
   }, [loadItems, query]);
 
-  const applyFilters = () => {
-    setQuery({
-      tab,
-      dueWindow,
-      source,
-      search: search.trim(),
-      page: 1,
-      limit: 25,
-    });
-  };
-
   const changeTab = (nextTab: InboxTab) => {
     setTab(nextTab);
-    setQuery((current) => ({
-      ...current,
-      tab: nextTab,
-      page: 1,
-    }));
+    setPage(1);
   };
 
   const handleWorkflowStatusUpdate = async (item: InboxItem, status: 'Open' | 'Completed') => {
@@ -261,10 +257,40 @@ export function InboxPage() {
           <span className="inbox-summary-value">{(inboxSummary?.approvalCount ?? 0).toLocaleString()}</span>
           <span className="inbox-summary-detail">Leave and time approvals awaiting action</span>
         </div>
-        <div className="card inbox-summary-card">
+      <div className="card inbox-summary-card">
           <span className="inbox-summary-label">Due today</span>
           <span className="inbox-summary-value">{(inboxSummary?.dueTodayCount ?? 0).toLocaleString()}</span>
           <span className="inbox-summary-detail">Priority items due this day</span>
+        </div>
+      </div>
+
+      <div className="card inbox-start-card">
+        <div className="card-header">
+          <div>
+            <h3 className="card-title">Start Here</h3>
+            <p className="card-subtitle">Move from triage into the right workspace without guessing which module owns the work.</p>
+          </div>
+        </div>
+        <div className="inbox-start-grid">
+          <Link to="/time-attendance?tab=leave" className="inbox-start-link">
+            <strong>Leave and time follow-up</strong>
+            <span>Jump to leave context and current workforce-time work.</span>
+          </Link>
+          {session?.access?.isManager || session?.access?.isHrAdmin ? (
+            <Link to="/performance" className="inbox-start-link">
+              <strong>Planning for Success</strong>
+              <span>Open review, goal, and team-skill work.</span>
+            </Link>
+          ) : (
+            <Link to="/my-performance" className="inbox-start-link">
+              <strong>My Planning for Success</strong>
+              <span>Open self-reviews, goals, and acknowledgments.</span>
+            </Link>
+          )}
+          <Link to="/my-learning" className="inbox-start-link">
+            <strong>My Learning</strong>
+            <span>Handle required training and certificate follow-up.</span>
+          </Link>
         </div>
       </div>
 
@@ -293,7 +319,10 @@ export function InboxPage() {
         <div className="inbox-filters">
           <label className="inbox-field">
             <span>Source</span>
-            <select value={source} onChange={(event) => setSource(event.target.value as typeof source)}>
+            <select value={source} onChange={(event) => {
+              setSource(event.target.value as typeof source);
+              setPage(1);
+            }}>
               <option value="">All sources</option>
               <option value="Leave">Leave</option>
               <option value="Checklist">Checklist</option>
@@ -307,7 +336,10 @@ export function InboxPage() {
 
           <label className="inbox-field">
             <span>Due window</span>
-            <select value={dueWindow} onChange={(event) => setDueWindow(event.target.value as typeof dueWindow)}>
+            <select value={dueWindow} onChange={(event) => {
+              setDueWindow(event.target.value as typeof dueWindow);
+              setPage(1);
+            }}>
               <option value="all">All dates</option>
               <option value="overdue">Overdue</option>
               <option value="today">Due today</option>
@@ -322,22 +354,14 @@ export function InboxPage() {
               <input
                 type="search"
                 value={search}
-                onChange={(event) => setSearch(event.target.value)}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter') {
-                    applyFilters();
-                  }
+                onChange={(event) => {
+                  setSearch(event.target.value);
+                  setPage(1);
                 }}
                 placeholder="Search title or employee"
               />
             </div>
           </label>
-
-          <div className="inbox-filter-actions">
-            <button type="button" className="button" onClick={applyFilters}>
-              Apply Filters
-            </button>
-          </div>
         </div>
       </div>
 
@@ -376,11 +400,11 @@ export function InboxPage() {
                 </thead>
                 <tbody>
                   {items.map((item) => (
-                    <tr key={item.id}>
+                    <tr key={item.id} className={item.priority === 'High' ? 'inbox-row-urgent' : ''}>
                       <td>
                         <div className="inbox-title-cell">
                           <div className="inbox-item-title">{item.title}</div>
-                          <div className="inbox-item-meta">{item.taskType} | {item.status}</div>
+                          <div className="inbox-item-meta">{getWorkKindLabel(item)} | {item.taskType} | {item.status}</div>
                         </div>
                       </td>
                       <td>{item.sourceType}</td>
@@ -425,7 +449,7 @@ export function InboxPage() {
             type="button"
             className="button button-outline"
             disabled={pagination.page <= 1 || loading}
-            onClick={() => setQuery((current) => ({ ...current, page: Math.max(current.page ?? 1, 2) - 1 }))}
+            onClick={() => setPage((current) => Math.max(current, 2) - 1)}
           >
             <ArrowLeft size={16} />
             Previous
@@ -435,7 +459,7 @@ export function InboxPage() {
             type="button"
             className="button button-outline"
             disabled={pagination.page >= pagination.totalPages || loading || pagination.totalPages === 0}
-            onClick={() => setQuery((current) => ({ ...current, page: (current.page ?? 1) + 1 }))}
+            onClick={() => setPage((current) => current + 1)}
           >
             Next
             <ArrowRight size={16} />
@@ -482,6 +506,18 @@ export function InboxPage() {
   );
 }
 
+function getWorkKindLabel(item: InboxItem) {
+  if (item.actionKind === 'approve_leave' || item.actionKind === 'approve_time_card') {
+    return 'Approval';
+  }
+
+  if (item.priority === 'High') {
+    return 'Alert';
+  }
+
+  return 'Task';
+}
+
 function renderActionCell(
   item: InboxItem,
   savingId: string | null,
@@ -513,21 +549,29 @@ function renderActionCell(
           <XCircle size={16} />
           Reject
         </button>
+        <Link to={getSourceRoute(item)} className="button button-outline">
+          Open record
+        </Link>
       </div>
     );
   }
 
   if (item.actionKind === 'complete_task') {
     return (
-      <button
-        type="button"
-        className="button button-outline"
-        onClick={() => { void handleWorkflowStatusUpdate(item, item.status === 'Completed' ? 'Open' : 'Completed'); }}
-        disabled={savingId === item.id}
-      >
-        <ClipboardCheck size={16} />
-        {item.status === 'Completed' ? 'Reopen' : 'Complete'}
-      </button>
+      <div className="inbox-row-actions">
+        <button
+          type="button"
+          className="button button-outline"
+          onClick={() => { void handleWorkflowStatusUpdate(item, item.status === 'Completed' ? 'Open' : 'Completed'); }}
+          disabled={savingId === item.id}
+        >
+          <ClipboardCheck size={16} />
+          {item.status === 'Completed' ? 'Reopen' : 'Complete'}
+        </button>
+        <Link to={getSourceRoute(item)} className="button button-outline">
+          Open record
+        </Link>
+      </div>
     );
   }
 

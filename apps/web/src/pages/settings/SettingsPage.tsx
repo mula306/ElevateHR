@@ -671,27 +671,31 @@ function FeaturesSection({
           </button>
         </div>
 
-        <div className="settings-toolbar-grid">
-          <label className="settings-toolbar-field">
-            <span>Search</span>
-            <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search by label, key, or description" />
-          </label>
-          <label className="settings-toolbar-field">
-            <span>Type</span>
-            <select value={typeFilter} onChange={(event) => setTypeFilter(event.target.value as 'all' | 'workspace' | 'subfeature')}>
-              <option value="all">All features</option>
-              <option value="workspace">Workspaces</option>
-              <option value="subfeature">Subfeatures</option>
-            </select>
-          </label>
-          <label className="settings-toolbar-field">
-            <span>Status</span>
-            <select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value as 'all' | 'enabled' | 'disabled')}>
-              <option value="all">Enabled and disabled</option>
-              <option value="enabled">Enabled only</option>
-              <option value="disabled">Disabled only</option>
-            </select>
-          </label>
+        <div className="settings-filter-bar">
+          <div className="settings-filter-bar-main">
+            <label className="settings-search-field">
+              <Search size={16} />
+              <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search by label, key, or description" />
+            </label>
+          </div>
+          <div className="settings-filter-bar-controls">
+            <label className="settings-toolbar-field settings-toolbar-field-inline">
+              <span>Type</span>
+              <select value={typeFilter} onChange={(event) => setTypeFilter(event.target.value as 'all' | 'workspace' | 'subfeature')}>
+                <option value="all">All features</option>
+                <option value="workspace">Workspaces</option>
+                <option value="subfeature">Subfeatures</option>
+              </select>
+            </label>
+            <label className="settings-toolbar-field settings-toolbar-field-inline">
+              <span>Status</span>
+              <select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value as 'all' | 'enabled' | 'disabled')}>
+                <option value="all">Enabled and disabled</option>
+                <option value="enabled">Enabled only</option>
+                <option value="disabled">Disabled only</option>
+              </select>
+            </label>
+          </div>
         </div>
 
         {loading ? (

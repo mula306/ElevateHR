@@ -76,6 +76,7 @@ const timeOffRoute: FeatureRoute = {
   icon: Calendar,
   audiences: ['staff', 'manager', 'hr_admin'],
   section: 'my_work',
+  showInMenu: false,
   summary: 'Request time away, review your own leave history, and keep upcoming holidays visible.',
   description: 'This workspace stays self-service first so every signed-in user can request time off without mixing in approval operations.',
   capabilities: ['Self-service leave requests', 'Personal request history and statuses', 'Upcoming holidays and closures'],
@@ -323,8 +324,8 @@ export function getDefaultRoute(access: NavigationAccess | null | undefined) {
     return '/inbox';
   }
 
-  if (canAccessRoute(access, '/time-off')) {
-    return '/time-off';
+  if (canAccessRoute(access, '/time-attendance')) {
+    return '/time-attendance';
   }
 
   return '/inbox';

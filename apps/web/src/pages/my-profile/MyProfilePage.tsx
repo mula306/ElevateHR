@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 import {
   AlertTriangle,
   BriefcaseBusiness,
@@ -99,6 +99,7 @@ export function MyProfilePage() {
   const [personalForm, setPersonalForm] = useState<PersonalFormState>(emptyPersonalForm);
   const [skillForm, setSkillForm] = useState<SkillFormState>(emptySkillForm);
   const [editingSkillId, setEditingSkillId] = useState<string | null>(null);
+  const [skillSearch, setSkillSearch] = useState('');
 
   const loadWorkspace = useCallback(async () => {
     setLoading(true);
@@ -129,6 +130,32 @@ export function MyProfilePage() {
   useEffect(() => {
     void loadWorkspace();
   }, [loadWorkspace]);
+
+  const personalDirty = useMemo(() => {
+    if (!profile) {
+      return false;
+    }
+
+    return JSON.stringify(personalForm) !== JSON.stringify(toPersonalForm(profile));
+  }, [personalForm, profile]);
+
+  const filteredTaxonomy = useMemo(() => {
+    const normalizedSearch = skillSearch.trim().toLowerCase();
+
+    if (!normalizedSearch) {
+        return taxonomy;
+    }
+
+    return taxonomy
+      .map((category) => ({
+        ...category,
+        tags: category.tags.filter((tag) => (
+          tag.name.toLowerCase().includes(normalizedSearch)
+          || (tag.description ?? '').toLowerCase().includes(normalizedSearch)
+        )),
+      }))
+      .filter((category) => category.tags.length > 0);
+  }, [skillSearch, taxonomy]);
 
   const submitPersonalProfile = async () => {
     if (!profile) {
@@ -300,6 +327,19 @@ export function MyProfilePage() {
                 <p className="card-subtitle">This section is employee-managed and updates your self-service contact record directly.</p>
               </div>
             </div>
+            {personalDirty ? (
+              <div className="my-profile-banner my-profile-banner-info">
+                <AlertTriangle size={16} />
+                <span>You have unsaved personal information changes.</span>
+                <button
+                  type="button"
+                  className="button button-outline"
+                  onClick={() => setPersonalForm(toPersonalForm(profile))}
+                >
+                  Reset
+                </button>
+              </div>
+            ) : null}
             <div className="my-profile-form-grid">
               <Field label="Email"><input value={personalForm.email} onChange={(event) => setPersonalForm((current) => ({ ...current, email: event.target.value }))} /></Field>
               <Field label="Phone"><input value={personalForm.phone} onChange={(event) => setPersonalForm((current) => ({ ...current, phone: event.target.value }))} /></Field>
@@ -378,6 +418,45 @@ export function MyProfilePage() {
                   </select>
                 </Field>
               </div>
+              {!editingSkillId ? (
+                <div className="my-profile-taxonomy-browser">
+                  <div className="my-profile-taxonomy-header">
+                    <div>
+                      <h4>Browse skills by category</h4>
+                      <p>Use the grouped taxonomy to pick the right skill quickly.</p>
+                    </div>
+                    <input
+                      type="search"
+                      value={skillSearch}
+                      onChange={(event) => setSkillSearch(event.target.value)}
+                      placeholder="Search skills or aliases"
+                    />
+                  </div>
+
+                  <div className="my-profile-taxonomy-groups">
+                    {filteredTaxonomy.map((category) => (
+                      <div key={category.id} className="my-profile-taxonomy-group">
+                        <strong>{category.name}</strong>
+                        <div className="my-profile-taxonomy-tags">
+                          {category.tags.map((tag) => (
+                            <button
+                              key={tag.id}
+                              type="button"
+                              className={`my-profile-taxonomy-tag ${skillForm.skillTagId === tag.id ? 'my-profile-taxonomy-tag-active' : ''}`}
+                              onClick={() => setSkillForm((current) => ({ ...current, skillTagId: tag.id }))}
+                            >
+                              {tag.name}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                    {filteredTaxonomy.length === 0 ? (
+                      <div className="my-profile-empty">No taxonomy skills match the current search.</div>
+                    ) : null}
+                  </div>
+                </div>
+              ) : null}
               <div className="my-profile-actions">
                 <button type="button" className="button button-outline" onClick={() => { setEditingSkillId(null); setSkillForm(emptySkillForm); }}>
                   Clear

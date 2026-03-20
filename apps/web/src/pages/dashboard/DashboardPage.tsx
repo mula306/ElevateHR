@@ -151,13 +151,45 @@ export function DashboardPage() {
           <p className="page-subtitle">Live workforce metrics with approvals, leave, lifecycle tasks, and document risk in one operational view.</p>
         </div>
         <div className="dashboard-header-actions">
-          <Link to="/time-off" className="button button-outline dashboard-link-button">
+          <Link to="/time-attendance?tab=leave" className="button button-outline dashboard-link-button">
             <CalendarClock size={16} />
-            Time Off
+            Leave
           </Link>
           <Link to="/employees" className="button">
             <UserPlus size={16} />
             Employees
+          </Link>
+        </div>
+      </div>
+
+      <div className="card dashboard-start-card">
+        <div className="card-header">
+          <div>
+            <h3 className="card-title">Start Here</h3>
+            <p className="card-subtitle">Jump straight into the operating areas HR administrators use most often.</p>
+          </div>
+        </div>
+        <div className="dashboard-start-grid">
+          <Link to="/inbox" className="dashboard-start-link">
+            <ClipboardCheck size={18} />
+            <div>
+              <strong>Review Inbox</strong>
+              <span>Clear approvals and operational follow-up.</span>
+            </div>
+          </Link>
+          <Link to="/recruitment" className="dashboard-start-link">
+            <UserPlus size={18} />
+            <div>
+              <strong>Open Recruitment</strong>
+              <span>Track requests, approvals, and hiring close-out.</span>
+            </div>
+          </Link>
+          <Link to="/settings" className="dashboard-start-link">
+            <FileWarning size={18} />
+            <div>
+              <strong>Manage Settings</strong>
+              <span>Update features, taxonomy, and approval routing.</span>
+            </div>
           </Link>
         </div>
       </div>
