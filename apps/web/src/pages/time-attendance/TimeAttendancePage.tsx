@@ -386,7 +386,7 @@ export function TimeAttendancePage() {
     <section className="time-attendance-page">
       <PageHero
         eyebrow="My Work"
-        title="Time & Attendance"
+        title="My Time & Attendance"
         subtitle="Stay on top of your weekly schedule, current pay-period time card, leave, and prior approvals without switching between disconnected tools."
         actions={(
           <div className="time-attendance-header-actions">

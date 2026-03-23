@@ -207,7 +207,7 @@ export function InboxPage() {
     <div className="inbox-stack">
       <PageHero
         eyebrow="Personal Work"
-        title="Inbox"
+        title="My Inbox"
         subtitle="Your approvals, tasks, and operational alerts for the current account in one focused workspace."
         actions={(
           <button
