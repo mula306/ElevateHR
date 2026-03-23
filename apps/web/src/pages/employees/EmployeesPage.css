@@ -4,18 +4,6 @@
   gap: var(--spacing-6);
 }
 
-.employees-hero {
-  background:
-    radial-gradient(circle at top right, rgb(0 152 219 / 0.16), transparent 32%),
-    linear-gradient(180deg, rgb(255 255 255 / 0.98), rgb(255 255 255 / 0.92));
-}
-
-[data-theme="dark"] .employees-hero {
-  background:
-    radial-gradient(circle at top right, rgb(0 152 219 / 0.2), transparent 32%),
-    linear-gradient(180deg, rgb(17 26 38 / 0.98), rgb(17 26 38 / 0.92));
-}
-
 .employees-page-header { margin-bottom: var(--spacing-6); }
 
 .employees-eyebrow {
@@ -307,6 +295,11 @@
   background: var(--color-primary-light);
   color: var(--color-primary);
   border-color: rgb(0 152 219 / 0.18);
+}
+
+.employees-panel-body {
+  gap: 0;
+  padding: 0;
 }
 
 .employees-form-section + .employees-form-section { margin-top: var(--spacing-6); }

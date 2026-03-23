@@ -19,11 +19,13 @@ import {
   toIsoString,
   trimToNull,
 } from '../../shared/lib/service-utils';
+import { dynamicFieldSchemaInputSchema } from './recruitment.schemas';
 import type {
   ApprovalRuleInput,
   ApprovalRuleSetInput,
   CreateHiringRecordInput,
   CreateJobRequestInput,
+  DynamicFieldDefinitionInput,
   FundingTypeInput,
   JobRequestDecisionInput,
   ListJobRequestsQuery,
@@ -90,6 +92,110 @@ function parseJsonValue<T>(value: string | null | undefined, fallback: T): T {
   } catch {
     return fallback;
   }
+}
+
+function serializeJsonValue(value: Record<string, unknown> | DynamicFieldDefinitionInput[] | null | undefined) {
+  if (value === undefined) {
+    return undefined;
+  }
+
+  if (value === null) {
+    return null;
+  }
+
+  if (Array.isArray(value) && value.length === 0) {
+    return null;
+  }
+
+  if (!Array.isArray(value) && Object.keys(value).length === 0) {
+    return null;
+  }
+
+  return JSON.stringify(value);
+}
+
+function parseDynamicFieldSchema(value: string | null | undefined) {
+  const result = dynamicFieldSchemaInputSchema.safeParse(value);
+  return result.success ? result.data : [];
+}
+
+function validateDynamicFieldValue(field: DynamicFieldDefinitionInput, value: string | null) {
+  if (!value) {
+    return;
+  }
+
+  if (field.type === 'number' && !Number.isFinite(Number(value))) {
+    throw createHttpError(400, `The "${field.label}" field must contain a valid number.`);
+  }
+
+  if (field.type === 'date' && !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    throw createHttpError(400, `The "${field.label}" field must use the YYYY-MM-DD date format.`);
+  }
+
+  if (field.type === 'select' && field.options && !field.options.includes(value)) {
+    throw createHttpError(400, `The "${field.label}" field must use one of the configured options.`);
+  }
+}
+
+async function buildValidatedRequestFieldValues(
+  transaction: Prisma.TransactionClient,
+  requestTypeId: string,
+  fieldValues: Array<{
+    fieldKey: string;
+    fieldLabel: string;
+    valueType: string;
+    value?: string | null;
+  }> | undefined,
+) {
+  if (fieldValues === undefined) {
+    return undefined;
+  }
+
+  const requestType = await transaction.jobRequestType.findUnique({
+    where: { id: requestTypeId },
+    select: {
+      id: true,
+      name: true,
+      fieldSchema: true,
+    },
+  });
+
+  if (!requestType) {
+    throw createHttpError(404, 'The selected request type could not be found.');
+  }
+
+  const configuredFields = parseDynamicFieldSchema(requestType.fieldSchema);
+  const configuredFieldMap = new Map(configuredFields.map((field) => [field.key, field]));
+  const submittedFieldMap = new Map<string, string | null>();
+
+  for (const fieldValue of fieldValues) {
+    if (!configuredFieldMap.has(fieldValue.fieldKey)) {
+      throw createHttpError(400, `The "${fieldValue.fieldKey}" field is not configured for the selected request type.`);
+    }
+
+    if (submittedFieldMap.has(fieldValue.fieldKey)) {
+      throw createHttpError(400, `The "${fieldValue.fieldKey}" field was provided more than once.`);
+    }
+
+    submittedFieldMap.set(fieldValue.fieldKey, trimToNull(fieldValue.value));
+  }
+
+  return configuredFields.map((field) => {
+    const value = submittedFieldMap.get(field.key) ?? null;
+
+    if (field.required && !value) {
+      throw createHttpError(400, `The "${field.label}" field is required for the ${requestType.name} request type.`);
+    }
+
+    validateDynamicFieldValue(field, value);
+
+    return {
+      fieldKey: field.key,
+      fieldLabel: field.label,
+      valueType: field.type,
+      value,
+    };
+  });
 }
 
 async function getNextSequenceValue(
@@ -262,7 +368,7 @@ function serializeRequestType(record: any) {
     code: record.code,
     name: record.name,
     description: record.description ?? null,
-    fieldSchema: parseJsonValue(record.fieldSchema, []),
+    fieldSchema: parseDynamicFieldSchema(record.fieldSchema),
     isActive: record.isActive,
     createdAt: toIsoString(record.createdAt),
     updatedAt: toIsoString(record.updatedAt),
@@ -1001,7 +1107,7 @@ export async function createRequestType(data: RequestTypeInput, context: Recruit
       code: data.code,
       name: data.name,
       description: trimToNull(data.description),
-      fieldSchema: trimToNull(data.fieldSchema),
+      fieldSchema: serializeJsonValue(data.fieldSchema) ?? null,
       isActive: data.isActive,
     },
   });
@@ -1017,7 +1123,7 @@ export async function updateRequestType(id: string, data: UpdateRequestTypeInput
       code: data.code ?? undefined,
       name: data.name ?? undefined,
       description: data.description === undefined ? undefined : trimToNull(data.description),
-      fieldSchema: data.fieldSchema === undefined ? undefined : trimToNull(data.fieldSchema),
+      fieldSchema: data.fieldSchema === undefined ? undefined : (serializeJsonValue(data.fieldSchema) ?? null),
       isActive: data.isActive ?? undefined,
     },
   });
@@ -1096,7 +1202,7 @@ async function replaceRuleSetRules(
         budgetImpacting: rule.budgetImpacting ?? null,
         requestorRole: trimToNull(rule.requestorRole),
         orgUnitId: rule.orgUnitId ?? null,
-        conditions: trimToNull(rule.conditions),
+        conditions: serializeJsonValue(rule.conditions) ?? null,
       },
     });
 
@@ -1438,6 +1544,7 @@ export async function createJobRequest(data: CreateJobRequestInput, context: Rec
   }
 
   const request = await prisma.$transaction(async (transaction) => {
+    const validatedFieldValues = await buildValidatedRequestFieldValues(transaction, data.requestTypeId, data.fieldValues);
     const nextValue = await getNextSequenceValue(transaction, 'job_request');
     const record = await transaction.jobRequest.create({
       data: {
@@ -1461,7 +1568,7 @@ export async function createJobRequest(data: CreateJobRequestInput, context: Rec
       },
     });
 
-    await replaceRequestFieldValues(transaction, record.id, data.fieldValues);
+    await replaceRequestFieldValues(transaction, record.id, validatedFieldValues);
     await logJobRequestStatus(transaction, record.id, 'Draft', 'Created', context, null);
     return record;
   });
@@ -1475,6 +1582,7 @@ export async function updateJobRequest(id: string, data: UpdateJobRequestInput, 
     select: {
       id: true,
       requestorEmployeeId: true,
+      requestTypeId: true,
       status: true,
     },
   });
@@ -1491,7 +1599,14 @@ export async function updateJobRequest(id: string, data: UpdateJobRequestInput, 
     throw createHttpError(409, 'Only draft or rework requests can be edited.');
   }
 
+  if (data.requestTypeId && data.requestTypeId !== existing.requestTypeId && data.fieldValues === undefined) {
+    throw createHttpError(400, 'Dynamic field values must be resubmitted when the request type changes.');
+  }
+
   await prisma.$transaction(async (transaction) => {
+    const effectiveRequestTypeId = data.requestTypeId ?? existing.requestTypeId;
+    const validatedFieldValues = await buildValidatedRequestFieldValues(transaction, effectiveRequestTypeId, data.fieldValues);
+
     await transaction.jobRequest.update({
       where: { id },
       data: {
@@ -1513,7 +1628,7 @@ export async function updateJobRequest(id: string, data: UpdateJobRequestInput, 
       },
     });
 
-    await replaceRequestFieldValues(transaction, id, data.fieldValues);
+    await replaceRequestFieldValues(transaction, id, validatedFieldValues);
     await logJobRequestStatus(transaction, id, existing.status === 'Rejected' ? 'Needs Rework' : existing.status, 'Updated', context, null);
   });
 

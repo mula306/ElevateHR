@@ -13,6 +13,7 @@ import {
 import { listEmployees, type Employee } from '@/pages/employees/employees.api';
 import { listClassifications, listOrgUnits, listPositions, type ClassificationRecord, type OrgUnitRecord, type PositionRecord } from '@/pages/organization/organization.api';
 import { useAppSession } from '@/shared/auth/AppSessionProvider';
+import { Banner, Modal, PageHero } from '@/shared/ui/primitives';
 import {
   approveManagementTimeCard,
   createLaborGroup,
@@ -338,13 +339,11 @@ export function WorkforceTimePage() {
 
   return (
     <section className="workforce-time-page">
-      <div className="card workforce-time-hero">
-        <div className="page-header workforce-time-header">
-          <div>
-            <span className="workforce-time-eyebrow">Management</span>
-            <h1 className="page-title">Workforce Time</h1>
-            <p className="page-subtitle">Schedules, time-card approvals, exceptions, and union-aware rule controls in one operating workspace.</p>
-          </div>
+      <PageHero
+        eyebrow="Management"
+        title="Workforce Time"
+        subtitle="Schedules, time-card approvals, exceptions, and union-aware rule controls in one operating workspace."
+        actions={(
           <div className="workforce-time-header-actions">
             <button type="button" className="button button-outline" onClick={() => { void loadWorkspace(); }}>
               <RefreshCcw size={16} />
@@ -355,13 +354,13 @@ export function WorkforceTimePage() {
               New schedule
             </button>
           </div>
-        </div>
+        )}
+        className="workforce-time-hero"
+        variant="analytics"
+      >
 
         {error ? (
-          <div className="workforce-time-banner workforce-time-banner-error">
-            <ShieldAlert size={16} />
-            <span>{error}</span>
-          </div>
+          <Banner tone="error" icon={<ShieldAlert size={16} />} className="workforce-time-banner">{error}</Banner>
         ) : null}
 
         <div className="workforce-time-metrics">
@@ -370,7 +369,7 @@ export function WorkforceTimePage() {
           <SummaryCard label="Overtime hours" value={String(summary?.overtimeHoursCurrentPeriod ?? 0)} icon={<Clock3 size={18} />} />
           <SummaryCard label="Uncovered shifts" value={String(summary?.uncoveredShifts ?? 0)} icon={<Users size={18} />} />
         </div>
-      </div>
+      </PageHero>
 
       <div className="card">
         <div className="workforce-time-tabs">
@@ -627,14 +626,20 @@ export function WorkforceTimePage() {
       </div>
 
       {scheduleModalOpen ? (
-        <div className="modal-backdrop" role="presentation">
-          <div className="modal-card workforce-time-modal" role="dialog" aria-modal="true">
-            <div className="modal-header">
-              <div>
-                <h2 className="card-title">{scheduleEditor ? 'Edit schedule' : 'Create schedule'}</h2>
-                <p className="card-subtitle">Build an org-unit schedule with employee and shift assignments.</p>
-              </div>
-            </div>
+        <Modal
+          title={scheduleEditor ? 'Edit schedule' : 'Create schedule'}
+          subtitle="Build an org-unit schedule with employee and shift assignments."
+          onClose={() => setScheduleModalOpen(false)}
+          className="workforce-time-modal"
+          size="lg"
+          footer={(
+            <>
+              <button type="button" className="button button-outline" onClick={() => setScheduleForm((current) => ({ ...current, shifts: [...current.shifts, createEmptyShift()] }))}>Add shift</button>
+              <button type="button" className="button button-outline" onClick={() => setScheduleModalOpen(false)}>Close</button>
+              <button type="button" className="button" onClick={() => { void saveSchedule(); }} disabled={saving}>Save schedule</button>
+            </>
+          )}
+        >
             <div className="workforce-time-form-grid">
               <Field label="Org unit"><select value={scheduleForm.orgUnitId} onChange={(event) => setScheduleForm((current) => ({ ...current, orgUnitId: event.target.value }))} disabled={Boolean(scheduleEditor)}><option value="">Select org unit</option>{orgUnits.map((item) => <option key={item.id} value={item.id}>{item.code} | {item.name}</option>)}</select></Field>
               <Field label="Period start"><input type="date" value={scheduleForm.periodStart} onChange={(event) => setScheduleForm((current) => ({ ...current, periodStart: event.target.value }))} disabled={Boolean(scheduleEditor)} /></Field>
@@ -658,24 +663,23 @@ export function WorkforceTimePage() {
                 </div>
               ))}
             </div>
-            <div className="modal-actions">
-              <button type="button" className="button button-outline" onClick={() => setScheduleForm((current) => ({ ...current, shifts: [...current.shifts, createEmptyShift()] }))}>Add shift</button>
-              <button type="button" className="button button-outline" onClick={() => setScheduleModalOpen(false)}>Close</button>
-              <button type="button" className="button" onClick={() => { void saveSchedule(); }} disabled={saving}>Save schedule</button>
-            </div>
-          </div>
-        </div>
+        </Modal>
       ) : null}
 
       {decisionModal && selectedTimeCard ? (
-        <div className="modal-backdrop" role="presentation">
-          <div className="modal-card workforce-time-modal" role="dialog" aria-modal="true">
-            <div className="modal-header">
-              <div>
-                <h2 className="card-title">{decisionModal.action === 'approve' ? 'Approve time card' : 'Reject time card'}</h2>
-                <p className="card-subtitle">{selectedTimeCard.employee?.fullName ?? 'Employee'} | {formatShortDate(selectedTimeCard.periodStart)} to {formatShortDate(selectedTimeCard.periodEnd)}</p>
-              </div>
-            </div>
+        <Modal
+          title={decisionModal.action === 'approve' ? 'Approve time card' : 'Reject time card'}
+          subtitle={`${selectedTimeCard.employee?.fullName ?? 'Employee'} | ${formatShortDate(selectedTimeCard.periodStart)} to ${formatShortDate(selectedTimeCard.periodEnd)}`}
+          onClose={() => { setDecisionModal(null); setSelectedTimeCard(null); }}
+          className="workforce-time-modal"
+          size="md"
+          footer={(
+            <>
+              <button type="button" className="button button-outline" onClick={() => { setDecisionModal(null); setSelectedTimeCard(null); }}>Cancel</button>
+              <button type="button" className="button" onClick={() => { void submitDecision(); }} disabled={saving}>{decisionModal.action === 'approve' ? 'Approve' : 'Reject'}</button>
+            </>
+          )}
+        >
             <div className="workforce-time-review-grid">
               <SummaryCard label="Worked" value={String(selectedTimeCard.totalWorkedHours)} icon={<Clock3 size={18} />} />
               <SummaryCard label="Overtime" value={String(selectedTimeCard.overtimeHours)} icon={<AlertTriangle size={18} />} />
@@ -686,12 +690,7 @@ export function WorkforceTimePage() {
               <span>Comments</span>
               <textarea rows={4} value={decisionModal.comments} onChange={(event) => setDecisionModal((current) => current ? { ...current, comments: event.target.value } : null)} />
             </label>
-            <div className="modal-actions">
-              <button type="button" className="button button-outline" onClick={() => { setDecisionModal(null); setSelectedTimeCard(null); }}>Cancel</button>
-              <button type="button" className="button" onClick={() => { void submitDecision(); }} disabled={saving}>{decisionModal.action === 'approve' ? 'Approve' : 'Reject'}</button>
-            </div>
-          </div>
-        </div>
+        </Modal>
       ) : null}
     </section>
   );

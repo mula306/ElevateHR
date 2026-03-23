@@ -1,6 +1,12 @@
 import { apiRequest } from '@/shared/lib/api';
 import type { FeatureKey, FeatureState } from '@/shared/features/feature-registry';
-import type { ApprovalRuleSetPayload, ApprovalRuleSetRecord, FundingTypeRecord, RequestTypeRecord } from '@/pages/recruitment/recruitment.api';
+import type {
+  ApprovalRuleSetPayload,
+  ApprovalRuleSetRecord,
+  DynamicFieldDefinition,
+  FundingTypeRecord,
+  RequestTypeRecord,
+} from '@/pages/recruitment/recruitment.api';
 
 export interface SkillTagSettingRecord {
   id: string;
@@ -110,7 +116,7 @@ export async function createRequestType(payload: {
   code: string;
   name: string;
   description?: string | null;
-  fieldSchema?: string | null;
+  fieldSchema?: DynamicFieldDefinition[];
   isActive?: boolean;
 }) {
   const response = await apiRequest<{ success: true; data: RequestTypeRecord[] }>('/api/settings/request-types', {
@@ -124,7 +130,7 @@ export async function updateRequestType(id: string, payload: Partial<{
   code: string;
   name: string;
   description: string | null;
-  fieldSchema: string | null;
+  fieldSchema: DynamicFieldDefinition[];
   isActive: boolean;
 }>) {
   const response = await apiRequest<{ success: true; data: RequestTypeRecord[] }>(`/api/settings/request-types/${id}`, {
@@ -197,5 +203,34 @@ export async function publishApprovalRuleSet(id: string) {
     method: 'POST',
     body: JSON.stringify({}),
   }, 'Unable to publish the approval rule set.');
+  return response.data;
+}
+
+export async function simulateApprovalRuleSet(id: string, payload: {
+  requestTypeId: string;
+  budgetImpacting: boolean;
+  fundingTypeId: string;
+  orgUnitId: string;
+  requestorRole?: string | null;
+}) {
+  const response = await apiRequest<{ success: true; data: {
+    matched: boolean;
+    ruleSetId: string;
+    ruleSetName: string;
+    rule: { id: string; name: string; priority: number; isFallback: boolean } | null;
+    steps: Array<{
+      id: string;
+      stepOrder: number;
+      label: string;
+      assigneeSource: 'RequestorManager' | 'PositionIncumbent' | 'Queue' | 'SpecificAccount';
+      assigneeValue: string | null;
+      fallbackQueueKey: string | null;
+      escalationDays: number | null;
+      dueDays: number | null;
+    }>;
+  } }>(`/api/settings/approval-rule-sets/${id}/simulate`, {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  }, 'Unable to simulate the approval route.');
   return response.data;
 }

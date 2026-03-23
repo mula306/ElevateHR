@@ -14,6 +14,90 @@ const trimmedOptionalStringSchema = z.preprocess((value) => {
   return trimmed.length === 0 ? undefined : trimmed;
 }, z.string().optional());
 
+export const dynamicFieldTypeSchema = z.enum(['text', 'textarea', 'number', 'select', 'date']);
+
+export const dynamicFieldDefinitionSchema = z.object({
+  key: z.string().regex(/^[a-z][a-z0-9_]*$/, 'Keys must start with a lowercase letter and use lowercase letters, numbers, or underscores.').max(100),
+  label: z.string().min(1).max(150),
+  type: dynamicFieldTypeSchema,
+  required: z.boolean().optional(),
+  options: z.array(z.string().min(1).max(100)).optional(),
+}).superRefine((field, context) => {
+  if (field.type === 'select' && (!field.options || field.options.length === 0)) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['options'],
+      message: 'Select fields must define at least one option.',
+    });
+  }
+
+  if (field.type !== 'select' && field.options && field.options.length > 0) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['options'],
+      message: 'Only select fields can define options.',
+    });
+  }
+});
+
+export const dynamicFieldSchemaInputSchema = z.preprocess((value) => {
+  if (value === null || value === undefined) {
+    return [];
+  }
+
+  if (typeof value === 'string') {
+    const trimmed = value.trim();
+    if (!trimmed) {
+      return [];
+    }
+
+    try {
+      return JSON.parse(trimmed);
+    } catch {
+      return value;
+    }
+  }
+
+  return value;
+}, z.array(dynamicFieldDefinitionSchema)
+  .superRefine((fields, context) => {
+    const seenKeys = new Set<string>();
+
+    fields.forEach((field, index) => {
+      if (seenKeys.has(field.key)) {
+        context.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: [index, 'key'],
+          message: 'Field keys must be unique.',
+        });
+        return;
+      }
+
+      seenKeys.add(field.key);
+    });
+  }));
+
+export const jsonObjectSchema = z.preprocess((value) => {
+  if (value === null || value === undefined) {
+    return null;
+  }
+
+  if (typeof value === 'string') {
+    const trimmed = value.trim();
+    if (!trimmed) {
+      return null;
+    }
+
+    try {
+      return JSON.parse(trimmed);
+    } catch {
+      return value;
+    }
+  }
+
+  return value;
+}, z.record(z.string(), z.unknown()).nullable());
+
 export const jobRequestStatusSchema = z.enum([
   'Draft',
   'Submitted',
@@ -42,7 +126,7 @@ export const listRuleSetsQuerySchema = z.object({
 export const jobRequestFieldValueSchema = z.object({
   fieldKey: z.string().min(1).max(100),
   fieldLabel: z.string().min(1).max(150),
-  valueType: z.string().min(1).max(30),
+  valueType: dynamicFieldTypeSchema,
   value: z.string().max(2000).optional().nullable(),
 });
 
@@ -93,11 +177,17 @@ export const requestTypeSchema = z.object({
   code: z.string().min(1).max(50),
   name: z.string().min(1).max(150),
   description: trimmedOptionalStringSchema.nullable().optional(),
-  fieldSchema: trimmedOptionalStringSchema.nullable().optional(),
+  fieldSchema: dynamicFieldSchemaInputSchema.default([]),
   isActive: z.boolean().default(true),
 });
 
-export const updateRequestTypeSchema = requestTypeSchema.partial();
+export const updateRequestTypeSchema = z.object({
+  code: z.string().min(1).max(50).optional(),
+  name: z.string().min(1).max(150).optional(),
+  description: trimmedOptionalStringSchema.nullable().optional(),
+  fieldSchema: dynamicFieldSchemaInputSchema.optional(),
+  isActive: z.boolean().optional(),
+});
 
 export const fundingTypeSchema = z.object({
   code: z.string().min(1).max(50),
@@ -133,7 +223,7 @@ export const approvalRuleInputSchema = z.object({
   budgetImpacting: z.boolean().optional().nullable(),
   requestorRole: trimmedOptionalStringSchema.nullable().optional(),
   orgUnitId: z.string().uuid().optional().nullable(),
-  conditions: trimmedOptionalStringSchema.nullable().optional(),
+  conditions: jsonObjectSchema.optional(),
   steps: z.array(approvalRuleStepInputSchema).min(1),
 });
 
@@ -166,6 +256,7 @@ export type ApprovalRuleInput = z.infer<typeof approvalRuleInputSchema>;
 export type ApprovalRuleSetInput = z.infer<typeof approvalRuleSetSchema>;
 export type CreateHiringRecordInput = z.infer<typeof createHiringRecordSchema>;
 export type CreateJobRequestInput = z.infer<typeof createJobRequestSchema>;
+export type DynamicFieldDefinitionInput = z.infer<typeof dynamicFieldDefinitionSchema>;
 export type FundingTypeInput = z.infer<typeof fundingTypeSchema>;
 export type JobRequestDecisionInput = z.infer<typeof requestDecisionSchema>;
 export type ListJobRequestsQuery = z.infer<typeof listJobRequestsQuerySchema>;

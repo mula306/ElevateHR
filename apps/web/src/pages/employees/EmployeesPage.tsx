@@ -13,9 +13,9 @@ import {
   Trash2,
   UserRound,
   UsersRound,
-  X,
 } from 'lucide-react';
 import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { Banner, ConfirmDialog, Drawer, IconButton, PageHero } from '@/shared/ui/primitives';
 import {
   listTeamSkills,
   markTeamSkillNotValidated,
@@ -345,12 +345,12 @@ export function EmployeesPage() {
       header: '',
       cell: ({ row }) => (
         <div className="employees-row-actions">
-          <button type="button" className="employees-icon-button" onClick={() => { void openEditPanel(row.original.id); }} title={`Edit ${row.original.firstName} ${row.original.lastName}`}>
+          <IconButton label={`Edit ${row.original.firstName} ${row.original.lastName}`} onClick={() => { void openEditPanel(row.original.id); }}>
             <PencilLine size={16} />
-          </button>
-          <button type="button" className="employees-icon-button employees-icon-button-danger" onClick={() => setDeleteCandidate(row.original)} title={`Delete ${row.original.firstName} ${row.original.lastName}`}>
+          </IconButton>
+          <IconButton label={`Delete ${row.original.firstName} ${row.original.lastName}`} tone="danger" onClick={() => setDeleteCandidate(row.original)}>
             <Trash2 size={16} />
-          </button>
+          </IconButton>
         </div>
       ),
     }),
@@ -524,25 +524,20 @@ export function EmployeesPage() {
 
   return (
     <section className="employees-page">
-      <div className="employees-hero card">
-        <div className="page-header employees-page-header">
-          <div>
-            <span className="employees-eyebrow">Employee Operations</span>
-            <h1 className="page-title">Employee Directory</h1>
-            <p className="page-subtitle">Manage profile records, lifecycle work, and employee documents from one professional HR Ops workspace.</p>
-          </div>
-          <button type="button" className="button employees-primary-action" onClick={openCreatePanel}>
-            <Plus size={16} />
-            New employee
-          </button>
-        </div>
+      <PageHero
+        eyebrow="Employee Operations"
+        title="Employee Directory"
+        subtitle="Manage profile records, lifecycle work, and employee documents from one professional HR Ops workspace."
+        actions={<button type="button" className="button employees-primary-action" onClick={openCreatePanel}><Plus size={16} />New employee</button>}
+        className="employees-hero"
+      >
         <div className="employees-metrics employees-metrics-wide">
           <MetricTile label="People records" value={String(employeeCount)} />
           <MetricTile label="Active employees" value={String(activeCount)} />
           <MetricTile label="Needs attention" value={String(employeesNeedingAttention)} />
           <MetricTile label="Monthly payroll view" value={formatCurrency(monthlyPayroll)} />
         </div>
-      </div>
+      </PageHero>
 
       <div className="card employees-toolbar-card">
         <div className="employees-toolbar">
@@ -558,7 +553,7 @@ export function EmployeesPage() {
           </select>
         </div>
 
-        {error ? <div className="employees-banner employees-banner-error"><AlertTriangle size={16} /><span>{error}</span></div> : null}
+        {error ? <Banner tone="error" icon={<AlertTriangle size={16} />} className="employees-banner">{error}</Banner> : null}
 
         {loading ? <div className="employees-empty-state"><LoaderCircle className="employees-spin" size={20} /><span>Loading employees...</span></div> : null}
         {!loading && employees.length === 0 ? <div className="employees-empty-state"><UsersRound size={20} /><span>No employees matched the current filters.</span></div> : null}
@@ -601,33 +596,31 @@ export function EmployeesPage() {
         ) : null}
       </div>
 
-      <div className={`employees-panel-overlay ${panelOpen ? 'employees-panel-overlay-visible' : ''}`} onClick={() => setPanelOpen(false)} />
-      <aside className={`employees-panel ${panelOpen ? 'employees-panel-open' : ''}`}>
-        <div className="employees-panel-header">
-          <div>
-            <h2>{selectedEmployeeId ? 'Manage employee' : 'Add employee'}</h2>
-            <p>{selectedEmployeeId ? 'Update profile data, then move into lifecycle and document work without leaving the employee record.' : 'Capture core employment details, compensation, and emergency contact information.'}</p>
-          </div>
-          <button type="button" className="employees-icon-button" onClick={() => setPanelOpen(false)}><X size={18} /></button>
-        </div>
+      {panelOpen ? (
+        <Drawer
+          title={selectedEmployeeId ? 'Manage employee' : 'Add employee'}
+          subtitle={selectedEmployeeId ? 'Update profile data, then move into lifecycle and document work without leaving the employee record.' : 'Capture core employment details, compensation, and emergency contact information.'}
+          onClose={() => setPanelOpen(false)}
+          bodyClassName="employees-panel-body"
+          size="lg"
+        >
+          {selectedEmployeeId ? (
+            <div className="employees-panel-tabs">
+              {[
+                { id: 'profile', label: 'Profile', icon: <UserRound size={14} /> },
+                { id: 'lifecycle', label: 'Lifecycle', icon: <FolderSync size={14} /> },
+                { id: 'documents', label: 'Documents', icon: <FileText size={14} /> },
+                { id: 'skills', label: 'Skills', icon: <ShieldCheck size={14} /> },
+              ].map((tab) => (
+                <button key={tab.id} type="button" className={`employees-panel-tab ${panelTab === tab.id ? 'employees-panel-tab-active' : ''}`} onClick={() => setPanelTab(tab.id as PanelTab)}>
+                  {tab.icon}
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+          ) : null}
 
-        {selectedEmployeeId ? (
-          <div className="employees-panel-tabs">
-            {[
-              { id: 'profile', label: 'Profile', icon: <UserRound size={14} /> },
-              { id: 'lifecycle', label: 'Lifecycle', icon: <FolderSync size={14} /> },
-              { id: 'documents', label: 'Documents', icon: <FileText size={14} /> },
-              { id: 'skills', label: 'Skills', icon: <ShieldCheck size={14} /> },
-            ].map((tab) => (
-              <button key={tab.id} type="button" className={`employees-panel-tab ${panelTab === tab.id ? 'employees-panel-tab-active' : ''}`} onClick={() => setPanelTab(tab.id as PanelTab)}>
-                {tab.icon}
-                {tab.label}
-              </button>
-            ))}
-          </div>
-        ) : null}
-
-        <div className="employees-form">
+          <div className="employees-form">
           {panelTab === 'profile' ? (
             <form onSubmit={onSubmit}>
               {selectedEmployee?.learningSummary ? (
@@ -718,21 +711,23 @@ export function EmployeesPage() {
             onSkillNoteChange: setSkillNotes,
             onValidate: handleSkillValidation,
           }) : null}
-        </div>
-      </aside>
+          </div>
+        </Drawer>
+      ) : null}
 
       {deleteCandidate ? (
-        <div className="employees-dialog-backdrop">
-          <div className="employees-dialog card">
-            <div className="employees-dialog-icon"><AlertTriangle size={20} /></div>
-            <h2>Confirm delete</h2>
-            <p>This will mark {deleteCandidate.firstName} {deleteCandidate.lastName} as terminated and create offboarding work if needed. Confirm before continuing.</p>
-            <div className="employees-dialog-actions">
-              <button type="button" className="button button-outline" onClick={() => setDeleteCandidate(null)}>Cancel</button>
-              <button type="button" className="button employees-danger-button" onClick={() => { void confirmDelete(); }} disabled={submitting}>{submitting ? <LoaderCircle className="employees-spin" size={16} /> : <Trash2 size={16} />}Confirm delete</button>
-            </div>
-          </div>
-        </div>
+        <ConfirmDialog
+          title="Confirm delete"
+          confirmLabel={<>{submitting ? <LoaderCircle className="employees-spin" size={16} /> : <Trash2 size={16} />}Confirm delete</>}
+          onConfirm={() => { void confirmDelete(); }}
+          onClose={() => setDeleteCandidate(null)}
+          confirmDisabled={submitting}
+          tone="danger"
+          className="employees-dialog"
+        >
+          <div className="employees-dialog-icon"><AlertTriangle size={20} /></div>
+          <p>This will mark {deleteCandidate.firstName} {deleteCandidate.lastName} as terminated and create offboarding work if needed. Confirm before continuing.</p>
+        </ConfirmDialog>
       ) : null}
     </section>
   );

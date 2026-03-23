@@ -10,9 +10,9 @@ import {
   Plus,
   RefreshCcw,
   Search,
-  X,
 } from 'lucide-react';
 import { useAppSession } from '@/shared/auth/AppSessionProvider';
+import { Banner, ConfirmDialog, CrudToolbar, Drawer, PageHero } from '@/shared/ui/primitives';
 import {
   cancelLeaveRequest,
   createLeaveRequest,
@@ -267,31 +267,21 @@ export function TimeOffPage() {
 
   return (
     <section className="timeoff-page">
-      <div className="timeoff-hero card">
-        <div className="page-header timeoff-page-header">
-          <div>
-            <span className="timeoff-eyebrow">Self-Service</span>
-            <h1 className="page-title">My Time Off</h1>
-            <p className="page-subtitle">Request time away for yourself, track request status, and keep upcoming holidays visible without mixing in approvals.</p>
-          </div>
-          <button type="button" className="button" onClick={openCreatePanel} disabled={!isAccountLinked || !timeOffRequestsEnabled}>
-            <Plus size={16} />
-            New request
-          </button>
-        </div>
+      <PageHero
+        eyebrow="Self-Service"
+        title="My Time Off"
+        subtitle="Request time away for yourself, track request status, and keep upcoming holidays visible without mixing in approvals."
+        actions={<button type="button" className="button" onClick={openCreatePanel} disabled={!isAccountLinked || !timeOffRequestsEnabled}><Plus size={16} />New request</button>}
+        className="timeoff-hero"
+        variant="neutral"
+      >
 
         {!timeOffRequestsEnabled ? (
-          <div className="timeoff-banner timeoff-banner-info">
-            <AlertTriangle size={16} />
-            <span>Time off requests are currently turned off by your administrator. You can still review your request history and company holidays.</span>
-          </div>
+          <Banner tone="info" icon={<AlertTriangle size={16} />} className="timeoff-banner">Time off requests are currently turned off by your administrator. You can still review your request history and company holidays.</Banner>
         ) : null}
 
         {!isAccountLinked ? (
-          <div className="timeoff-banner timeoff-banner-info">
-            <AlertTriangle size={16} />
-            <span>Your account is not linked to an employee profile yet. You can review holidays, but you cannot submit time off requests until HR completes the link.</span>
-          </div>
+          <Banner tone="info" icon={<AlertTriangle size={16} />} className="timeoff-banner">Your account is not linked to an employee profile yet. You can review holidays, but you cannot submit time off requests until HR completes the link.</Banner>
         ) : null}
 
         <div className="timeoff-metrics">
@@ -299,7 +289,7 @@ export function TimeOffPage() {
           <MetricTile label="My approved upcoming" value={String(approvedUpcoming)} icon={<CheckCircle2 size={16} />} />
           <MetricTile label="My requested hours" value={formatHours(totalRequestedHours)} icon={<CalendarDays size={16} />} />
         </div>
-      </div>
+      </PageHero>
 
       <div className="timeoff-grid">
         <div className="card">
@@ -318,30 +308,32 @@ export function TimeOffPage() {
             </button>
           </div>
 
-          <div className="timeoff-toolbar">
-            <label className="timeoff-search">
-              <Search size={16} className="timeoff-search-icon" />
-              <input
-                type="search"
-                value={search}
-                onChange={(event) => setSearch(event.target.value)}
-                placeholder="Search leave type or notes"
-              />
-            </label>
-            <select className="timeoff-select" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value as LeaveFilterStatus)}>
-              {statusOptions.map((status) => (
-                <option key={status} value={status}>
-                  {status === 'All' ? 'All statuses' : status}
-                </option>
-              ))}
-            </select>
-          </div>
+          <CrudToolbar
+            className="timeoff-toolbar"
+            search={(
+              <label className="timeoff-search">
+                <Search size={16} className="timeoff-search-icon" />
+                <input
+                  type="search"
+                  value={search}
+                  onChange={(event) => setSearch(event.target.value)}
+                  placeholder="Search leave type or notes"
+                />
+              </label>
+            )}
+            controls={(
+              <select className="timeoff-select" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value as LeaveFilterStatus)}>
+                {statusOptions.map((status) => (
+                  <option key={status} value={status}>
+                    {status === 'All' ? 'All statuses' : status}
+                  </option>
+                ))}
+              </select>
+            )}
+          />
 
           {error ? (
-            <div className="timeoff-banner timeoff-banner-error">
-              <AlertTriangle size={16} />
-              <span>{error}</span>
-            </div>
+            <Banner tone="error" icon={<AlertTriangle size={16} />} className="timeoff-banner">{error}</Banner>
           ) : null}
 
           {loading ? (
@@ -486,18 +478,14 @@ export function TimeOffPage() {
         </div>
       </div>
 
-      <div className={`timeoff-panel-overlay ${panelOpen && timeOffRequestsEnabled ? 'timeoff-panel-overlay-visible' : ''}`} onClick={() => setPanelOpen(false)} />
-      <aside className={`timeoff-panel ${panelOpen && timeOffRequestsEnabled ? 'timeoff-panel-open' : ''}`}>
-        <div className="timeoff-panel-header">
-          <div>
-            <h2>{selectedLeaveRequest ? 'Edit time off request' : 'New time off request'}</h2>
-            <p>Request time away for yourself. Approvals are routed automatically to your active manager or to HR Operations when no manager is available.</p>
-          </div>
-          <button type="button" className="timeoff-icon-button" onClick={() => setPanelOpen(false)}>
-            <X size={18} />
-          </button>
-        </div>
-
+      {panelOpen && timeOffRequestsEnabled ? (
+        <Drawer
+          title={selectedLeaveRequest ? 'Edit time off request' : 'New time off request'}
+          subtitle="Request time away for yourself. Approvals are routed automatically to your active manager or to HR Operations when no manager is available."
+          onClose={() => setPanelOpen(false)}
+          bodyClassName="timeoff-panel-body"
+          size="md"
+        >
         <form className="timeoff-form" onSubmit={onSubmit}>
           <div className="timeoff-requester-summary">
             <div>
@@ -554,13 +542,24 @@ export function TimeOffPage() {
             </button>
           </div>
         </form>
-      </aside>
+        </Drawer>
+      ) : null}
 
       {cancelCandidate ? (
-        <div className="timeoff-dialog-backdrop">
-          <div className="timeoff-dialog card">
+        <ConfirmDialog
+          title="Cancel time off request"
+          confirmLabel={<>{submitting ? <LoaderCircle className="timeoff-spin" size={16} /> : null}Cancel request</>}
+          cancelLabel="Keep request"
+          onConfirm={() => { void submitCancel(); }}
+          onClose={() => {
+            setCancelCandidate(null);
+            setCancelComments('');
+          }}
+          confirmDisabled={submitting}
+          tone="danger"
+          className="timeoff-dialog"
+        >
             <div className="timeoff-dialog-icon"><AlertTriangle size={20} /></div>
-            <h2>Cancel time off request</h2>
             <p>
               Cancel your {cancelCandidate.leaveType?.name ?? 'time off'} request for {formatHours(cancelCandidate.requestedHours)} hours
               from {formatShortDate(cancelCandidate.startDate)} to {formatShortDate(cancelCandidate.endDate)}.
@@ -574,24 +573,7 @@ export function TimeOffPage() {
                 placeholder="Optional note for your manager or HR."
               />
             </label>
-            <div className="timeoff-dialog-actions">
-              <button
-                type="button"
-                className="button button-outline"
-                onClick={() => {
-                  setCancelCandidate(null);
-                  setCancelComments('');
-                }}
-              >
-                Keep request
-              </button>
-              <button type="button" className="button timeoff-danger-button" onClick={() => { void submitCancel(); }} disabled={submitting}>
-                {submitting ? <LoaderCircle className="timeoff-spin" size={16} /> : null}
-                Cancel request
-              </button>
-            </div>
-          </div>
-        </div>
+        </ConfirmDialog>
       ) : null}
     </section>
   );

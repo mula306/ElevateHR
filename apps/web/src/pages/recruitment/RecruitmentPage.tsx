@@ -30,6 +30,8 @@ import {
   type OrgUnitRecord,
   type PositionRecord,
 } from '@/pages/organization/organization.api';
+import { Banner, CrudToolbar, PageHero } from '@/shared/ui/primitives';
+import { validateDynamicFieldValue } from './dynamic-fields';
 import './RecruitmentPage.css';
 
 type RecruitmentTab = 'requests' | 'approvals' | 'hiring' | 'configuration';
@@ -223,6 +225,15 @@ export function RecruitmentPage() {
   };
 
   const saveRequest = async () => {
+    const dynamicFieldError = (selectedRequestType?.fieldSchema ?? [])
+      .map((field) => validateDynamicFieldValue(field, form.fieldValues[field.key] ?? ''))
+      .find(Boolean);
+
+    if (dynamicFieldError) {
+      setError(dynamicFieldError);
+      return;
+    }
+
     setSaving(true);
     setError(null);
 
@@ -361,14 +372,12 @@ export function RecruitmentPage() {
 
   return (
     <section className="recruitment-page">
-      <div className="card recruitment-hero">
-        <div className="page-header recruitment-header">
-          <div>
-            <span className="recruitment-eyebrow">Management</span>
-            <h1 className="page-title">Recruitment</h1>
-            <p className="page-subtitle">Request intake, governed approvals, approved position changes, and hiring close-out.</p>
-          </div>
-          <div className="recruitment-header-actions">
+      <PageHero
+        eyebrow="Management"
+        title="Recruitment"
+        subtitle="Request intake, governed approvals, approved position changes, and hiring close-out."
+        actions={(
+          <>
             <button type="button" className="button button-outline" onClick={() => { void loadData(); }}>
               <RefreshCcw size={16} />
               Refresh
@@ -377,18 +386,18 @@ export function RecruitmentPage() {
               <Plus size={16} />
               New request
             </button>
-          </div>
-        </div>
-
-        {error ? <div className="recruitment-banner recruitment-banner-error"><ShieldAlert size={16} /><span>{error}</span></div> : null}
-
+          </>
+        )}
+        className="recruitment-hero"
+      >
+        {error ? <Banner tone="error" icon={<ShieldAlert size={16} />} className="recruitment-banner">{error}</Banner> : null}
         <div className="recruitment-summary-grid">
           <SummaryCard label="Requests" value={summary?.totalRequests ?? 0} detail="Visible request volume" />
           <SummaryCard label="In review" value={summary?.submitted ?? 0} detail="Submitted and in-flight approvals" />
           <SummaryCard label="Needs rework" value={summary?.needsRework ?? 0} detail="Returned or rejected requests" />
           <SummaryCard label="Approved" value={summary?.approved ?? 0} detail="Ready for hiring close-out" />
         </div>
-      </div>
+      </PageHero>
 
       <div className="card recruitment-tabs">
         {tabs.map((item) => <button key={item.id} type="button" className={`recruitment-tab ${tab === item.id ? 'recruitment-tab-active' : ''}`} onClick={() => setTab(item.id)}>{item.label}</button>)}
@@ -417,12 +426,35 @@ export function RecruitmentPage() {
             <label className="recruitment-checkbox recruitment-field-wide"><input type="checkbox" checked={form.budgetImpacting} onChange={(event) => setForm((current) => ({ ...current, budgetImpacting: event.target.checked }))} /><span>Budget impacting</span></label>
             <label className="recruitment-field recruitment-field-wide"><span>Justification</span><textarea rows={3} value={form.justification} onChange={(event) => setForm((current) => ({ ...current, justification: event.target.value }))} /></label>
             <label className="recruitment-field recruitment-field-wide"><span>Business case</span><textarea rows={4} value={form.businessCase} onChange={(event) => setForm((current) => ({ ...current, businessCase: event.target.value }))} /></label>
-            {(selectedRequestType?.fieldSchema ?? []).map((field) => (
-              <label key={field.key} className="recruitment-field recruitment-field-wide">
-                <span>{field.label}</span>
-                <input value={form.fieldValues[field.key] ?? ''} onChange={(event) => setForm((current) => ({ ...current, fieldValues: { ...current.fieldValues, [field.key]: event.target.value } }))} />
-              </label>
-            ))}
+            {(selectedRequestType?.fieldSchema ?? []).map((field) => {
+              const fieldValue = form.fieldValues[field.key] ?? '';
+              const fieldClassName = `recruitment-field ${field.type === 'textarea' ? 'recruitment-field-wide' : ''}`;
+              const label = `${field.label}${field.required ? ' *' : ''}`;
+
+              return (
+                <label key={field.key} className={fieldClassName}>
+                  <span>{label}</span>
+                  {field.type === 'textarea' ? (
+                    <textarea rows={3} value={fieldValue} onChange={(event) => setForm((current) => ({ ...current, fieldValues: { ...current.fieldValues, [field.key]: event.target.value } }))} />
+                  ) : null}
+                  {field.type === 'select' ? (
+                    <select value={fieldValue} onChange={(event) => setForm((current) => ({ ...current, fieldValues: { ...current.fieldValues, [field.key]: event.target.value } }))}>
+                      <option value="">Select</option>
+                      {(field.options ?? []).map((option) => <option key={option} value={option}>{option}</option>)}
+                    </select>
+                  ) : null}
+                  {field.type === 'date' ? (
+                    <input type="date" value={fieldValue} onChange={(event) => setForm((current) => ({ ...current, fieldValues: { ...current.fieldValues, [field.key]: event.target.value } }))} />
+                  ) : null}
+                  {field.type === 'number' ? (
+                    <input type="number" value={fieldValue} onChange={(event) => setForm((current) => ({ ...current, fieldValues: { ...current.fieldValues, [field.key]: event.target.value } }))} />
+                  ) : null}
+                  {field.type === 'text' ? (
+                    <input type="text" value={fieldValue} onChange={(event) => setForm((current) => ({ ...current, fieldValues: { ...current.fieldValues, [field.key]: event.target.value } }))} />
+                  ) : null}
+                </label>
+              );
+            })}
             <div className="recruitment-action-row recruitment-field-wide">
               <button type="button" className="button button-outline" onClick={openCreate}>Clear</button>
               <button type="button" className="button" onClick={() => { void saveRequest(); }} disabled={saving}>Save request</button>
@@ -441,10 +473,11 @@ export function RecruitmentPage() {
 
           {tab !== 'configuration' ? (
             <>
-              <div className="recruitment-filter-bar">
-                <label className="recruitment-field"><span>Status</span><select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value as JobRequestStatus | '')}><option value="">All</option>{['Draft', 'In Review', 'Rejected', 'Approved', 'Closed', 'Cancelled'].map((status) => <option key={status} value={status}>{status}</option>)}</select></label>
-                <label className="recruitment-field recruitment-field-search"><span>Search</span><div className="recruitment-search"><Search size={16} /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Request number or title" /></div></label>
-              </div>
+              <CrudToolbar
+                className="recruitment-filter-bar"
+                controls={<label className="recruitment-field"><span>Status</span><select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value as JobRequestStatus | '')}><option value="">All</option>{['Draft', 'In Review', 'Rejected', 'Approved', 'Closed', 'Cancelled'].map((status) => <option key={status} value={status}>{status}</option>)}</select></label>}
+                search={<label className="recruitment-field recruitment-field-search"><span>Search</span><div className="recruitment-search"><Search size={16} /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Request number or title" /></div></label>}
+              />
               <div className="recruitment-request-list">
                 {visibleRequests.map((request) => (
                   <button key={request.id} type="button" className={`recruitment-request-card ${selectedRequest?.id === request.id ? 'recruitment-request-card-active' : ''}`} onClick={() => setSelectedRequestId(request.id)}>

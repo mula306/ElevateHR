@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAppSession } from '@/shared/auth/AppSessionProvider';
+import { Banner, Modal, PageHero } from '@/shared/ui/primitives';
 import {
   approveLeaveRequest,
   approveTimeCard,
@@ -204,13 +205,11 @@ export function InboxPage() {
 
   return (
     <div className="inbox-stack">
-      <div className="card inbox-hero">
-        <div className="page-header inbox-hero-header">
-          <div>
-            <span className="inbox-eyebrow">Personal Work</span>
-            <h1 className="page-title">Inbox</h1>
-            <p className="page-subtitle">Your approvals, tasks, and operational alerts for the current account in one focused workspace.</p>
-          </div>
+      <PageHero
+        eyebrow="Personal Work"
+        title="Inbox"
+        subtitle="Your approvals, tasks, and operational alerts for the current account in one focused workspace."
+        actions={(
           <button
             type="button"
             className="button button-outline"
@@ -224,22 +223,18 @@ export function InboxPage() {
             <RefreshCcw size={16} />
             Refresh
           </button>
-        </div>
+        )}
+        className="inbox-hero"
+      >
 
         {session && !session.accountLinked ? (
-          <div className="inbox-banner">
-            <ShieldAlert size={16} />
-            <span>Your account is not linked to an employee profile yet. Queue work is visible, but self and manager assignments may be limited.</span>
-          </div>
+          <Banner tone="warning" icon={<ShieldAlert size={16} />} className="inbox-banner">Your account is not linked to an employee profile yet. Queue work is visible, but self and manager assignments may be limited.</Banner>
         ) : null}
 
         {error ? (
-          <div className="inbox-banner inbox-banner-error">
-            <ShieldAlert size={16} />
-            <span>{error}</span>
-          </div>
+          <Banner tone="error" icon={<ShieldAlert size={16} />} className="inbox-banner">{error}</Banner>
         ) : null}
-      </div>
+      </PageHero>
 
       <div className="inbox-summary-grid">
         <div className="card inbox-summary-card">
@@ -468,19 +463,23 @@ export function InboxPage() {
       </div>
 
       {decisionState ? (
-        <div className="modal-backdrop" role="presentation">
-          <div className="modal-card" role="dialog" aria-modal="true" aria-labelledby="inbox-decision-title">
-            <div className="modal-header">
-              <div>
-                <h2 id="inbox-decision-title" className="card-title">
-                  {decisionState.item.actionKind === 'approve_time_card'
-                    ? (decisionState.action === 'approve' ? 'Approve time card' : 'Reject time card')
-                    : (decisionState.action === 'approve' ? 'Approve leave request' : 'Reject leave request')}
-                </h2>
-                <p className="card-subtitle">{decisionState.item.title}</p>
-              </div>
-            </div>
-
+        <Modal
+          title={decisionState.item.actionKind === 'approve_time_card'
+            ? (decisionState.action === 'approve' ? 'Approve time card' : 'Reject time card')
+            : (decisionState.action === 'approve' ? 'Approve leave request' : 'Reject leave request')}
+          subtitle={decisionState.item.title}
+          onClose={() => setDecisionState(null)}
+          footer={(
+            <>
+              <button type="button" className="button button-outline" onClick={() => setDecisionState(null)}>
+                Cancel
+              </button>
+              <button type="button" className="button" onClick={() => { void submitDecision(); }} disabled={savingId === decisionState.item.id}>
+                {decisionState.action === 'approve' ? 'Approve' : 'Reject'}
+              </button>
+            </>
+          )}
+        >
             <label className="inbox-field">
               <span>Comments</span>
               <textarea
@@ -490,17 +489,7 @@ export function InboxPage() {
                 placeholder="Optional note for the employee or audit trail"
               />
             </label>
-
-            <div className="modal-actions">
-              <button type="button" className="button button-outline" onClick={() => setDecisionState(null)}>
-                Cancel
-              </button>
-              <button type="button" className="button" onClick={() => { void submitDecision(); }} disabled={savingId === decisionState.item.id}>
-                {decisionState.action === 'approve' ? 'Approve' : 'Reject'}
-              </button>
-            </div>
-          </div>
-        </div>
+        </Modal>
       ) : null}
     </div>
   );

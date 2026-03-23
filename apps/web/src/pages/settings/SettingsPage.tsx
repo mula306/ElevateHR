@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
-import { ChevronDown, ChevronRight, LoaderCircle, PencilLine, Plus, RefreshCcw, Search, Settings2, ShieldAlert } from 'lucide-react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { ChevronDown, ChevronRight, LoaderCircle, PencilLine, Plus, Search, Settings2, ShieldAlert } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppSession } from '@/shared/auth/AppSessionProvider';
 import type { FeatureState } from '@/shared/features/feature-registry';
@@ -23,6 +23,7 @@ import {
   type SkillTagSettingRecord,
 } from './settings.api';
 import { RecruitmentSettingsSection } from './RecruitmentSettingsSection';
+import { ConfirmDialog, Drawer, PageHero, SurfaceField as DrawerField } from '@/shared/ui/primitives';
 import './SettingsPage.css';
 
 type SettingsSectionId = 'overview' | 'features' | 'skills' | 'recruitment';
@@ -119,7 +120,7 @@ const emptyTagForm: SkillTagFormState = {
   isActive: true,
 };
 
-function formatDateTime(value: string | null) {
+function DateFormat(value: string | null) {
   if (!value) {
     return 'Not changed yet';
   }
@@ -131,12 +132,6 @@ function formatDateTime(value: string | null) {
     hour: '2-digit',
     minute: '2-digit',
   }).format(new Date(value));
-}
-
-const skillAccentPalette = ['#0b7a43', '#125e9a', '#45a9de', '#ffd64d', '#1fba88', '#f59e0b', '#ef4444', '#1da7c9', '#64748b'];
-
-function getSkillAccent(index: number) {
-  return skillAccentPalette[index % skillAccentPalette.length];
 }
 
 function getActiveSection(pathname: string): SettingsSectionId {
@@ -376,7 +371,6 @@ export function SettingsPage() {
           recruitmentOverview={recruitmentOverview}
           recentActivity={recentActivity}
           onNavigate={navigate}
-          onRefresh={() => void loadOverview(true)}
         />
       );
     }
@@ -386,7 +380,6 @@ export function SettingsPage() {
         <FeaturesSection
           features={features}
           loading={loadingSections.features}
-          onRefresh={() => void loadFeatures(true)}
           onToggle={setToggleTarget}
         />
       );
@@ -397,7 +390,6 @@ export function SettingsPage() {
         <SkillsSection
           skillCategories={skillCategories}
           loading={loadingSections.skills}
-          onRefresh={() => void loadSkills(true)}
           onSkillCategoriesChange={setSkillCategories}
         />
       );
@@ -408,51 +400,31 @@ export function SettingsPage() {
 
   return (
     <div className="settings-console">
-      <aside className="settings-console-sidebar card">
-        <div className="settings-console-sidebar-header">
-          <span className="settings-eyebrow">Admin Console</span>
-          <h2 className="card-title">Settings</h2>
-          <p className="card-subtitle">Use one structured console instead of one long stacked admin page.</p>
-        </div>
-
-        <nav className="settings-console-nav" aria-label="Settings sections">
-          {settingsSections.map((section) => {
-            const isActive = section.id === activeSection;
-
-            return (
-              <button
-                key={section.id}
-                type="button"
-                className={`settings-console-nav-item ${isActive ? 'settings-console-nav-item-active' : ''}`}
-                onClick={() => navigate(section.to)}
-              >
-                <div>
-                  <strong>{section.label}</strong>
-                  <p>{section.description}</p>
-                </div>
-                <ChevronRight size={16} />
-              </button>
-            );
-          })}
-        </nav>
-      </aside>
-
       <main className="settings-console-main">
-        <section className="card settings-hero">
-          <div className="settings-hero-copy">
-            <span className="settings-eyebrow">{activeSectionMeta.eyebrow}</span>
-            <div className="settings-hero-header">
-              <div>
-                <h1 className="card-title">{activeSectionMeta.title}</h1>
-                <p className="card-subtitle">{activeSectionMeta.description}</p>
-              </div>
-              <div className="settings-hero-badge">
-                <Settings2 size={18} />
-                <span>{activeSectionMeta.label}</span>
-              </div>
-            </div>
-          </div>
-        </section>
+        <PageHero
+          eyebrow={activeSectionMeta.eyebrow}
+          title={activeSectionMeta.title}
+          subtitle={activeSectionMeta.description}
+          badge={<><Settings2 size={18} /><span>{activeSectionMeta.label}</span></>}
+          className="settings-hero"
+        >
+          <nav className="settings-console-tabs" aria-label="Settings sections">
+            {settingsSections.map((section) => {
+              const isActive = section.id === activeSection;
+
+              return (
+                <button
+                  key={section.id}
+                  type="button"
+                  className={`settings-console-tab ${isActive ? 'settings-console-tab-active' : ''}`}
+                  onClick={() => navigate(section.to)}
+                >
+                  {section.label}
+                </button>
+              );
+            })}
+          </nav>
+        </PageHero>
 
         {pageError ? (
           <div className="settings-banner settings-banner-error">
@@ -465,28 +437,24 @@ export function SettingsPage() {
       </main>
 
       {toggleTarget ? (
-        <div className="settings-overlay" role="presentation">
-          <div className="settings-modal card" role="dialog" aria-modal="true" aria-labelledby="settings-feature-toggle-title">
-            <div className="settings-modal-copy">
-              <span className="settings-eyebrow">Confirm change</span>
-              <h2 id="settings-feature-toggle-title" className="card-title">
-                {toggleTarget.enabled ? `Disable ${toggleTarget.label}?` : `Enable ${toggleTarget.label}?`}
-              </h2>
-              <p className="card-subtitle">{toggleTarget.description}</p>
-              <p className="settings-modal-impact">Impact: {toggleTarget.impacts.join(' • ')}</p>
-              {toggleTarget.routes.length > 0 ? (
-                <p className="settings-modal-impact">Routes: {toggleTarget.routes.join(', ')}</p>
-              ) : null}
-            </div>
-
-            <div className="settings-dialog-actions">
-              <button type="button" className="button button-outline" onClick={() => setToggleTarget(null)} disabled={toggleSaving}>Cancel</button>
-              <button type="button" className="button" onClick={() => void confirmToggle()} disabled={toggleSaving}>
-                {toggleSaving ? 'Saving...' : toggleTarget.enabled ? 'Disable feature' : 'Enable feature'}
-              </button>
-            </div>
+        <ConfirmDialog
+          title={toggleTarget.enabled ? `Disable ${toggleTarget.label}?` : `Enable ${toggleTarget.label}?`}
+          subtitle={toggleTarget.description}
+          confirmLabel={toggleSaving ? 'Saving...' : toggleTarget.enabled ? 'Disable feature' : 'Enable feature'}
+          onConfirm={() => { void confirmToggle(); }}
+          onClose={() => setToggleTarget(null)}
+          confirmDisabled={toggleSaving}
+          className="settings-modal"
+          size="md"
+        >
+          <div className="settings-modal-copy">
+            <span className="settings-eyebrow">Confirm change</span>
+            <p className="settings-modal-impact">Impact: {toggleTarget.impacts.join(' | ')}</p>
+            {toggleTarget.routes.length > 0 ? (
+              <p className="settings-modal-impact">Routes: {toggleTarget.routes.join(', ')}</p>
+            ) : null}
           </div>
-        </div>
+        </ConfirmDialog>
       ) : null}
     </div>
   );
@@ -499,7 +467,6 @@ function OverviewSection({
   recruitmentOverview,
   recentActivity,
   onNavigate,
-  onRefresh,
 }: {
   loading: boolean;
   features: FeatureState[];
@@ -507,7 +474,6 @@ function OverviewSection({
   recruitmentOverview: RecruitmentOverviewState;
   recentActivity: RecentActivity[];
   onNavigate: (to: string) => void;
-  onRefresh: () => void;
 }) {
   const activeSkillCount = useMemo(
     () => skillCategories.flatMap((category) => category.tags).filter((tag) => tag.isActive).length,
@@ -530,10 +496,6 @@ function OverviewSection({
             <h2 className="card-title">Overview</h2>
             <p className="card-subtitle">Start with counts, recent admin activity, and direct links into each configuration area.</p>
           </div>
-          <button type="button" className="button button-outline" onClick={onRefresh}>
-            <RefreshCcw size={16} />
-            Refresh
-          </button>
         </div>
 
         {loading ? (
@@ -601,7 +563,7 @@ function OverviewSection({
                         </div>
                         <div className="settings-activity-meta">
                           <span>{item.domain}</span>
-                          <span>{formatDateTime(item.updatedAt)}</span>
+                          <span>{DateFormat(item.updatedAt)}</span>
                         </div>
                       </article>
                     ))}
@@ -624,12 +586,10 @@ function OverviewSection({
 function FeaturesSection({
   features,
   loading,
-  onRefresh,
   onToggle,
 }: {
   features: FeatureState[];
   loading: boolean;
-  onRefresh: () => void;
   onToggle: (feature: FeatureState) => void;
 }) {
   const [search, setSearch] = useState('');
@@ -665,10 +625,6 @@ function FeaturesSection({
             <h2 className="card-title">Access & Features</h2>
             <p className="card-subtitle">Use a denser management list for workspace and subfeature controls instead of large stacked cards.</p>
           </div>
-          <button type="button" className="button button-outline" onClick={onRefresh}>
-            <RefreshCcw size={16} />
-            Refresh
-          </button>
         </div>
 
         <div className="settings-filter-bar">
@@ -721,7 +677,7 @@ function FeaturesSection({
                     </div>
                     <span className="settings-record-muted">{feature.featureType === 'workspace' ? 'Workspace' : 'Subfeature'}</span>
                     <span className={`badge ${feature.enabled ? 'badge-success' : 'badge-warning'}`}>{feature.enabled ? 'Enabled' : 'Disabled'}</span>
-                    <span className="settings-record-muted">{formatDateTime(feature.updatedAt)}</span>
+                    <span className="settings-record-muted">{DateFormat(feature.updatedAt)}</span>
                     <div className="settings-record-actions">
                       <button type="button" className="button button-outline button-small" onClick={() => setExpandedFeatureKey(expanded ? null : feature.key)}>
                         {expanded ? 'Hide details' : 'Details'}
@@ -767,12 +723,10 @@ function FeaturesSection({
 function SkillsSection({
   skillCategories,
   loading,
-  onRefresh,
   onSkillCategoriesChange,
 }: {
   skillCategories: SkillCategorySettingRecord[];
   loading: boolean;
-  onRefresh: () => void;
   onSkillCategoriesChange: (records: SkillCategorySettingRecord[]) => void;
 }) {
   const [search, setSearch] = useState('');
@@ -952,23 +906,21 @@ function SkillsSection({
             <h2 className="card-title">Skills Taxonomy</h2>
             <p className="card-subtitle">Manage the taxonomy as grouped domains with inline tag administration instead of splitting categories and details into separate columns.</p>
           </div>
-          <button type="button" className="button button-outline" onClick={onRefresh}>
-            <RefreshCcw size={16} />
-            Refresh
-          </button>
         </div>
 
         {loading ? (
           <LoadingState label="Loading skills taxonomy..." />
         ) : (
           <>
-            <div className="settings-skill-toolbar">
-              <label className="settings-search-field">
-                <Search size={16} />
-                <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search tags, aliases..." />
-              </label>
+            <div className="settings-filter-bar">
+              <div className="settings-filter-bar-main">
+                <label className="settings-search-field">
+                  <Search size={16} />
+                  <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search tags, aliases..." />
+                </label>
+              </div>
 
-              <div className="settings-toolbar-actions">
+              <div className="settings-filter-bar-controls">
                 <label className="settings-toolbar-field settings-toolbar-field-inline">
                   <span>Status</span>
                   <select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value as 'all' | 'active' | 'archived')}>
@@ -977,6 +929,9 @@ function SkillsSection({
                     <option value="archived">Archived</option>
                   </select>
                 </label>
+              </div>
+
+              <div className="settings-filter-bar-actions">
                 <button type="button" className="button settings-skill-add-group" onClick={() => openCategoryEditor()}>
                   <Plus size={16} />
                   Add Group
@@ -1020,54 +975,11 @@ function SkillsSection({
                       <div className="settings-skill-group-body">
                         {category.description ? <p className="settings-skill-group-description">{category.description}</p> : null}
 
-                        {tagEditorOpen && tagForm.categoryId === category.id ? (
-                          <div className="settings-skill-editor-card">
-                            <div className="settings-skill-palette" aria-hidden="true">
-                              {skillAccentPalette.map((token) => (
-                                <span key={token} className="settings-skill-palette-dot" style={{ backgroundColor: token }} />
-                              ))}
-                            </div>
-
-                            <div className="settings-skill-editor-grid">
-                              <label className="settings-toolbar-field">
-                                <span>Skill name</span>
-                                <input value={tagForm.name} onChange={(event) => setTagForm((current) => ({ ...current, name: event.target.value }))} placeholder="Virtual Care" />
-                              </label>
-                              <label className="settings-toolbar-field">
-                                <span>Aliases / code</span>
-                                <input value={tagForm.code} onChange={(event) => setTagForm((current) => ({ ...current, code: event.target.value }))} placeholder="VCF9, Telehealth" />
-                              </label>
-                              <label className="settings-toolbar-field">
-                                <span>Status</span>
-                                <select value={tagForm.isActive ? 'active' : 'archived'} onChange={(event) => setTagForm((current) => ({ ...current, isActive: event.target.value === 'active' }))}>
-                                  <option value="active">Active</option>
-                                  <option value="archived">Archived</option>
-                                </select>
-                              </label>
-                              <label className="settings-toolbar-field">
-                                <span>Display order</span>
-                                <input type="number" min="0" max="999" value={tagForm.displayOrder} onChange={(event) => setTagForm((current) => ({ ...current, displayOrder: event.target.value }))} />
-                              </label>
-                              <label className="settings-toolbar-field settings-skill-editor-field-wide">
-                                <span>Notes</span>
-                                <textarea rows={3} value={tagForm.description} onChange={(event) => setTagForm((current) => ({ ...current, description: event.target.value }))} placeholder="Optional note or alias context" />
-                              </label>
-                            </div>
-
-                            <div className="settings-skill-editor-actions">
-                              <button type="button" className="button" onClick={() => void saveTag()} disabled={saving}>
-                                {editingTag ? 'Save skill' : 'Add skill'}
-                              </button>
-                              <button type="button" className="button button-outline" onClick={closeTagEditor}>Cancel</button>
-                            </div>
-                          </div>
-                        ) : null}
-
                         <div className="settings-skill-tag-list">
-                          {visibleTags.length > 0 ? visibleTags.map((tag, index) => (
+                          {visibleTags.length > 0 ? visibleTags.map((tag) => (
                             <article key={tag.id} className="settings-skill-tag-item">
                               <div className="settings-skill-tag-main">
-                                <span className="settings-skill-tag-dot" style={{ backgroundColor: getSkillAccent(index) }} />
+                                <span className="settings-skill-tag-dot" style={{ backgroundColor: 'var(--color-primary)' }} />
                                 <div>
                                   <strong>{tag.name}</strong>
                                   <p>{tag.code}{tag.description ? ` • ${tag.description}` : ''}</p>
@@ -1108,6 +1020,9 @@ function SkillsSection({
           title={editingCategory ? 'Edit skill group' : 'Create skill group'}
           subtitle="Groups organize the shared taxonomy used by employee skills and learning content."
           onClose={closeCategoryEditor}
+          className="settings-drawer"
+          bodyClassName="settings-drawer-body"
+          size="lg"
           footer={(
             <>
               <button type="button" className="button button-outline" onClick={closeCategoryEditor}>Cancel</button>
@@ -1136,46 +1051,43 @@ function SkillsSection({
         </Drawer>
       ) : null}
 
+      {tagEditorOpen ? (
+        <Drawer
+          title={editingTag ? 'Edit skill tag' : 'Add skill tag'}
+          subtitle="Define specific skill terms that belong to this taxonomy group."
+          onClose={closeTagEditor}
+          className="settings-drawer"
+          bodyClassName="settings-drawer-body"
+          size="lg"
+          footer={(
+            <>
+              <button type="button" className="button button-outline" onClick={closeTagEditor}>Cancel</button>
+              <button type="button" className="button" onClick={() => void saveTag()} disabled={saving}>{editingTag ? 'Save skill' : 'Add skill'}</button>
+            </>
+          )}
+        >
+          <DrawerField label="Skill name">
+            <input value={tagForm.name} onChange={(event) => setTagForm((current) => ({ ...current, name: event.target.value }))} placeholder="Virtual Care" />
+          </DrawerField>
+          <DrawerField label="Aliases / code">
+            <input value={tagForm.code} onChange={(event) => setTagForm((current) => ({ ...current, code: event.target.value }))} placeholder="VCF9, Telehealth" />
+          </DrawerField>
+          <DrawerField label="Status">
+            <select value={tagForm.isActive ? 'active' : 'archived'} onChange={(event) => setTagForm((current) => ({ ...current, isActive: event.target.value === 'active' }))}>
+              <option value="active">Active</option>
+              <option value="archived">Archived</option>
+            </select>
+          </DrawerField>
+          <DrawerField label="Display order">
+            <input type="number" min="0" max="999" value={tagForm.displayOrder} onChange={(event) => setTagForm((current) => ({ ...current, displayOrder: event.target.value }))} />
+          </DrawerField>
+          <DrawerField label="Notes" fullWidth>
+            <textarea rows={3} value={tagForm.description} onChange={(event) => setTagForm((current) => ({ ...current, description: event.target.value }))} placeholder="Optional note or alias context" />
+          </DrawerField>
+        </Drawer>
+      ) : null}
+
     </section>
-  );
-}
-
-function Drawer({
-  title,
-  subtitle,
-  children,
-  footer,
-  onClose,
-}: {
-  title: string;
-  subtitle: string;
-  children: ReactNode;
-  footer: ReactNode;
-  onClose: () => void;
-}) {
-  return (
-    <div className="settings-overlay settings-overlay-drawer" role="presentation">
-      <div className="settings-drawer" role="dialog" aria-modal="true">
-        <div className="settings-drawer-header">
-          <div>
-            <h2 className="card-title">{title}</h2>
-            <p className="card-subtitle">{subtitle}</p>
-          </div>
-          <button type="button" className="button button-outline button-small" onClick={onClose}>Close</button>
-        </div>
-        <div className="settings-drawer-body">{children}</div>
-        <div className="settings-drawer-footer">{footer}</div>
-      </div>
-    </div>
-  );
-}
-
-function DrawerField({ label, children, fullWidth = false }: { label: string; children: ReactNode; fullWidth?: boolean }) {
-  return (
-    <label className={`settings-drawer-field ${fullWidth ? 'settings-drawer-field-full' : ''}`}>
-      <span>{label}</span>
-      {children}
-    </label>
   );
 }
 

@@ -10,11 +10,7 @@
 }
 
 .timeoff-hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(120deg, rgb(0 152 219 / 0.08), transparent 45%);
-  pointer-events: none;
+  display: none;
 }
 
 .timeoff-page-header {
@@ -332,6 +328,11 @@
 
 .timeoff-panel-open {
   transform: translateX(0);
+}
+
+.timeoff-panel-body {
+  gap: 0;
+  padding: 0;
 }
 
 .timeoff-panel-header {

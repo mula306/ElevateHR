@@ -14,6 +14,7 @@ import {
 import { Link, useSearchParams } from 'react-router-dom';
 import { useAppSession } from '@/shared/auth/AppSessionProvider';
 import { isFeatureEnabled } from '@/shared/features/feature-registry';
+import { Banner, PageHero } from '@/shared/ui/primitives';
 import {
   createMyTimeCard,
   getMySchedule,
@@ -383,13 +384,11 @@ export function TimeAttendancePage() {
 
   return (
     <section className="time-attendance-page">
-      <div className="card time-attendance-hero">
-        <div className="page-header time-attendance-header">
-          <div>
-            <span className="time-attendance-eyebrow">My Work</span>
-            <h1 className="page-title">Time &amp; Attendance</h1>
-            <p className="page-subtitle">Stay on top of your weekly schedule, current pay-period time card, leave, and prior approvals without switching between disconnected tools.</p>
-          </div>
+      <PageHero
+        eyebrow="My Work"
+        title="Time & Attendance"
+        subtitle="Stay on top of your weekly schedule, current pay-period time card, leave, and prior approvals without switching between disconnected tools."
+        actions={(
           <div className="time-attendance-header-actions">
             <button type="button" className="button button-outline" onClick={() => { void loadWorkspace(); }}>
               <RefreshCcw size={16} />
@@ -402,20 +401,16 @@ export function TimeAttendancePage() {
               </button>
             ) : null}
           </div>
-        </div>
+        )}
+        className="time-attendance-hero"
+      >
 
         {!summary?.access.accountLinked ? (
-          <div className="time-attendance-banner">
-            <AlertTriangle size={16} />
-            <span>Your account is not linked to an employee profile yet. Schedule, time-card, and leave activity will remain unavailable until HR completes the link.</span>
-          </div>
+          <Banner tone="warning" icon={<AlertTriangle size={16} />} className="time-attendance-banner">Your account is not linked to an employee profile yet. Schedule, time-card, and leave activity will remain unavailable until HR completes the link.</Banner>
         ) : null}
 
         {error ? (
-          <div className="time-attendance-banner time-attendance-banner-error">
-            <AlertTriangle size={16} />
-            <span>{error}</span>
-          </div>
+          <Banner tone="error" icon={<AlertTriangle size={16} />} className="time-attendance-banner">{error}</Banner>
         ) : null}
 
         <div className="time-attendance-metrics">
@@ -424,7 +419,7 @@ export function TimeAttendancePage() {
           <MetricCard label="Approved leave upcoming" value={String(summary?.approvedLeaveUpcoming ?? 0)} detail="Approved requests still ahead" icon={<Clock3 size={18} />} />
           <MetricCard label="Exception flags" value={String(summary?.exceptionCount ?? 0)} detail="Time-card or scheduling follow-up" icon={<AlertTriangle size={18} />} />
         </div>
-      </div>
+      </PageHero>
 
       <div className="card">
         <div className="time-attendance-tabs" role="tablist" aria-label="Time and attendance tabs">

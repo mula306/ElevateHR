@@ -9,6 +9,18 @@
   gap: 1rem;
 }
 
+.my-profile-hero {
+  background:
+    radial-gradient(circle at top left, rgba(0, 152, 219, 0.14), transparent 36%),
+    linear-gradient(180deg, rgba(237, 247, 255, 0.98), rgba(255, 255, 255, 0.98));
+}
+
+[data-theme="dark"] .my-profile-hero {
+  background:
+    radial-gradient(circle at top left, rgba(0, 152, 219, 0.2), transparent 36%),
+    linear-gradient(180deg, rgba(17, 26, 38, 0.98), rgba(17, 26, 38, 0.94));
+}
+
 .my-profile-header {
   align-items: flex-start;
 }

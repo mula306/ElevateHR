@@ -242,7 +242,7 @@ export interface ApprovalRuleSetPayload {
     budgetImpacting: boolean | null;
     requestorRole: string | null;
     orgUnitId: string | null;
-    conditions: string | null;
+    conditions: Record<string, unknown> | null;
     steps: Array<{
       id?: string;
       stepOrder: number;

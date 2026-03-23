@@ -52,6 +52,7 @@ import {
   type PositionRecord,
   type PositionStatus,
 } from './organization.api';
+import { ConfirmDialog, Drawer, PageHero } from '@/shared/ui/primitives';
 import './OrganizationPage.css';
 
 type OrganizationTab = 'overview' | 'orgUnits' | 'positions' | 'classifications' | 'archived';
@@ -796,13 +797,11 @@ export function OrganizationPage() {
 
   return (
     <section className="organization-page">
-      <div className="organization-hero card">
-        <div className="page-header organization-page-header">
-          <div>
-            <span className="organization-eyebrow">Organization Management</span>
-            <h1 className="page-title">Org Design and Position Control</h1>
-            <p className="page-subtitle">Manage org units, approved positions, classification architecture, and reversible archive actions from one workspace.</p>
-          </div>
+      <PageHero
+        eyebrow="Organization Management"
+        title="Org Design and Position Control"
+        subtitle="Manage org units, approved positions, classification architecture, and reversible archive actions from one workspace."
+        actions={(
           <button
             type="button"
             className="button organization-primary-action"
@@ -819,8 +818,10 @@ export function OrganizationPage() {
             <Plus size={16} />
             {tab === 'orgUnits' ? 'New org unit' : tab === 'classifications' ? 'New classification' : 'New position'}
           </button>
-        </div>
-
+        )}
+        className="organization-hero"
+        variant="analytics"
+      >
         <div className="organization-metric-grid">
           <MetricCard icon={<Building2 size={18} />} label="Org units" value={String(metrics.orgUnitCount)} />
           <MetricCard icon={<Waypoints size={18} />} label="Approved positions" value={String(metrics.positionCount)} />
@@ -840,9 +841,9 @@ export function OrganizationPage() {
             >
               {item.label}
             </button>
-          ))}
-        </div>
-      </div>
+            ))}
+          </div>
+      </PageHero>
 
       {notice ? (
         <div className={`organization-banner organization-banner-${notice.tone}`}>
@@ -1191,19 +1192,17 @@ export function OrganizationPage() {
         </div>
       ) : null}
 
-      <div className={`organization-panel-overlay ${panel ? 'organization-panel-overlay-visible' : ''}`} onClick={closePanel} />
-      <aside className={`organization-panel ${panel ? 'organization-panel-open' : ''}`}>
-        {panel?.kind === 'inspectPosition' && selectedPosition ? (
+      {panel?.kind === 'inspectPosition' && selectedPosition ? (
+        <Drawer
+          title={selectedPosition.title}
+          subtitle={`${selectedPosition.positionCode} - ${selectedPosition.orgUnit?.name ?? 'Unassigned org unit'}`}
+          onClose={closePanel}
+          bodyClassName="organization-panel-body"
+          size="lg"
+        >
           <div className="organization-panel-content">
-            <div className="organization-panel-header">
-              <div>
-                <h2>{selectedPosition.title}</h2>
-                <p>{selectedPosition.positionCode} · {selectedPosition.orgUnit?.name ?? 'Unassigned org unit'}</p>
-              </div>
-              <button type="button" className="organization-icon-button" onClick={closePanel}><X size={18} /></button>
-            </div>
             <div className="organization-inspector-grid">
-              <InspectorDatum label="Classification" value={`${selectedPosition.classification?.title ?? 'Unassigned'} · L${selectedPosition.level?.levelCode ?? '-'}`} />
+              <InspectorDatum label="Classification" value={`${selectedPosition.classification?.title ?? 'Unassigned'} - L${selectedPosition.level?.levelCode ?? '-'}`} />
               <InspectorDatum label="Occupancy" value={`${selectedPosition.incumbents.length} of ${selectedPosition.headcount} filled`} />
               <InspectorDatum label="Reports to" value={selectedPosition.reportsToPosition?.title ?? 'Top of chart'} />
               <InspectorDatum label="Status" value={selectedPosition.positionStatus} />
@@ -1220,41 +1219,37 @@ export function OrganizationPage() {
                   {selectedPosition.incumbents.map((incumbent) => (
                     <div key={incumbent.id} className="organization-incumbent-card">
                       <strong>{incumbent.fullName}</strong>
-                      <span>{incumbent.employeeNumber} · {incumbent.status}</span>
+                      <span>{incumbent.employeeNumber} - {incumbent.status}</span>
                     </div>
                   ))}
                 </div>
               )}
             </div>
           </div>
-        ) : null}
-
-        {panel?.kind === 'orgUnitForm' ? <OrgUnitFormPanel panel={panel} form={orgUnitForm} orgUnits={activeOrgUnits} saving={saving} onClose={closePanel} onChange={setOrgUnitForm} onSubmit={submitOrgUnit} /> : null}
-        {panel?.kind === 'positionForm' ? <PositionFormPanel panel={panel} form={positionForm} orgUnits={activeOrgUnits} classifications={activeClassifications} levels={availableLevels} positions={positionOptions} employees={employeeOptions} saving={saving} onClose={closePanel} onClassificationChange={onPositionClassificationChange} onChange={setPositionForm} onSubmit={submitPosition} /> : null}
-        {panel?.kind === 'classificationForm' ? <ClassificationFormPanel panel={panel} form={classificationForm} saving={saving} onClose={closePanel} onChange={setClassificationForm} onSubmit={submitClassification} /> : null}
-        {panel?.kind === 'levelForm' ? <LevelFormPanel panel={panel} form={levelForm} classifications={activeClassifications} saving={saving} onClose={closePanel} onChange={setLevelForm} onSubmit={submitLevel} /> : null}
-      </aside>
-
+        </Drawer>
+      ) : null}
+      {panel?.kind === 'orgUnitForm' ? <OrgUnitFormPanel panel={panel} form={orgUnitForm} orgUnits={activeOrgUnits} saving={saving} onClose={closePanel} onChange={setOrgUnitForm} onSubmit={submitOrgUnit} /> : null}
+      {panel?.kind === 'positionForm' ? <PositionFormPanel panel={panel} form={positionForm} orgUnits={activeOrgUnits} classifications={activeClassifications} levels={availableLevels} positions={positionOptions} employees={employeeOptions} saving={saving} onClose={closePanel} onClassificationChange={onPositionClassificationChange} onChange={setPositionForm} onSubmit={submitPosition} /> : null}
+      {panel?.kind === 'classificationForm' ? <ClassificationFormPanel panel={panel} form={classificationForm} saving={saving} onClose={closePanel} onChange={setClassificationForm} onSubmit={submitClassification} /> : null}
+      {panel?.kind === 'levelForm' ? <LevelFormPanel panel={panel} form={levelForm} classifications={activeClassifications} saving={saving} onClose={closePanel} onChange={setLevelForm} onSubmit={submitLevel} /> : null}
       {archiveState ? (
-        <div className="organization-dialog-backdrop">
-          <div className="organization-dialog card">
+        <ConfirmDialog
+          title={`Archive ${archiveState.label.toLowerCase()}`}
+          confirmLabel={<>{saving ? <LoaderCircle className="organization-spin" size={16} /> : <Archive size={16} />}Confirm archive</>}
+          onConfirm={() => { void submitArchive(); }}
+          onClose={() => setArchiveState(null)}
+          confirmDisabled={saving}
+          tone="danger"
+          className="organization-dialog"
+        >
             <div className="organization-dialog-icon"><AlertTriangle size={20} /></div>
-            <h2>Archive {archiveState.label.toLowerCase()}</h2>
             <p>{archiveState.title}</p>
             <span className="organization-dialog-subtitle">{archiveState.subtitle}</span>
             <label className="organization-field">
               <span>Archive reason</span>
               <textarea value={archiveReason} onChange={(event) => setArchiveReason(event.target.value)} rows={3} placeholder="Optional note for future restore decisions" />
             </label>
-            <div className="organization-dialog-actions">
-              <button type="button" className="button button-outline" onClick={() => setArchiveState(null)}>Cancel</button>
-              <button type="button" className="button organization-danger-button" onClick={() => { void submitArchive(); }} disabled={saving}>
-                {saving ? <LoaderCircle className="organization-spin" size={16} /> : <Archive size={16} />}
-                Confirm archive
-              </button>
-            </div>
-          </div>
-        </div>
+        </ConfirmDialog>
       ) : null}
     </section>
   );
@@ -1407,18 +1402,11 @@ function PanelFrame({
   children: ReactNode;
 }) {
   return (
-    <div className="organization-panel-content">
-      <div className="organization-panel-header">
-        <div>
-          <h2>{title}</h2>
-          <p>{subtitle}</p>
-        </div>
-        <button type="button" className="organization-icon-button" onClick={onClose}>
-          <X size={18} />
-        </button>
+    <Drawer title={title} subtitle={subtitle} onClose={onClose} bodyClassName="organization-panel-body" size="lg">
+      <div className="organization-panel-content">
+        {children}
       </div>
-      {children}
-    </div>
+    </Drawer>
   );
 }
 
