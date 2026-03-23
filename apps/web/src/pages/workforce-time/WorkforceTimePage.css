@@ -76,17 +76,19 @@
 }
 
 .workforce-time-tab {
-  border: none;
-  background: #eef3f8;
-  color: #395063;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(248, 250, 252, 0.85);
+  color: var(--color-text-secondary);
   padding: 0.7rem 1rem;
   border-radius: 999px;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .workforce-time-tab-active {
-  background: #13592b;
+  background: var(--color-primary);
   color: white;
+  border-color: transparent;
 }
 
 .workforce-time-section {

@@ -55,11 +55,11 @@ const dashboardRoute: NavigationItem = {
   to: '/',
   icon: LayoutDashboard,
   audiences: ['hr_admin'],
-  section: 'overview',
+  section: 'management',
 };
 
 const inboxRoute: FeatureRoute = {
-  label: 'Inbox',
+  label: 'My Inbox',
   to: '/inbox',
   icon: BellRing,
   audiences: ['staff', 'manager', 'hr_admin'],
@@ -83,7 +83,7 @@ const timeOffRoute: FeatureRoute = {
 };
 
 const timeAttendanceRoute: FeatureRoute = {
-  label: 'Time & Attendance',
+  label: 'My Time & Attendance',
   to: '/time-attendance',
   icon: Clock3,
   audiences: ['staff', 'manager', 'hr_admin'],
@@ -298,7 +298,7 @@ const allSections: NavigationSection[] = [
     items: allNavigationItems.filter((item) => item.section === 'management'),
   },
   {
-    label: 'Administration',
+    label: 'HR ADMINISTRATION',
     items: allNavigationItems.filter((item) => item.section === 'administration'),
   },
 ];
